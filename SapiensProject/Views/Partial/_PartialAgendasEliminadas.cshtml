@@ -1,0 +1,74 @@
+﻿<div class="modal fade" id="MdActividadesEliminadas" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+        <div class="modal-content" style="border-radius: 6px;">
+            <div class="modal-header with-border">
+                <h3 class="modal-title">Actividades eliminadas</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-remove (alias) fa-2x"></i></button>
+            </div>
+            <div class="modal-body" style="overflow: auto;max-height: calc(100vh - 150px);">
+                <table class="table table-bordered table-striped" id="TblEliminadas" style="font-size:13px;">
+                    <thead>
+                        <tr>
+                            <th>Actividad</th>
+                            <th>Grupo</th>
+                            <th style="text-align:center;">Fecha Actividad</th>
+                            <th style="text-align:center;">Eliminación</th>
+                            <th style="text-align:center;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="pleaseWaitDiv" style="display: none;">
+                    <div>
+                        <span tkey="MENU_PORFAVORESPERE"></span><div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+</div>
+<script>
+    function AgendasEliminadas(idAsignatura, idSubnivel, idPeriodo, Estatus) {
+        $('#MdActividadesEliminadas').modal('show');
+        $('#TblEliminadas tbody').empty();
+        var parameters = { "idAsignatura": idAsignatura, "idSubnivel": idSubnivel, "idPeriodo": idPeriodo, "idOpcion": 1, "Estatus": Estatus, "idRolA": idRolA, "PermitirFormativa": 1};
+        jQueryAjaxCallback("../Shared/Utility.aspx/CargarDetalleCategoriaEliminado", JSON.stringify(parameters), "POST", "json", PostActividaesElim);
+    }
+    function PostActividaesElim(data) {
+        $('#TblEliminadas tbody').empty();
+        var counter = 0;
+        var m = $.parseJSON(data.d);
+        var arrayLength = m.length;
+        while (counter < arrayLength) {
+            $('#TblEliminadas tbody').append('<tr>' +
+                '<td><div class="user-page-info"><h6 class="text-aqua mb-0">' + (counter + 1) + '. ' + m[counter].NombreActividad + '</h6>'+
+                '<span class= "text-aqua font-small-2" > '+ m[counter].AgruparComo +'</span ></div ></td>' +
+                
+
+                '<td><div class="user-page-info"><h6 class="text-aqua mb-0">' + m[counter].Grupo + '</h6>'+
+                '<span class="text-aqua font-small-2" > '+ m[counter].Materia +'</span ></div ></td>' +
+                
+
+                '<td style="text-align:center;">' + moment(m[counter].FechaInicioActividad).format("D MMM") + '</td>' +
+
+                '<td style="text-align:center;"><div  class="user-page-info"><h6 style="text-align:center;color:#fc4b6c;text-decoration: none;" class="mb-0">' + m[counter].UserEliminado + '</h6>'+
+                '<span class="font-small-2" style="text-align:center;color:#fc4b6c;text-decoration: none;"> ' + moment(m[counter].FechaEliminado).format("D MMM h:mm a")  + '</span ></div ></td>' +
+
+
+                '<td style="text-align:center;"><button onclick="RecuperarActividad(' + m[counter].idAgenda + ');" type="button" class="btn btn-primary">Recuperar</button></td>' +
+                '</tr>');
+            counter++;
+        }
+    }
+    function RecuperarActividad(idAgenda) {
+        Message(1, 'Agenda Recuperada', 'Mensaje Exitoso');
+        $('#MdActividadesEliminadas').modal('hide');
+        var parameters = { "id": idAgenda, "Estatus": 1, "FechaAccion": GetDate() };
+        jQueryAjaxCallback("../Shared/Utility.aspx/deleteEvent", JSON.stringify(parameters), "POST", "json", PostRecuperarActividad);
+    }
+    function PostRecuperarActividad(data) {
+        $('#TblEliminadas tbody').empty();
+        CallOpconesAEjecutar();
+    }
+</script>

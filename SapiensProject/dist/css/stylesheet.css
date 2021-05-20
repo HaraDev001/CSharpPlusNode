@@ -1,0 +1,95 @@
+.sprite_education {
+    background-image: url(spritesheet.png);
+    background-repeat: no-repeat;
+    display: block;
+}
+
+.sprite_education-browser {
+    width: 512px;
+    height: 512px;
+    background-position: -5px -5px;
+}
+
+.sprite_education-calendar {
+    width: 512px;
+    height: 512px;
+    background-position: -5px -527px;
+}
+
+.sprite_education-calendar-2 {
+    width: 512px;
+    height: 512px;
+    background-position: -5px -1049px;
+}
+
+.sprite_education-github {
+    width: 30px;
+    height: 30px;
+    background-position: -5px -1571px;
+}
+
+.sprite_education-gmail {
+    width: 30px;
+    height: 30px;
+    background-position: -5px -1611px;
+}
+
+.sprite_education-graduates-2 {
+    width: 512px;
+    height: 512px;
+    background-position: -5px -1651px;
+}
+
+.sprite_education-hourglass {
+    width: 512px;
+    height: 512px;
+    background-position: -5px -2173px;
+}
+
+.sprite_education-linkedin {
+    width: 30px;
+    height: 30px;
+    background-position: -5px -2695px;
+}
+
+.sprite_education-notebook {
+    width: 512px;
+    height: 512px;
+    background-position: -5px -2735px;
+}
+
+.sprite_education-notepad {
+    width: 512px;
+    height: 512px;
+    background-position: -5px -3257px;
+}
+
+.sprite_education-stackoverflow {
+    width: 30px;
+    height: 30px;
+    background-position: -5px -3779px;
+}
+
+.sprite_education-tarjeta-de-credito {
+    width: 512px;
+    height: 512px;
+    background-position: -5px -3819px;
+}
+
+.sprite_education-test {
+    width: 512px;
+    height: 512px;
+    background-position: -5px -4341px;
+}
+
+.sprite_education-tumblr {
+    width: 30px;
+    height: 30px;
+    background-position: -5px -4863px;
+}
+
+.sprite_education-twitter {
+    width: 30px;
+    height: 30px;
+    background-position: -5px -4903px;
+}

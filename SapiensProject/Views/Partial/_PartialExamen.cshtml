@@ -1,0 +1,566 @@
+﻿
+<style>
+    table.respuestastable {
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    th.radio, td.radio {
+        width: 5%;
+    }
+
+    th.eliminar, td.eliminar {
+        width: 10%;
+    }
+
+    table.respuestastable {
+        border-spacing: 0 5px;
+        border-collapse: separate;
+    }
+
+    tr.respuesta.respuesta-correcta {
+        background: #e3f4e4;
+    }
+
+    tr.respuesta-incorrecta {
+        background: #ffffff;
+    }
+
+    tr.respuesta-correcta > td.radio {
+        border-left: 2px solid green;
+        border-top: 2px solid green;
+        border-bottom: 2px solid green
+    }
+
+    tr.respuesta-incorrecta > td.radio {
+        border-left: 2px solid red;
+        border-top: 2px solid red;
+        border-bottom: 2px solid red
+    }
+
+    tr.respuesta-correcta > td.col-sm-9 {
+        border-right: 2px solid green;
+        border-top: 2px solid green;
+        border-bottom: 2px solid green
+    }
+
+    tr.respuesta-incorrecta > td.col-sm-9 {
+        border-right: 2px solid red;
+        border-top: 2px solid red;
+        border-bottom: 2px solid red
+    }
+
+</style>
+<div id="examen-container">
+    <div id="DivPregunta">
+        <div class="card">
+            <div class="card-body editable">
+                <div class="form-group">
+                    <label><b>Título de la Prueba</b></label>
+                    <input class="form-control nombreExamen" type="text">
+                </div>
+                <div class="form-group">
+                    <label><b>Instrucciones</b></label>
+                    <textarea class="form-control instruccionesExamen" rows="3"></textarea>
+                </div>
+
+                <div class="form-group divtiempoexamen">
+                    <h3 style="color: #8b8e9f;font-size: .75rem;font-weight: 400;margin-top: 24px;margin-bottom: 4px;line-height: .875rem;">
+                        <span>Tiempo límite (minutos)</span>
+                    </h3>
+                    <input type="text" class="tiempoExamen" style="display: inline-block;max-width: 96px;" />
+                    <span style="margin: 0 8px;font-size: .75rem;">minutos</span>
+                </div>
+            </div>
+
+            <div class="card-body vista-preliminar">
+                <div class="form-group">
+                    <h3 class="nombreExamen" type="text"></h3>
+                </div>
+                <div class="form-group">
+                    <span class="instruccionesExamen" rows="3"></span>
+                </div>
+                <div class="form-group divtiempoexamen">
+                    <span class="tiempoExamen" style="display: inline-block;max-width: 96px;"></span>
+                    <span style="margin: 0 8px;font-size: .75rem;"><b>minutos</b></span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div id="DivRespuesta">
+        <div class="preguntas">
+            <div id="pregunta1" class="card pregunta" style="margin-top: 2px;">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <h3 class="box-title">Pregunta <span class="numeroPregunta"></span></h3>
+                            <div class="form-group row editable">
+                                <div class="col-sm-12">
+                                    <input class="form-control puntosPreguntaExamen" style="display: inline-block;max-width: 60px;" type="text" value="2">
+                                    <span style="margin: 0 8px;font-size: .75rem;">puntos</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row vista-preliminar">
+                                <div class="col-sm-12">
+                                    <span class="puntosPreguntaExamen" style="display: inline-block;max-width: 60px;" type="text" value="2"></span>
+                                    <span style="margin: 0 8px;font-size: .75rem;">puntos</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row editable">
+                                <div class="col-sm-12">
+                                    <textarea class="form-control preguntaExamen" rows="3" placeholder="Texto de la Pregunta"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row vista-preliminar">
+                                <div class="col-sm-12">
+                                    <span class=" preguntaExamen" rows="3" placeholder="Texto de la Pregunta"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <table class="respuestastable">
+                            <thead class="editable" style="word-wrap: initial;">
+                                <tr>
+                                    <th class="radio">Respuesta Correcta</th>
+                                    <th></th>
+                                    <th class="editable eliminar">Eliminar</th>
+                                </tr>
+                            </thead>
+                            <tbody class="respuestas">
+
+                                <tr id="Respuesta1">
+
+                                    <td class="radio">
+                                        <div class="input-group-text editable">
+                                            <input type="radio" class="opcioncorrecta">
+                                        </div>
+                                        <div class="input-group-text vista-preliminar" style="display: block; background-color:transparent; border: none">
+                                            <input type="radio" class="opcioncorrecta">
+                                        </div>
+                                    </td>
+                                    <td class="col-sm-9">
+                                        <input type="text" class="form-control opcionExamen editable" placeholder="Introducir Respuesta">
+                                        <span class="opcionExamen vista-preliminar"></span>
+                                    </td>
+                                    <td style="cursor:pointer;display:inline-block;padding-top: 8px;padding-left: 15px;" class="col-md-1 editable eliminar" onclick="examen.eliminarRespuesta(this)">
+                                        <i class="fa fa-trash-o text-red"></i>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                        <div class="editable" style="cursor:pointer;color: #1a73e8;">
+                            <svg width="24" height="24" viewBox="0 0 24 24">
+                                <path fill="#1a73e8" fill-rule="evenodd" stroke="none" stroke-width="1" id="Icon/small/plus" d="M13 11h4a1 1 0 010 2h-4v4a1 1 0 01-2 0v-4H7a1 1 0 010-2h4V7a1 1 0 012 0v4z"></path>
+                            </svg>
+                            <h3 class="aniadirRespuesta" style="display: inline;font-size: .75rem;font-weight: 400;margin-top: 24px;margin-bottom: 4px;line-height: .875rem;">
+                                Añadir Respuesta
+                            </h3>
+                        </div>
+                        <div class="editable" style="display: flex;">
+                            <button onclick="examen.eliminarPregunta(this)" type="button" class="option-button qa-test-quizEdit-deleteQuestion btn btn-link"><svg width="14" height="14" viewBox="0 0 24 24"><path fill="#7F7F7F" fill-rule="evenodd" stroke="none" stroke-width="1" id="Icon/small/trash" d="M7.4 21A2.4 2.4 0 015 18.6V10h14v8.6a2.4 2.4 0 01-2.4 2.4H7.4zM7 14v3.003a1 1 0 102 0V14a1 1 0 00-2 0zm4 0v3.003a1 1 0 102 0V14a1 1 0 00-2 0zm4 0v3.003a1 1 0 102 0V14a1 1 0 00-2 0zM8 6v-.6A2.4 2.4 0 0110.4 3h3.2A2.4 2.4 0 0116 5.4V6h1.6A2.4 2.4 0 0120 8.4V9H4v-.6A2.4 2.4 0 016.4 6H8zm2.5 0h3a.5.5 0 100-1h-3a.5.5 0 100 1z"></path></svg><span>Eliminar Pregunta</span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="add-questions">
+            @*btn btn-primary btn-block btn-flat margin-top-10*@
+            <button type="button" id="btnAgregarPregunta" class="btn mb-1 btn-outline-primary btn-icon btn-lg btn-block waves-effect waves-light editable" style="font-size:14px;border-radius:5px;"><i class="fa fa-plus"></i> Añadir nueva Pregunta</button>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    var respuestaModelo = ''
+    var preguntaModelo = ''
+    //'{"pregunta":"esta es la pregunta VACIA", "puntos": "20", "opciones":[{"opcion": "esta es la primera opcion"}, {"opcion": "esta es la segunda opcion"}] }'
+    var examenText = '{"titulo": "", "instrucciones": "", "tiempo": "35", "preguntas": [] }'
+    var examenModeloJSON = JSON.parse(examenText)
+    var guardarPendiente
+
+    $('#btnAgregarPregunta').click(function () { examen.agregarPregunta() })
+    const Examen = {
+        idTask: -1,
+        preguntas: [],
+        editable: true,
+        activo: true,
+        entregado: 0,
+        mostrarRespuestas: false,
+        callbackGuardarExamen: undefined,
+        callbackReadExamen: undefined,
+        agregarPregunta: function () {        //agrega pregunta html al examen html
+            
+            var preguntahtml = this.getPreguntaHTMLbase()
+            $('.preguntas').append(preguntahtml)
+
+            //Asigna número de pregunta
+            preguntahtml.find('.numeroPregunta').text(this.obtenerPreguntas().length);
+
+            var botonAgregarRespuesta = preguntahtml.find('.aniadirRespuesta')
+            this.agregarRespuesta(botonAgregarRespuesta)
+            this.agregarRespuesta(botonAgregarRespuesta)
+            this.agregarRespuesta(botonAgregarRespuesta)
+            this.mostrarEditable(this.editable)
+            var altura = $('#examen-container').outerHeight()
+            altura += 200
+            $('.tab-content').height(altura)
+        },
+        agregarRespuesta: function (elem) {   //agrega una respuesta html a la pregunta padre del boton "agregar respuesta"
+            var pregunta = $(elem).parents('.pregunta')
+            var respuestas = pregunta.find('.respuestas')
+            respuesta = this.getRespuestaHTMLbase(pregunta)
+            respuestas.append(respuesta)
+            this.mostrarEditable(this.editable)
+            var altura = $('#examen-container').outerHeight()
+            altura += 20
+            $('.tab-content').height(altura)
+        },
+        eliminarRespuesta: function (elem) {
+            var respuesta = $(elem).parents('.respuesta')
+            respuesta.remove()
+            this.actualizarModelo()
+        },
+        eliminarPregunta: function (elem) {
+            var pregunta = $(elem).parents('.pregunta')
+            pregunta.remove()
+            this.actualizarModelo()
+
+            //Reasigna números de preguntas
+            var Cont = 0;
+            $('.preguntas').find('.pregunta').each(function (index, preguntahtml_t) {
+                var preguntahtml = $(preguntahtml_t)
+                preguntahtml.find('.numeroPregunta').text(Cont + 1);
+                Cont += 1;
+            })
+        },
+        obtenerPreguntaModelo: function () {
+            preguntaModelo = $('#pregunta1')
+            preguntaModelo.removeAttr('id')
+            $('.preguntas').empty()
+        },
+        mostrarEditable: function (mostrar) {
+            if (mostrar) {
+                $('.vista-preliminar').hide()
+                $('.editable').show()
+                return
+            }
+            $('.vista-preliminar').show()
+            $('.editable').hide()
+            if (!this.activo) {
+                $('.vista-preliminar input').attr('disabled', 'disabled')
+            }
+        },
+        generarExamen: function (examenjson) {
+            $(' .nombreExamen').val(examenjson.titulo)
+            $(' .instruccionesExamen').val(examenjson.instrucciones)
+            $(' .divtiempoexamen').hide()
+            $(' .tiempoExamen').val(examenjson.tiempo)
+            //hacemos estos campos sensibles al auto guardado
+            $(' .nombreExamen').attr('onkeyup', 'examen.actualizarModelo()')
+            $(' .instruccionesExamen').attr('onkeyup', 'examen.actualizarModelo()')
+            $(' .tiempoExamen').attr('onkeyup', 'examen.actualizarModelo()')
+
+            $('.vista-preliminar .nombreExamen').text(examenjson.titulo)
+            $('.vista-preliminar .instruccionesExamen').text(examenjson.instrucciones)
+            $('.vista-preliminar .tiempoExamen').text(examenjson.tiempo)
+            this.generarPreguntas(examenjson.preguntas)
+            this.mostrarEditable(this.editable)
+        },
+        generarPreguntas: function (preguntas) {
+            $('.preguntas').empty()
+            var i = 0
+            var thist = this
+            preguntas.forEach(function (pregunta) {
+                thist.generarPregunta(i, pregunta)
+                i++
+            })
+
+        },
+        generarPregunta: function (posicionPregunta, preguntaData) {
+            posicionPregunta += 1
+            var preguntahtml = this.getPreguntaHTMLbase()
+            preguntahtml.find('.numeroPregunta').text(posicionPregunta)
+            preguntahtml.find('.preguntaExamen').val(preguntaData.pregunta)
+            preguntahtml.find('.puntosPreguntaExamen').val(preguntaData.puntos)
+            preguntahtml.find('.vista-preliminar .preguntaExamen').text(preguntaData.pregunta)
+            preguntahtml.find('.vista-preliminar .puntosPreguntaExamen').text(preguntaData.puntos)
+
+            this.generarRespuestas(preguntaData.opciones, preguntahtml)
+            $('.preguntas').append(preguntahtml)
+        },
+        obtenerRespuestaModelo: function () {
+            respuestaModelo = $('#Respuesta1')
+            respuestaModelo.removeAttr('id')
+            $('.respuestas').empty()
+        },
+        generarRespuestas: function (opciones, preguntahtml) {
+            var respuestasHtml = preguntahtml.find('.respuestas')
+            var i = 0
+            var thist = this
+            opciones.forEach(function (opcion) {
+                thist.generarRespuesta('respuesta' + i, opcion, respuestasHtml, preguntahtml)
+                i++
+            })
+            this.refrescarSolucionRespuestas(opciones, respuestasHtml)
+        },
+        generarRespuesta: function (id, opcion, respuestasHtml, pregunta) {
+            var respuesta = this.getRespuestaHTMLbase(pregunta)
+            respuesta.find('.editable.opcionExamen').val(opcion.opcion)
+            if (opcion.opcioncorrecta == 'on') {
+                respuesta.find('.editable .opcioncorrecta').prop('checked', true);
+                if (this.mostrarRespuestas == true /*|| ((moment(task.Fecha_Entrega).diff(moment(), 'seconds')) < 0)*/) {
+                    respuesta.addClass("respuesta-correcta");
+                }
+            }
+            if (opcion.valorUsuario == 'on') {
+                respuesta.find('.vista-preliminar .opcioncorrecta').prop('checked', true);
+            }
+
+            if (this.mostrarRespuestas == true /*|| ((moment(task.Fecha_Entrega).diff(moment(), 'seconds') < 0))*/) {
+                if (opcion.valorUsuario == 'on' && opcion.opcioncorrecta == 'off') {
+                    respuesta.addClass("respuesta-incorrecta");
+                }
+            }
+
+            var t = respuesta.find('.vista-preliminar.opcionExamen')
+            respuesta.find('.vista-preliminar.opcionExamen').text(opcion.opcion)
+            respuestasHtml.append(respuesta)
+        },
+        refrescarSolucionRespuestas: function (opciones, respuestasHtml) {
+            opciones.forEach(element => {
+                if (element.valorUsuario == 'on' && element.opcioncorrecta == 'on') {
+                    respuestasHtml.find('respuesta respuesta-incorrecta').attr("class", "respuesta");
+                    respuestasHtml.find('respuesta respuesta-incorrecta').attr("class", "respuesta");
+                }
+            });
+        },
+        actualizarModelo: function () {
+            if (!this.activo) return
+            this.stopGuardarExamen()
+            this.posponerGuardarExamen()
+        },
+        posponerGuardarExamen: function () {
+            var thist = this
+            guardarPendiente = setTimeout(function () {
+                $('.changes-saved').hide()
+                $('.changes-saving').show()
+                thist.saveExamen(-1)
+            }, 5000);
+        },
+        puntosExamen: function (examenjson) {
+            if (examenjson == undefined)
+                examenjson = this.obtenerExamen()
+            var puntosTotales = 0
+            examenjson.preguntas.forEach(function (pregunta) {
+                pregunta.opciones.forEach(function (opcion) {
+                    var puntosPregunta = parseInt(pregunta.puntos)
+                    if (opcion.opcioncorrecta == "on" && opcion.opcioncorrecta == opcion.valorUsuario) {
+                        puntosTotales += puntosPregunta
+                    }
+                })
+            })
+            return puntosTotales
+        },
+        puntosExamenTotales: function (examenjson) {
+            if (examenjson == undefined)
+                examenjson = this.obtenerExamen()
+            var puntosTotalesE = 0
+            examenjson.preguntas.forEach(function (pregunta) {
+                var puntosPreguntaE = parseInt(pregunta.puntos)
+                puntosTotalesE += puntosPreguntaE;
+            })
+            return puntosTotalesE;
+        },
+        vistaPreliminar: function () {
+            var examenjson = this.obtenerExamen()
+            this.generarExamen(examenjson)
+        },
+        saveExamen: function (idUsuario) {
+            if (this.idTask > 0) {
+                var examenjson = this.obtenerExamen();
+                console.log('save examen')
+                debug({examenjson})
+                var parameters = { "examen": JSON.stringify(examenjson), "FechaRegistro": GetDate(), "idTask": this.idTask, "entregado": this.entregado, "idUsuario": idUsuario };
+                jQueryAjaxCallback("../Shared/Utility.aspx/GuardarExamen", JSON.stringify(parameters), "POST", "json", this.examenGuardado.bind(this));   
+                return
+            }
+            console.log('no se guardó examen')
+        },
+        readExamen: function () {
+            var parameters = { "idTask": this.idTask };
+            jQueryAjaxCallback("../Shared/Utility.aspx/LeerExamenFromTask", JSON.stringify(parameters), "POST", "json", this.examenLeido.bind(this));
+        },
+        setIdTask: function (idTask) {
+            if (idTask != undefined) this.idTask = idTask
+        },
+        examenGuardado: function (data) {
+            console.log('examenGuardado')
+            console.log(data)
+            var hora = moment().format("hh:mm A");
+            $('.changes-saved').text('Guardado por última vez: hoy a las ' + hora)  //poner callback ajax
+            $('.changes-saving').hide()
+            $('.changes-saved').show()
+            var d = data.d
+            var djson = JSON.parse(d)
+            this.setIdTask(djson[0].idTask)
+            //yaser lo puso para cerar modal
+            $('#ModalConfirmarPublicar').modal('hide')
+            if (this.callbackGuardarExamen == undefined) return
+            if (typeof this.callbackGuardarExamen == 'function') this.callbackGuardarExamen()
+        },
+        examenLeido: function (data) {
+            var examenjsonregistro = JSON.parse(data.d)
+            examenjsonstring = examenjsonregistro[0].examen
+            debug({examenjsonstring})
+            this.setIdTask(examenjsonregistro[0].idTask)
+            examenjson = JSON.parse(examenjsonstring)
+            this.generarExamen(examenjson)
+            if (this.callbackReadExamen == undefined) return
+            if (typeof this.callbackReadExamen == 'function') this.callbackReadExamen()
+        },
+        stopGuardarExamen: function () {
+            clearTimeout(guardarPendiente);
+        },
+        obtenerExamen: function () {
+            var examenjson = {}
+            var preguntas = this.obtenerPreguntas()
+            examenjson.preguntas = preguntas
+            examenjson.titulo = $('.nombreExamen').val()
+            examenjson.instrucciones = $('.instruccionesExamen').val()
+            examenjson.tiempo = $('.tiempoExamen').val()
+            return examenjson
+        },
+        obtenerPreguntas: function () {
+            var preguntas = []
+            var thist = this
+            $('.preguntas').find('.pregunta').each(function (index, preguntahtml_t) {
+                var preguntahtml = $(preguntahtml_t)
+                var preguntaexamen = preguntahtml.find('.preguntaExamen').val()
+                var puntosPreguntaExamen = preguntahtml.find('.puntosPreguntaExamen').val()
+                var respuestasHtml = preguntahtml.find('.respuestas')
+                var pregunta = {}
+                pregunta.pregunta = preguntaexamen
+                pregunta.puntos = puntosPreguntaExamen
+                var respuestas = thist.obtenerRespuestas(respuestasHtml)
+                pregunta.opciones = respuestas
+                preguntas.push(pregunta)
+            })
+            return preguntas
+        },
+        obtenerRespuestas: function (respuestasHtml) {
+            var respuestas = []
+            var thist = this
+            respuestasHtml.find('.respuesta').each(function (index, elemento) {
+                var opcion = thist.obtenerRespuesta($(elemento))
+                respuestas.push(opcion)
+            })
+            return respuestas
+        },
+        obtenerRespuesta: function (respuestaHtml) {
+            var respuesta = respuestaHtml.find('.opcionExamen').val()
+            var opcioncorrecta = respuestaHtml.find('.editable .opcioncorrecta:checked').val()
+            opcioncorrecta = opcioncorrecta == undefined ? 'off' : opcioncorrecta
+
+
+            var valorUsuario = respuestaHtml.find('.vista-preliminar .opcioncorrecta:checked').val()
+            valorUsuario = valorUsuario == undefined ? 'off' : valorUsuario
+            var opcion = {}
+            opcion.opcion = respuesta
+            opcion.opcioncorrecta = opcioncorrecta
+            opcion.valorUsuario = valorUsuario
+            return opcion
+        },
+        getRespuestaHTMLbase: function (pregunta) {       //obtiene una respuesta html con todo lo necesario
+            var respuesta = respuestaModelo.clone()
+            var name = pregunta.attr('nombregrupo')
+            var nameEditable = name + '_Editable'
+            var nameVistaPreliminar = name + '_VistaPreliminar'
+            respuesta.addClass('respuesta')
+            respuesta.find('input[type="text"]').attr('onkeyup', 'examen.actualizarModelo()')
+            respuesta.find('input[type="radio"]').attr('onchange', 'examen.actualizarModelo()')
+            respuesta.find('.editable input[type="radio"]').attr('name', nameEditable)
+            respuesta.find('.vista-preliminar input[type="radio"]').attr('name', nameVistaPreliminar)
+            return respuesta
+        },
+        getPreguntaHTMLbase: function () {
+            var preguntahtml = preguntaModelo.clone()
+            var name = this.getRandomName()
+            var thist = this
+            preguntahtml.attr('nombregrupo', name)
+            preguntahtml.addClass('pregunta')
+            preguntahtml.find('input[type="text"]').attr('onkeyup', 'examen.actualizarModelo()')
+            preguntahtml.find('textarea').attr('onkeyup', 'examen.actualizarModelo()')
+            preguntahtml.find('.aniadirRespuesta').click(function (event) { thist.agregarRespuesta(event.target) })
+            return preguntahtml
+        },
+        getRandomName: function () {
+            let r = Math.random().toString(36).substring(7);
+            return r
+        },
+        validarRespuesta: function (opcion) {
+            //debe haber un texto en cada respuesta. No se admiten respuestas vacias
+            if (opcion.opcion.length == 0) {
+                Message(2, 'Respuestas no pueden estar vacías', 'Corrija');
+                return false
+            }
+            return true
+        },
+        validarPregunta: function (pregunta) {
+            var thist = this
+            var puntosPregunta = parseInt(pregunta.puntos)
+
+            if (puntosPregunta == 0 || isNaN(puntosPregunta)) {      //validamos que la pregunta tenga puntos asignados
+                Message(2, 'Respuestas no pueden tener puntaje 0', 'Corrija');
+                return false
+            }
+            var textoPregunta = pregunta.pregunta
+            if (textoPregunta.length < 1) {
+                Message(2, 'Debe ingresar el texto de cada pregunta', 'Corrija');
+                return false
+            }
+            var size = pregunta.opciones.length
+
+            if (size < 2) {                 //validamos que la pregunta tenga al menos 2 opciones
+                Message(2, 'Cada pregunta debe tener al menos 2 opciones para que el estudiante elija', 'Corrija');
+                return false
+            }
+            var respuestaCorrectaIngresada = false
+            for (var i = 0; i < size; i++) {
+                var opcion = pregunta.opciones[i]
+                if (opcion.opcioncorrecta == "on")
+                    respuestaCorrectaIngresada = true
+                var respuestaValida = thist.validarRespuesta(opcion)
+                if (!respuestaValida) return false
+            }
+            if (!respuestaCorrectaIngresada) {  //validamos que la pregunta tenga 1 opcion marcada como respuesta correcta
+                Message(2, 'Cada pregunta debe tener al menos 1 respuesta marcada como correcta', 'Corrija');
+                return false
+            }
+            return true
+        },
+        validarExamen: function () {
+            var examenjson = this.obtenerExamen()
+            var thist = this
+            var size = examenjson.preguntas.length
+            if (size < 1) {                 //validamos que examen tenga al menos 1 pregunta
+                Message(2, 'Debe ingresar al menos 1 pregunta', 'Corrija');
+                return false
+            }
+            for (var i = 0; i < size; i++) {
+                var pregunta = examenjson.preguntas[i]
+                var preguntaValida = thist.validarPregunta(pregunta)
+                if (!preguntaValida) return false
+            }
+            return true
+        }
+    }
+</script>
+

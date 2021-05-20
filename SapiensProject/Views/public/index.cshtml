@@ -1,0 +1,74 @@
+﻿<html>
+<head>
+
+    <script src='https://unpkg.com/react@16.3.1/umd/react.production.min.js'></script>
+    <script src='https://unpkg.com/react-dom@16.3.1/umd/react-dom.production.min.js'></script>
+    <script src='https://unpkg.com/react-router-dom@5.0.0/umd/react-router-dom.min.js'></script>
+    <script src='https://unpkg.com/babel-standalone@6.26.0/babel.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js'></script>
+</head>
+    <body>
+        <a href="~/Views/Admin/Welcome.cshtml">Go to Admin Welcome</a>
+        <div id='root'></div>
+        <script type='text/babel'>
+            const Link = ReactRouterDOM.Link;
+            const Route = ReactRouterDOM.Route;
+            const Fragment = React.Fragment;
+            var token = localStorage.getItem("token")
+            var authHeader = { 'Authorization': 'Bearer ' + token };
+            const getRequest = () => {
+                axios.get("/api/mvc/test", {headers: authHeader})
+                .then(res => {
+                    alert("This Private API. Status code is " + res.data.Code)
+                    console.log(res)
+                    if (res.data.Code == "200") {
+                        alert("Hello, you are already logged");
+                    } else {
+                        alert("Hello, you have to log");
+                    }
+                }).catch(err => {
+                    alert("You have to login")
+                    console.log(err)
+                })
+            }
+            const getRequest1 = () => {
+                axios.get("/api/mvc/test1")
+                .then(res => {
+                    alert("This public API. Status code is " + res.data.Code)
+                }).catch(err => {
+                    console.log(err)
+                })
+            }
+
+                    const App = () => (
+                      <ReactRouterDOM.HashRouter>
+                        <ul>
+                          <li><Link to="/">Home</Link></li>
+                          <li><Link to="/test">Test</Link></li>
+                          <li><a target="_blank" href="https://www.pluralsight.com/guides/using-react-router-with-cdn-links">how to use react with CDN links</a></li>
+                        </ul>
+                        <button onClick={getRequest}>Get Reqeust (Authorized)</button>
+                        <button onClick={getRequest1}>Get Reqeust (UnAuthorized)</button>
+
+                        <Route path="/" exact component={Home} />
+                        <Route path="/test" exact component={Test} />
+                      </ReactRouterDOM.HashRouter>
+                    )
+
+                    const Home = () => (
+                    <Fragment>
+                        <h1>Hello world!</h1>
+                        <p>I am react component</p>
+                    </Fragment>
+                    )
+                    const Test = () => (
+                    <Fragment>
+                        <h1>Not Refresh! I am React</h1>
+                        <p>I am react component</p>
+                    </Fragment>
+                    )
+
+                    ReactDOM.render(<App />, document.querySelector('#root'));
+        </script>
+    </body>
+</html>

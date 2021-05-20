@@ -1,0 +1,88 @@
+﻿
+#TablePromedio{
+    display: block;
+}
+#TablePromedio td {
+    white-space: pre-wrap;
+}
+
+#TablePromedio th {
+    white-space: pre-wrap;
+}
+
+#TablePromedio {
+    position: relative;
+    /*width: 700px;*/
+    overflow: hidden;
+    border-collapse: collapse;
+}
+
+    #TablePromedio thead {
+        position: relative;
+        display: block;
+        overflow: visible;
+    }
+
+    #TablePromedio tbody {
+        position: relative;
+        display: block; /*seperates the tbody from the header*/
+        max-height: 419px;
+        overflow: scroll;
+    }
+
+        #TablePromedio tbody tr td:nth-child(1) {
+            position: relative;
+            display: block; /*seperates the first column from the tbody*/
+            background-color: white;
+        }
+
+    #TablePromedio thead th:nth-child(1) {
+        position: relative;
+        min-width: 200px;
+        z-index: 1;
+    }
+
+@media (max-width: 700px) {
+    #TablePromedio td {
+        white-space: pre-wrap;
+    }
+
+    #TablePromedio th {
+        white-space: nowrap;
+    }
+
+    #TablePromedio thead th {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        min-width: 80px;
+        max-width: 80px;
+        background-color: white;
+        padding: 0;
+        white-space: pre-wrap;
+        hyphens: auto;
+        font-size: 11px;
+        padding: 0 2px;
+        /*border: 1px solid black;*/
+    }
+
+        #TablePromedio thead th span {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        #TablePromedio thead th:nth-child(1) {
+            min-width: 100px;
+        }
+}
+
+@media (max-width: 991px) {
+    .table-responsive {
+        display: block;
+        width: 100%;
+        overflow-x: hidden;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+    }
+}

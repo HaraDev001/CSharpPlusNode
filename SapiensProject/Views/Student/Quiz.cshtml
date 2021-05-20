@@ -1,0 +1,264 @@
+﻿@using SapiensProject.Controllers
+@using SapiensProject.Models.Entities
+@{
+    Layout = "~/Views/Shared/SiteStudent2021.cshtml";
+    AccountController account = new AccountController();
+    Usuario usr = account.getCurrentUser();
+    int idUsuario = usr.idUsuario;
+}
+<div class="content-header row">
+    <div class="content-header-left col-md-9 col-12 mb-2">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h2 class="content-header-title float-left mb-0">
+                    <img class="cursor-pointer" src="../images/ACADEMICA_ICONS_AULA_VIRTUAL.png" alt="" width="30">  <span data-i18n="header.t6">Prueba</span>
+                </h2>
+                <div class="breadcrumb-wrapper col-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="AulaVirtual?tp=1"><span data-i18n="inicio">Classroom</span></a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="Welcome"><span data-i18n="inicio">Inicio</span></a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="content-body">
+    <div class="router-content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card" style="margin-bottom: 0;padding-right: 16px; padding-bottom: 20px; padding-left: 16px; padding-top: 20px;">
+                    <div class="row">
+                        <div class="col-md-4 hidden-lg-down" style="display:flex;">
+                            <div class="todo-icon" style="background-color: rgb(62, 66, 83); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <svg width="24px" height="24px" viewBox="0 0 24 24" name="quiz-icon"><path fill="#fff" fill-rule="evenodd" stroke="none" stroke-width="1" id="Icon/small/quiz" d="M6 4h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2zm1.5 13h7a.5.5 0 100-1h-7a.5.5 0 100 1zm0-2h9a.5.5 0 100-1h-9a.5.5 0 100 1zm2.92-5.717a.8.8 0 10-1.131 1.131l2.262 2.263 3.96-3.96a.8.8 0 10-1.131-1.131l-2.829 2.828-1.13-1.131z"></path></svg>
+                            </div>
+                            <div style="margin: 0 16px;overflow: hidden;">
+                                <div style="font-size: 1.5rem;font-weight: 500;line-height: 40px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">
+                                    <span style="font-size: 1.2rem;font-weight: 500;line-height: 40px;white-space: nowrap;" id="AdDetalleSpan">Prueba</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8" id="DivControlesExam" style="display:none;">
+                            <div class="float-right">
+                                <div id="calificacion"></div>
+                                <button id="PreguntarCalificar" onclick="ModalConfirmacion();" class="btn btn-primary">
+                                    Finalizar Prueba
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-8" id="DivControlesRegresar" style="display:none;">
+                            <div class="float-right"><a href="AulaVirtual?tp=1" class="btn btn-primary hidden-lg-down waves-effect waves-light"> Ir a Classroom</a></div>
+                        </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <div class="row" id="RowGuardado">
+            <div class="col-sm-12">
+                <div style="text-align: right;font-size: .75rem;margin: 0;margin-top: 0px;padding: 0;line-height: 20px;" class="box-tools pull-right">
+                    <span class="status-label changes-saved" style="text-decoration: underline;color: #3e4253;border-radius: 8px;padding: 2px 0;display: inline-block;transition: background-color .5s;"></span>
+                    <span class="label bg-blue changes-saving" style="display: none">Processing</span>
+                </div>
+            </div>
+        </div>
+        <div id="PanelMsjexamen" style="display:none;">
+            <br />
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="alert alert-warning">
+                        <h4 class="alert-heading">Atención</h4>
+                        <p class="mb-0" id="TextMsjexamen"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="PanelExamen" style="display:none;">
+            @RenderPage("../Partial/_PartialExamen.cshtml")
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalConfirmacion">
+    <div class="modal-dialog">
+        <div class="modal-content" style="border-radius: 6px;">
+            <div class="modal-header">
+                <h4 class="modal-title">Finalizar Prueba</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-remove (alias) fa-2x"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="pleaseWaitDiv" style="display: none;">
+                    <div>
+                        <span data-i18n="header.t18">Por favor espere...&nbsp;</span><div></div>
+                    </div>
+                </div>
+                <div class="form-horizontal">
+                    <input id="deleteidagenda" type="hidden">
+                    <div class="form-group">
+                        <p>¿Está seguro que quieres finalizar su Prueba?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button onclick="$('#ModalConfirmacion').modal('hide');" class="btn btn-default float-right" type="button">Cancelar</button>
+                <button id="calificar" class="btn btn-primary float-right" type="button">Finalizar Prueba</button>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="idUsuario" value="@idUsuario" />
+<input id="idAgenda" type="hidden" />
+<script>
+    var task
+    var idTask = QueryStringCustom.y_;
+    var examen = new Object(Examen);
+    examen.obtenerRespuestaModelo();
+    examen.obtenerPreguntaModelo();
+    examen.idTask = idTask
+    examen.editable = false
+    examen.mostrarRespuestas = false;
+    examen.mostrarEditable(false);
+    function ModalConfirmacion() {
+        $('#ModalConfirmacion').modal('show');
+    }
+    $('#calificar').click(function () {
+        DesbloquearExamen(false, 1);
+        examen.entregado = 1
+        examen.saveExamen(-1);
+        //puntos
+        var examenjson = examen.obtenerExamen();
+        var puntosobtenidos = examen.puntosExamen(examenjson)
+        var puntosTotales = examen.puntosExamenTotales(examenjson)
+        var nota = notaFromPuntos(notaminima, notamaxima, puntosobtenidos, puntosTotales)
+        var id = $('#idUsuario').val();
+        var xml = '<notas><estudiante idUsuario="' + id + '" nota="' + nota + '" puntos="' + puntosobtenidos + '" notaText=""/></notas>';
+
+        var parameters = {
+            "idAsignatura": -1, "idSubnivel": -1, "idPeriodo": -1,
+            "idAgenda": $('#idAgenda').val(),
+            "xmlNotas": xml, "lectura": 1, "FechaAccion": GetDate(), "origen": "CLASSROOM"
+        };
+        jQueryAjaxCallback("../Shared/Utility.aspx/actualizarNotas", JSON.stringify(parameters), "POST", "json", PostNota);
+    })
+    ViewTaskDetalle();
+    var intervalAutoBloquear;
+    var intervalAutoDesbloquearExamen
+    var notamaxima = -1;
+    var notaminima = -1;
+    function PostNota(data) {
+    }
+    function ViewTaskDetalle() {
+        var parameters = { "idTask": idTask, "Fecha": GetDate(), "idUsuario": -1, "idRolA": 5 };
+        jQueryAjaxCallback("../Shared/Utility.aspx/ObtenerTaskId", JSON.stringify(parameters), "POST", "json", PostViewTaskDetalle);
+    }
+    function PostViewTaskDetalle(data) {
+        var m = $.parseJSON(data.d);
+        notaminima = m[0].NotaMinima;
+        notamaxima = m[0].NotaMaxima;
+        $('#idAgenda').val(m[0].idAgenda);
+        $('#AdDetalleSpan').text(m[0].Grupo);
+        task = m[0];
+        var paso = pasoFechaInicio()
+        if ((moment(task.Fecha_Entrega).diff(moment(), 'seconds')) < 0) {
+            ocultarFinalizar()
+            examen.mostrarRespuestas = true
+            DesbloquearExamen(true)
+            bloquearExamen()
+        }
+
+        if (task.Entregado == 1) {
+            DesbloquearExamen(true)
+            bloquearExamen()
+            ocultarFinalizar()
+            return;
+        }
+        if (paso) {
+            DesbloquearExamen(true);
+            autoBloquearExamen()    //para bloquearlo si ya se paso su fecha de entrega
+            intervalAutoBloquear = setInterval(autoBloquearExamen, 5000) //para bloquearlo si aun no se paso su fecha de entrega
+        }
+        else {
+            DesbloquearExamen(false, 2);    //no desbloqueamos, y mostramos mensaje aún no es momento
+            intervalAutoDesbloquearExamen = setInterval(autoDesbloquearExamen, 5000) //para bloquearlo si aun no se paso su fecha de entrega
+        }
+    }
+    function ocultarFinalizar() {        
+            $('#DivControlesRegresar').show();
+            $('#DivControlesExam').remove();
+    }
+    function DesbloquearExamen(puedeEditar, i) {
+        if (!puedeEditar) {
+            bloquearExamen()
+            clearInterval(intervalAutoBloquear);
+            $('#RowGuardado').empty();
+            $('#PanelMsjexamen').show();
+            if (i == 2) {
+                $('#TextMsjexamen').html('Todavia no ha iniciado su prueba, porfavor espere la fecha y hora que el profesor definió: ' + moment(task.Fecha_Inicio).format('MMMM D hh:mm A'));
+            }
+            else if (i == 1) {
+                $('#ModalConfirmacion').modal('hide');
+                ocultarFinalizar()
+                $('#TextMsjexamen').html('Usted ha finalizado su prueba exitosamente');
+                $('#PanelExamen').show();
+            }
+
+        }
+        else if (puedeEditar) {
+            $('#PanelMsjexamen').hide()
+            $('#DivControlesExam').show();
+            $('#PanelExamen').show();
+            examen.activo = true
+            examen.mostrarEditable(false);
+            examen.readExamen()
+        }
+    }
+    function pasoFechaInicio() {
+        if (task != undefined) {
+            var fechaInicio = moment(task.Fecha_Inicio);
+            var horaActual = moment();
+            var diferencia = fechaInicio.diff(horaActual, 'seconds')
+            if (diferencia < 0) {
+                return true
+            }
+        }
+        return false;
+    }
+    function autoBloquearExamen() {
+        if (debeBloquearExamen()) {
+            ocultarFinalizar()     
+            examen.mostrarRespuestas = true
+            DesbloquearExamen(true)
+            bloquearExamen()      
+        }
+    }
+    function autoDesbloquearExamen() {
+        var paso = pasoFechaInicio()
+        if (paso) {
+            DesbloquearExamen(true)
+            clearInterval(intervalAutoDesbloquearExamen)
+            autoBloquearExamen()    //para bloquearlo cuando pase su fecha de entrega
+            intervalAutoBloquear = setInterval(autoBloquearExamen, 5000) //para bloquearlo si aun no se paso su fecha de entrega
+        }
+    }
+    function debeBloquearExamen() {
+        var mensaje = 'Se terminó el plazo dado por el profesor para completar la prueba'
+        if (task != undefined) {
+            var Fecha_Entrega = moment(task.Fecha_Entrega)
+            var horaActual = moment();
+            var diferencia = Fecha_Entrega.diff(horaActual, 'seconds')
+            if (diferencia < 0) {
+                $('#TextMsjexamen').text(mensaje);
+                $('#PanelMsjexamen').show()
+                return true
+            }
+        }
+        return false
+    }
+    function bloquearExamen() {
+        examen.activo = false
+        examen.mostrarEditable(false)
+    }
+</script>

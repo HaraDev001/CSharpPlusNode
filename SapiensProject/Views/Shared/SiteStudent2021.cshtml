@@ -1,0 +1,583 @@
+﻿@using SapiensProject.Controllers
+@using SapiensProject.Models.Entities
+@{ AccountController account = new AccountController();
+    Usuario usr = account.getCurrentUser();
+    SapiensProject.Models.Utility util = new SapiensProject.Models.Utility();
+    string Logo = System.Configuration.ConfigurationManager.AppSettings["Subdominio"].ToString() + "/Views/images/" + usr.Logo;
+    string NombreCompleto = usr.NombreCompleto;
+    string escuela = usr.nombreEscuela;
+    string escuela_frase = account.getCurrentUser().escuela_frase;
+    string js = util.perfilStudents(usr.idEscuela, usr.idUsuario, usr.DesactivarUsuarioPorPeriodo, account.getCurrentUser().Activo, account.getCurrentUser().encuesta);
+    string NombreRol = usr.nombreRol;
+    int idRol = usr.idRol;
+    int idUsuario = usr.idUsuario;
+    string NombreRolHtml = "<span class='user-name user-status'>" + usr.nombreRol + "</span>";
+    int idEscuela = account.getCurrentUser().idEscuela;
+    string direccion = account.getCurrentUser().direccion;
+    string pagina = Request.Url.AbsolutePath;
+
+    if (pagina.Contains("/Views/Admin/") && idRol != 1)
+    {
+        account.redirectToLoginPage();
+    }
+    if (pagina.Contains("/Views/Professor/") && idRol != 4)
+    {
+        account.redirectToLoginPage();
+    }
+    if (pagina.Contains("/Views/Sa/") && idRol != 18)
+    {
+        account.redirectToLoginPage();
+    }
+
+    if (account.getCurrentUser().Activo == 2)
+    {
+
+        var accesoConcedido = account.tieneAccesoaPaginaAlumno(usr.idEscuela, pagina);
+        if (!accesoConcedido)
+        {
+            account.redirectToNotAccessPageAlumno();
+        }
+    }
+    //admin funciones
+
+    //string scriptBloq = util.perfilbloqueado(account.getCurrentUser().idUsuario, account.getCurrentUser().DesactivarUsuarioPorPeriodo, account.getCurrentUser().Activo);
+
+    //if (usr.idEscuela == 56)
+    //{
+    //    style2 = "<li id='ma'><a href='Matricula?x1=3'><i class='fa fa-address-card-o'></i> <span>CONTRATO 2020</span></a></li>";
+    //}
+    //if(usr.idEscuela ==4)
+    //{
+    //     js += util.perfilStudentsAlerta(usr.idEscuela, usr.idUsuario, usr.DesactivarUsuarioPorPeriodo, account.getCurrentUser().Activo, account.getCurrentUser().encuesta);
+    // }
+}
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="description" content="Plataforma Academica, Plataforma para colegios, Plataforma para administracion Academica">
+    <meta name="author" content="Plataforma Académica">
+    <link href="../../favicon.png" rel="shortcut icon" />
+    <title>PLATAFORMA ACADÉMICA | SISTEMA DE NOTAS</title>
+
+    <link rel="apple-touch-icon" href="../../favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="../../favicon.png">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600" rel="stylesheet">
+
+    <!-- BEGIN: Vendor CSS-->
+    <link rel="stylesheet" type="text/css" href="../../dist/app-assets/vendors/css/vendors.min.css">
+    @*<link rel="stylesheet" type="text/css" href="../../dist/app-assets/vendors/css/charts/apexcharts.css">
+        <link rel="stylesheet" type="text/css" href="../../dist/app-assets/vendors/css/extensions/tether-theme-arrows.css">
+        <link rel="stylesheet" type="text/css" href="../../dist/app-assets/vendors/css/extensions/tether.min.css">
+        <link rel="stylesheet" type="text/css" href="../../dist/app-assets/vendors/css/extensions/shepherd-theme-default.css">*@
+    <!-- END: Vendor CSS-->
+    <!-- BEGIN: Theme CSS-->
+    <link rel="stylesheet" type="text/css" href="../../dist/app-assets/css/bootstrap.css?0006">
+    <link rel="stylesheet" type="text/css" href="../../dist/app-assets/css/bootstrap-extended.css?0006">
+    <link rel="stylesheet" type="text/css" href="../../dist/app-assets/css/colors.css?0002">
+    <link rel="stylesheet" type="text/css" href="../../dist/app-assets/css/components.css?0018">
+    <link rel="stylesheet" type="text/css" href="../../dist/app-assets/css/themes/dark-layout.css">
+    <link rel="stylesheet" type="text/css" href="../../dist/app-assets/css/themes/semi-dark-layout.css?0011">
+
+    <!-- BEGIN: Page CSS-->
+    <link rel="stylesheet" type="text/css" href="../../dist/app-assets/css/core/menu/menu-types/vertical-menu.css?0001">
+    <link rel="stylesheet" type="text/css" href="../../dist/app-assets/css/core/colors/palette-gradient.css">
+
+    @*<link rel="stylesheet" type="text/css" href="../../dist/app-assets/css/pages/dashboard-analytics.css">
+        <link rel="stylesheet" type="text/css" href="../../dist/app-assets/css/pages/card-analytics.css">
+        <link rel="stylesheet" type="text/css" href="../../dist/app-assets/css/plugins/tour/tour.css">*@
+
+    <!-- END: Page CSS-->
+    <!-- BEGIN: Custom CSS-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../../dist/assets/css/style.css">
+    <link href="~/dist/app-assets/css/personal.css?0008" rel="stylesheet" />
+    <style>
+        ._x1:hover {
+            font-weight: 600;
+            color: #626262;
+        }
+
+        .dropdown-menu {
+            z-index: 100;
+        }
+    </style>
+    <!-- END: Custom CSS-->
+    <!-- BEGIN: Vendor JS-->
+    <script src="../../dist/app-assets/vendors/js/vendors.min.js"></script>
+    <!-- BEGIN Vendor JS-->
+    <!-- END: Page JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/locale/es.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/inputmask/inputmask.min.js"></script>
+    <script src="../../dist/js/ajax-custom_11.js?000112"></script>
+    <script src="../../dist/js/reg2018_84.js?0222"></script>
+    <script src="../../dist/js/prematr_horario1.js?0011"></script>
+    <script src="~/dist/js/AgendaConsol.js?0007"></script>
+    <script type="text/javascript">
+        $(function () {
+            Init_Mensajes();
+            Init_Notificaciones();
+            Init_Languaje_FP();
+        });
+        if (@idRol  == 19)
+            $('#mmp').hide();
+    </script>
+    <script src="../../dist/js/cookies.js?006"></script>
+
+</head>
+<!-- END: Head-->
+<!-- BEGIN: Body-->
+<body style="background-color: #1B528217;" class="todo-application vertical-layout vertical-menu-modern semi-dark-layout 2-columns email-application  navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="2-columns" data-layout="semi-dark-layout">
+
+    <!-- BEGIN: Header-->
+    @*<nav class="header-navbar navbar-expand-lg navbar navbar-with-menu floating-nav navbar-light navbar-shadow text-white" style="background: #1877f2 none repeat scroll 0% 0%;">*@
+    <nav class="header-navbar navbar-expand-lg navbar navbar-with-menu floating-nav navbar-light navbar-shadow" style="background: rgb(255, 255, 255) none repeat scroll 0% 0%;">
+        <div class="navbar-wrapper">
+            <div class="navbar-container content">
+                <div class="navbar-collapse" id="navbar-mobile">
+                    <div class="mr-auto float-left bookmark-wrapper d-flex align-items-center">
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item mobile-menu d-xl-none mr-auto">
+                                <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ficon feather icon-menu"></i></a>
+                            </li>
+                        </ul>
+                        <ul class="nav navbar-nav bookmark-icons d-flex justify-content-start align-items-center">
+                            <div class="avatar mr-1">
+                                <a href="Welcome"><img id="img_logo_colegio" src="@Logo" alt="avtar img holder" width="45" height="45"></a>
+                            </div>
+                            <div class="user-page-info hidden-md-down">
+                                <p href="Welcome" class="mb-0" style="color: #626262;font-weight: 600;font-size: 1rem;line-height: 1rem" id="lbl_colegio">@escuela</p>
+                                <span class="font-small-2">@escuela_frase</span>
+                            </div>
+                        </ul>
+                    </div>
+                    <ul class="nav navbar-nav float-right">
+                        <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-expand"><i class="ficon feather icon-maximize"></i></a></li>
+                        @*<li class="nav-item nav-search">
+                                <a class="nav-link nav-link-search"><i class="ficon feather icon-search"></i></a>
+                                <div class="search-input">
+                                    <div class="search-input-icon"><i class="feather icon-search primary"></i></div>
+                                    <input class="input" type="text" placeholder="Explore Vuexy..." tabindex="-1" data-search="template-list">
+                                    <div class="search-input-close"><i class="feather icon-x"></i></div>
+                                    <ul class="search-list search-list-main"></ul>
+                                </div>
+                            </li>*@
+                        <li class="dropdown dropdown-notification nav-item" id="LINotif">
+                            <a class="nav-link nav-link-label" href="#" data-toggle="dropdown">
+                                <i class="ficon feather icon-bell">
+                                </i>
+                                <span class="badge badge-pill badge-warning badge-up span_noti_cantidad">0</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
+                                <li class="dropdown-menu-header">
+                                    <div class="dropdown-header m-0 p-2">
+                                        <h4 class="white">
+                                            <span class="cart-item-count" id="span_noti_cantidadC">0</span>
+                                            <span class="mx-50" data-i18n="header.t48"> Notificaciones sin leer.</span>
+                                        </h4>
+                                    </div>
+                                </li>
+                                <li class="scrollable-container media-list" id="li_body_notificacion"></li>
+                                <li class="dropdown-menu-footer">
+                                    <a class="dropdown-item p-1 text-center" href="Notificaciones"><span data-i18n="header.t49"> Ver Notificaciones.</span></a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown dropdown-notification nav-item" id="LIMess">
+                            <a class="nav-link nav-link-label" href="#" data-toggle="dropdown">
+                                <i class="ficon feather icon-message-square"></i>
+                                <span class="badge badge-pill badge-warning badge-up cart-item-count span_resumen_cantidad">0</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
+                                <li class="dropdown-menu-header">
+                                    <div class="dropdown-header m-0 p-2">
+                                        <h4 class="white">
+                                            <span class="cart-item-count" id="li_header_cantidad">0</span>
+                                            <span class="mx-50" data-i18n="header.t46"> Mensajes sin leer</span>
+                                        </h4>
+                                    </div>
+                                </li>
+                                <li class="scrollable-container media-list" id="li_body_mensajes"></li>
+                                <li class="dropdown-menu-footer">
+                                    <a class="dropdown-item p-1 text-center text-primary" href="mensaje">
+                                        <i class="feather icon-message-square align-middle"></i>
+                                        <span class="align-middle text-bold-600" data-i18n="header.t47">Ver Todos los Mensajes</span>
+                                    </a>
+                                </li>
+                                <li class="empty-cart d-none p-2">Your Cart Is Empty.</li>
+                            </ul>
+                        </li>
+                        <li class="dropdown dropdown-user nav-item">
+                            <a class="dropdown-toggle nav-link dropdown-user-link" onclick="ValidateCantUsuario();" href="#" data-toggle="dropdown">
+                                <div class="user-nav d-sm-flex d-none" style="padding-top:5px;">
+                                    <span id="lblNombreCompleto" class="user-name user-name text-bold-600">@NombreCompleto</span>
+                                    @Html.Raw(NombreRolHtml)
+                                </div>
+                                <span>
+                                    <img class="round imgMyPhoto2" src='../../dist/img/male.png' alt="." height="40" width="40">
+                                </span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <img class="round imgMyPhoto2" src='../../dist/img/male.png' alt="." width="40" height="40">
+                                <span id="lblNombreCompleto" class="user-name user-name text-bold-600">@NombreCompleto</span>
+                                <div class="box-footer box-comments" id="Perfil_id2" style="display:none;">
+                                    <div class="pleaseWaitDiv" style="display: none;">
+                                        <div>
+                                            <span data-i18n="header.t18">Por favor espere...&nbsp;</span><div></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="dropdown-divider">
+                                </div>
+                                <a class="dropdown-item" href="#" onclick="AbrirSugerencias();">
+                                    <div class="d-flex justify-content-start align-items-center">
+                                        <div class="mr-1">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" focusable="false" class=" NMm5M"><path d="M18 14V6h-5v8l2.5-1.5z"></path><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H4V4h16v12z"></path></svg>
+                                        </div>
+                                        <div class="user-page-info">
+                                            <h6 class="mb-0" data-i18n="header.t88">Enviar Comentarios</h6>
+                                            <span class="font-small-2" data-i18n="header.t89">Ayúdanos a mejorar la nueva versión de Académica.</span>
+                                        </div>
+                                    </div>
+                                </a>
+                                <div class="dropdown-divider">
+                                </div>
+                                <a class="dropdown-item" href="MyProfile?x1=3"><img class="cursor-pointer" src="../images/ACADEMICA_ICONS_MI_PERFIL.png" alt="." width="25"> <span data-i18n="header.t27">Mi Perfil</span></a>
+                                <a class="dropdown-item" href="Mensaje"><img class="cursor-pointer" src="../images/ACADEMICA_ICONS_MENSAJES.png" alt="." width="25"> <span data-i18n="header.t11">Mensajes</span></a>
+                                <a class="dropdown-item" href="CambioPwd"><i class="feather icon-check-square"></i> <span data-i18n="header.t2">Cambiar Contraseña</span></a>
+                                <div class="dropdown-divider">
+                                </div>
+                                <a class="dropdown-item" onclick="exit();"><img class="cursor-pointer" src="../images/ACADEMICA_ICONS_LOG OUT.png" alt="." width="25"><span data-i18n="header.t4"> Salir</span></a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <ul class="main-search-list-defaultlist d-none">
+        <li class="d-flex align-items-center">
+            <a class="pb-25" href="#">
+                <h6 class="text-primary mb-0">Files</h6>
+            </a>
+        </li>
+        <li class="auto-suggestion d-flex align-items-center cursor-pointer">
+            <a class="d-flex align-items-center justify-content-between w-100" href="#">
+                <div class="d-flex">
+                    <div class="mr-50"><img src="../../dist/app-assets/images/icons/xls.png" alt="." height="32"></div>
+                    <div class="search-data">
+                        <p class="search-data-title mb-0">Two new item submitted</p><small class="text-muted">Marketing Manager</small>
+                    </div>
+                </div><small class="search-data-size mr-50 text-muted">&apos;17kb</small>
+            </a>
+        </li>
+        <li class="auto-suggestion d-flex align-items-center cursor-pointer">
+            <a class="d-flex align-items-center justify-content-between w-100" href="#">
+                <div class="d-flex">
+                    <div class="mr-50"><img src="../../dist/app-assets/images/icons/jpg.png" alt="." height="32"></div>
+                    <div class="search-data">
+                        <p class="search-data-title mb-0">52 JPG file Generated</p><small class="text-muted">FontEnd Developer</small>
+                    </div>
+                </div><small class="search-data-size mr-50 text-muted">&apos;11kb</small>
+            </a>
+        </li>
+        <li class="auto-suggestion d-flex align-items-center cursor-pointer">
+            <a class="d-flex align-items-center justify-content-between w-100" href="#">
+                <div class="d-flex">
+                    <div class="mr-50"><img src="../../dist/app-assets/images/icons/pdf.png" alt="." height="32"></div>
+                    <div class="search-data">
+                        <p class="search-data-title mb-0">25 PDF File Uploaded</p><small class="text-muted">Digital Marketing Manager</small>
+                    </div>
+                </div><small class="search-data-size mr-50 text-muted">&apos;150kb</small>
+            </a>
+        </li>
+        <li class="auto-suggestion d-flex align-items-center cursor-pointer">
+            <a class="d-flex align-items-center justify-content-between w-100" href="#">
+                <div class="d-flex">
+                    <div class="mr-50"><img src="../../dist/app-assets/images/icons/doc.png" alt="." height="32"></div>
+                    <div class="search-data">
+                        <p class="search-data-title mb-0">Anna_Strong.doc</p><small class="text-muted">Web Designer</small>
+                    </div>
+                </div><small class="search-data-size mr-50 text-muted">&apos;256kb</small>
+            </a>
+        </li>
+        <li class="d-flex align-items-center">
+            <a class="pb-25" href="#">
+                <h6 class="text-primary mb-0">Members</h6>
+            </a>
+        </li>
+        <li class="auto-suggestion d-flex align-items-center cursor-pointer">
+            <a class="d-flex align-items-center justify-content-between py-50 w-100" href="#">
+                <div class="d-flex align-items-center">
+                    <div class="avatar mr-50"><img src="../../dist/app-assets/images/portrait/small/avatar-s-8.jpg" alt="." height="32"></div>
+                    <div class="search-data">
+                        <p class="search-data-title mb-0">John Doe</p><small class="text-muted">UI designer</small>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li class="auto-suggestion d-flex align-items-center cursor-pointer">
+            <a class="d-flex align-items-center justify-content-between py-50 w-100" href="#">
+                <div class="d-flex align-items-center">
+                    <div class="avatar mr-50"><img src="../../dist/app-assets/images/portrait/small/avatar-s-1.jpg" alt="." height="32"></div>
+                    <div class="search-data">
+                        <p class="search-data-title mb-0">Michal Clark</p><small class="text-muted">FontEnd Developer</small>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li class="auto-suggestion d-flex align-items-center cursor-pointer">
+            <a class="d-flex align-items-center justify-content-between py-50 w-100" href="#">
+                <div class="d-flex align-items-center">
+                    <div class="avatar mr-50"><img src="../../dist/app-assets/images/portrait/small/avatar-s-14.jpg" alt="." height="32"></div>
+                    <div class="search-data">
+                        <p class="search-data-title mb-0">Milena Gibson</p><small class="text-muted">Digital Marketing Manager</small>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li class="auto-suggestion d-flex align-items-center cursor-pointer">
+            <a class="d-flex align-items-center justify-content-between py-50 w-100" href="#">
+                <div class="d-flex align-items-center">
+                    <div class="avatar mr-50"><img src="../../dist/app-assets/images/portrait/small/avatar-s-6.jpg" alt="." height="32"></div>
+                    <div class="search-data">
+                        <p class="search-data-title mb-0">Anna Strong</p><small class="text-muted">Web Designer</small>
+                    </div>
+                </div>
+            </a>
+        </li>
+    </ul>
+    <ul class="main-search-list-defaultlist-other-list d-none">
+        <li class="auto-suggestion d-flex align-items-center justify-content-between cursor-pointer">
+            <a class="d-flex align-items-center justify-content-between w-100 py-50">
+                <div class="d-flex justify-content-start"><span class="mr-75 feather icon-alert-circle"></span><span>No results found.</span></div>
+            </a>
+        </li>
+    </ul>
+    <!-- END: Header-->
+    <!-- BEGIN: Main Menu-->
+    <div class="main-menu menu-fixed menu-dark menu-accordion menu-shadow" data-scroll-to-active="true">
+        <div class="navbar-header">
+            <ul class="nav navbar-nav flex-row">
+                <li class="nav-item mr-auto">
+                    <a class="navbar-brand" href="Welcome">
+                        <img id="ImgLogoAcademicaLG" height="27" src="https://academicanet.com/assetss/img/_logo_academica.png" />
+                        <img id="ImgLogoAcademicaSm" height="60" src="../images/prueba.png" style="display: none;" />
+                        @*<div class="brand-logo"></div>*@
+                        <h2 class="brand-text mb-0"></h2>
+                    </a>
+                </li>
+                <li class="nav-item nav-toggle">
+                    <a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse">
+                        <i class="icon-x d-block d-xl-none font-medium-4 toggle-icon feather icon-disc text-white"></i><i class="toggle-icon icon-disc font-medium-4 d-none d-xl-block collapse-toggle-icon text-white feather" data-ticon="icon-disc"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+
+        @if (idRol == 1)
+        {
+            @RenderPage("../Partial/_PartialMenuAdmin.cshtml");
+        }
+        else if (idRol == 4)
+        {
+            @RenderPage("../Partial/_PartialMenuDocente.cshtml");
+        }
+        else if (idRol == 5)
+        {
+            @RenderPage("../Partial/_PartialMenuStudent.cshtml");
+        }
+        else if (idRol == 19)
+        {
+            @RenderPage("../Partial/_PartialMenuStudent.cshtml")
+        }
+
+
+    </div>
+
+    <div class="modal fade" id="Modalsugerencias">
+        <div class="modal-dialog">
+            <div class="modal-content" style="border-radius: 6px;">
+                <div class="modal-header">
+                    <h4 class="modal-title">Enviar comentarios a Académica</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-remove (alias) fa-2x"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="pleaseWaitDiv" style="display: none;">
+                        <div>
+                            <span data-i18n="header.t18">Por favor espere...&nbsp;</span><div></div>
+                        </div>
+                    </div>
+                    <div id="Opcion1Face" style="display:none;">
+                        <h6><span>¿Cómo podemos mejorar?</span></h6>
+                        <textarea id="faceTexto" name="faceTexto" rows="3" placeholder="Add Comment" class="form-control"></textarea>
+                        <br />
+                        <div class="pull-right">
+                            <button type="button" class="btn btn-sm btn-light waves-effect waves-light" onclick="$('#MenuFace').show(); $('#Opcion1Face').hide();">Cancelar</button>
+                            <button type="button" class="btn btn-sm btn-primary waves-effect waves-light" onclick="MensajeRapido();">Enviar</button>
+                        </div>
+
+                    </div>
+                    <div id="Opcion2Face" style="display:none;"></div>
+                    <div id="MenuFace">
+                        <div class="d-flex justify-content-start align-items-center mb-1 dropdown-item" onclick="$('#MenuFace').hide();$('#Opcion1Face').show();" style="cursor:pointer">
+                            <div class="mr-1">
+                                <i class="fa fa-graduation-cap fa-2x"></i>
+                            </div>
+                            <div class="user-page-info">
+                                <p class="mb-0">Ayúdanos a mejorar la nueva versión de Académica</p>
+                                <span class="font-small-2"><span data-i18n="header.t28">Envía comentarios sobre tu nueva experiencia en Académica.</span></span>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-start align-items-center mb-1 dropdown-item" onclick="$('#MenuFace').hide();$('#Opcion1Face').show();" style="cursor:pointer">
+                            <div class="mr-1">
+                                <i class="feather icon-alert-triangle fa-2x"></i>
+                            </div><div class="user-page-info">
+                                <p class="mb-0">Se produjo un error</p>
+                                <span class="font-small-2"><span data-i18n="header.t28">Avísanos si algo no funciona.</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END: Main Menu-->
+    <!-- BEGIN: Content-->
+    <div class="app-content content">
+        <div class="content-overlay"></div>
+        <div class="header-navbar-shadow"></div>
+        <div class="content-wrapper">
+            <a id="volveradmin" onclick="ChangeUserNewVersion(-1,1,0);" style="display: none">
+                <div class="alert alert-info hidden-print col-md-9 col-xs-9" style="background-color:#00bcd4;  vertical-align:middle !important; border-top-right-radius: 50px;border-bottom-right-radius: 50px;border-top-left-radius: 0px;border-bottom-left-radius: 0px; height:100px !important; margin-top:10px" role="alert">
+                    <p class="pull-left" style=" vertical-align:middle !important">
+                    </p><table style="width:100%; margin-top:14px">
+                        <tbody>
+                            <tr>
+                                <td style="width:60px; text-align:center">
+                                    <img src="https://academicanet.com/views/images/unnamed.jpg" alt="logo" style=" border-radius:25px; " width="50" height="50">
+                                </td>
+                                <td style=" text-align:left">
+                                    <font style="color:white; font-size:18px;"><strong data-i18n="header.t86">Estimado Usuario</strong></font>
+                                    <br><font style="color:white; font-size:12px;" data-i18n="header.t87">Para volver a tu perfil presiona aquí</font>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p></p>
+                </div>
+            </a>
+            @RenderBody()
+        </div>
+    </div>
+    <!-- END: Content-->
+
+    <div class="sidenav-overlay"></div>
+    <div class="drag-target"></div>
+
+    <!-- BEGIN: Footer-->
+    <footer class="footer footer-static footer-light">
+        <p class="clearfix blue-grey lighten-2 mb-0">
+            <span class="float-md-left d-block d-md-inline-block mt-25">COPYRIGHT &copy; 2021<a class="text-bold-800 grey darken-2" href="https://academicanet.com/" target="_blank">Plataforma Académica</a></span>
+            <span class="float-md-right d-none d-md-block"><span data-i18n="header.t45">Hecho en Panamá con</span> <i class="feather icon-heart pink"></i></span>
+            <button class="btn btn-primary btn-icon scroll-top" type="button"><i class="feather icon-arrow-up"></i></button>
+        </p>
+    </footer>
+    <!-- END: Footer-->
+    <!-- BEGIN: Page Vendor JS-->
+    <script src="../../dist/js/traducir.js?010"></script>
+    <script src="../../dist/app-assets/vendors/js/charts/apexcharts.min.js"></script>
+    <script src="../../dist/app-assets/vendors/js/extensions/tether.min.js"></script>
+    <script src="../../dist/app-assets/vendors/js/extensions/shepherd.min.js"></script>
+    <!-- END: Page Vendor JS-->
+    <!-- BEGIN: Theme JS-->
+    <script src="../../dist/app-assets/js/core/app-menu.js?0004"></script>
+    <script src="../../dist/app-assets/js/core/app.js?0001"></script>
+    <script src="../../dist/app-assets/js/scripts/components.js"></script>
+    <!-- END: Theme JS-->
+    <div id="DivGenericMsj"></div>
+    @Html.Raw(js)
+    <script>
+
+        var authant = getCookie('AUTHANT')
+        if (authant != undefined && authant.length > 10) {
+            $('#volveradmin').show();
+        }
+    if (@idRol  == 19) {
+        $('#mmp').hide();
+        $('.mmp').hide();
+    }
+    else {
+        $('#mmp').show();
+         $('.mmp').show();
+    }
+
+
+
+        if ((@idEscuela == 52) || (@idEscuela == 33) || (@idEscuela == 34)) {
+        $('.AulaHref').attr('href', 'AgendaVirtual');
+        }
+        $(document).ready(function () {
+            $('#LINotif').click(function () {
+                llenarNotificaciones()
+            })
+            $('#LIMess').click(function () {
+                console.log('click mensajes')
+                llenarMensajes()
+            })
+        })
+
+    var idProfesor = @idUsuario;
+
+    </script>
+    <script>
+        /***************** traido de siteDocente **************************** */
+        var currentPageId = "page-create";
+        var currentSelectorId = "create";
+        //Function for getting the button ids
+        function getButtons() {
+            //List of button ids
+            var list = ["home", "feed", "create", "account"];
+            return list;
+        }
+
+        function changePage() {
+            var currentSelector = document.getElementById(currentSelectorId);
+            var currentPage = document.getElementById(currentPageId);
+            var pageId = "page-" + this.id;
+            var page = document.getElementById(pageId);
+            var pageSelector = document.getElementById(this.id);
+
+            if (page.classList.contains("active")) {
+                return;
+            }
+
+            currentSelector.classList.remove("button-active");
+            currentSelector.classList.add("button-inactive");
+            currentPage.classList.remove("active");
+            currentPage.classList.add("inactive");
+
+            pageSelector.classList.remove("button-inactive");
+            pageSelector.classList.add("button-active");
+
+            page.classList.remove("inactive");
+            page.classList.add("active");
+
+            //Need to reset the scroll
+            window.scrollTo(0, 0);
+
+            currentSelectorId = this.id;
+            currentPageId = pageId;
+        }
+    </script>
+
+</body>
+</html>

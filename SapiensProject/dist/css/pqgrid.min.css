@@ -1,0 +1,901 @@
+﻿/**
+ * ParamQuery Pro
+ * 
+ * Copyright (c) 2012-2019 Paramvir Dhindsa (http://paramquery.com)
+ * Released under Evaluation license
+ * http://paramquery.com/pro/license/evaluate
+ * 
+ */
+.pq-theme input, .pq-theme input[type], .pq-theme label, .pq-theme select, .pq-theme textarea {
+    font-weight: 400;
+    margin-bottom: 0
+}
+
+.pq-theme {
+    overflow: hidden;
+    position: relative;
+    z-index: 0;
+    box-sizing: border-box
+}
+
+div.pq-theme * {
+    box-sizing: inherit
+}
+
+div.pq-theme select {
+    width: auto;
+    height: auto
+}
+
+.pq-theme :focus {
+    outline: none
+}
+
+.pq-resize-iframe {
+    margin: 0;
+    border: 0
+}
+
+.pq-body-outer:focus {
+    outline: none !important;
+    border: none !important
+}
+
+.pq-table > .pq-grid-row > .pq-grid-cell.pq-focus {
+    border: 1px solid #666
+}
+
+.pq-disable-select {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none
+}
+
+.pq-native-select {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    -o-user-select: text;
+    user-select: text
+}
+
+.pq-theme > .pq-grid-top {
+    border-width: 0 0 1px;
+    border-style: solid;
+    margin-top: -1px;
+    position: relative
+}
+
+.pq-slider-icon {
+    position: absolute;
+    z-index: 4;
+    right: 0;
+    top: 0
+}
+
+.pq-grid-title {
+    padding: 4.5px 5px
+}
+
+.pq-group-header {
+    border-top: 1px solid transparent;
+    zoom: 1;
+    padding: 3px 5px;
+    position: relative
+}
+
+.pq-group-menu {
+    position: relative;
+    float: right;
+    border-radius: 3px;
+    white-space: nowrap
+}
+
+.pq-group-header.pq-drop-hover {
+    cursor: copy
+}
+
+.pq-group-placeholder {
+    padding: 4px;
+    color: #777
+}
+
+.pq-group-item {
+    display: inline-block;
+    float: left;
+    white-space: nowrap;
+    border: 1px solid #bfbfbf;
+    padding: 4px 5px;
+    border-radius: 4px;
+    margin-right: 10px;
+    position: relative;
+    cursor: pointer
+}
+
+    .pq-group-item > .ui-icon {
+        margin: -3px
+    }
+
+    .pq-group-item > .pq-group-remove, .pq-group-item > .pq-group-toggle {
+        display: inline-block;
+        border-radius: 5px;
+        margin-left: 3px;
+        border: 1px solid transparent;
+        width: 18px;
+        height: 17px;
+        font-weight: 700
+    }
+
+    .pq-group-item > .pq-group-toggle {
+        margin-left: 0;
+        margin-right: 3px
+    }
+
+.pq-grid .pq-icon-hover, .pq-group-title-cell .pq-group-icon {
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    height: 18px;
+    width: 18px;
+    font-size: 10px;
+    vertical-align: middle
+}
+
+.pq-group-title-cell .pq-group-icon {
+    position: relative;
+    margin: -2px 1px -2px 0
+}
+
+.pq-group-title-cell .pq-tree-icon {
+    position: relative;
+    top: 1px
+}
+
+.pq-toolbar {
+    border-top: 1px solid transparent;
+    padding: 4px 5px;
+    zoom: 1;
+    overflow: hidden;
+    text-align: left
+}
+
+    .pq-toolbar > .pq-separator, .pq-toolbar > button, .pq-toolbar > div, .pq-toolbar > input, .pq-toolbar > label, .pq-toolbar > p, .pq-toolbar > select, .pq-toolbar > span, .pq-toolbar > textarea {
+        margin-left: 5px;
+        margin-right: 5px;
+        vertical-align: middle
+    }
+
+    .pq-toolbar textarea {
+        resize: none
+    }
+
+    .pq-toolbar > label > textarea {
+        vertical-align: middle
+    }
+
+.pq-theme .pq-search-txt {
+    overflow: visible;
+    padding: 1px 4px
+}
+
+.pq-theme input[type=text], .pq-theme select, .pq-theme textarea {
+    border: 1px solid #ccc;
+    padding: 1px 4px;
+    border-radius: 4px
+}
+
+.pq-draggable {
+    cursor: move
+}
+
+.pq-theme > .pq-grid-bottom {
+    border-width: 1px 0 0;
+    top: 1px;
+    overflow: hidden;
+    border-style: solid;
+    border-color: transparent;
+    font-weight: 400 !important;
+    position: relative
+}
+
+.pq-grid-center {
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    margin-bottom: -1px
+}
+
+.pq-header-outer {
+    position: relative;
+    border-top-width: 0 !important;
+    border-left-width: 0 !important;
+    border-right-width: 0 !important;
+    text-align: left
+}
+
+.pq-grid-row:last-child > .pq-grid-col {
+    border-bottom-width: 0
+}
+
+.pq-header-outer .pq-grid-row {
+    background: transparent !important
+}
+
+.pq-grid-header-inner {
+    position: relative
+}
+
+.pq-grid-header-left {
+    overflow: hidden
+}
+
+.pq-grid-norows {
+    position: absolute;
+    left: 0;
+    top: 5px;
+    text-align: center;
+    width: 100%
+}
+
+.pq-col-sort-icon {
+    margin-right: -3px;
+    min-width: 3px;
+    display: inline-block
+}
+
+.pq-space.pq-col-sort-icon {
+    width: 16px
+}
+
+.pq-space.pq-col-sort-count {
+    display: inline-block
+}
+
+.pq-col-sort-count {
+    font-weight: 400;
+    width: 6px;
+    font-size: .8em
+}
+
+.pq-grid-col-resize-handle {
+    cursor: col-resize;
+    width: 10px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    z-index: 2
+}
+
+.pq-grid-drag-bar {
+    position: absolute;
+    width: 1px;
+    z-index: 100;
+    top: 0;
+    background-color: #000
+}
+
+.pq-align-right, .pq-theme .pq-align-right * {
+    text-align: right
+}
+
+.pq-theme .pq-align-center, .pq-theme .pq-align-center * {
+    text-align: center
+}
+
+.pq-grid-cell.pq-group-title-cell * {
+    text-align: left
+}
+
+.pq-grid-cell label {
+    text-indent: 0
+}
+
+div.pq-body-outer {
+    position: relative
+}
+
+div.pq-grid-cont {
+    overflow: hidden;
+    border-top: 0;
+    height: 100%;
+    position: relative
+}
+
+.pq-cont-right {
+    position: relative;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    height: 100%
+}
+
+.pq-header-outer .pq-cont-right, .pq-summary-outer .pq-cont-right {
+    overflow: hidden
+}
+
+.pq-summary-outer {
+    border-top: 1px solid transparent
+}
+
+.pq-cont-left {
+    position: absolute;
+    left: 0;
+    top: 0;
+    overflow: hidden
+}
+
+.pq-body-outer .pq-cont-left {
+    border-right: 1px solid transparent
+}
+
+.pq-cont-lt, .pq-cont-tr {
+    position: absolute;
+    left: 0;
+    top: 0;
+    overflow: hidden;
+    border-bottom: 1px solid transparent
+}
+
+.pq-cont-inner {
+    z-index: 0
+}
+
+.pq-cont-lt {
+    border-right: 1px solid transparent
+}
+
+.pq-table {
+    position: absolute;
+    left: 0;
+    top: 0;
+    overflow: hidden
+}
+
+.pq-table-left, .pq-table-lt {
+    width: 100%
+}
+
+.pq-table-lt, .pq-table-tr {
+    height: 100%
+}
+
+.pq-grid-cell, .pq-grid-col {
+    position: absolute;
+    padding: 2px;
+    padding-bottom: 3px;
+    overflow: hidden
+}
+
+.pq-grid-col, .pq-grid-row > .pq-grid-cell {
+    border: 1px solid transparent
+}
+
+.pq-grid-row:not(:last-child) > .pq-grid-col {
+    border-bottom-color: transparent
+}
+
+.pq-grid-row > .pq-grid-col {
+    border-left-color: transparent
+}
+
+.pq-grid-row:first-child > .pq-grid-col {
+    border-top-color: transparent
+}
+
+.pq-grid-row {
+    position: absolute
+}
+
+.pq-theme .pq-grid-cont .ui-state-hover {
+    font-weight: 400
+}
+
+.pq-grid-header-table input, .pq-grid-header-table select, .pq-grid-header-table textarea, .pq-toolbar input, .pq-toolbar select, .pq-toolbar textarea {
+    color: initial
+}
+
+.pq-grid-header-table .pq-td-div {
+    position: relative;
+    float: left;
+    width: 100%;
+    overflow: hidden
+}
+
+.pq-has-menu > .pq-td-div {
+    width: calc(100% - 20px)
+}
+
+.pq-grid-title-row .pq-td-div:hover {
+    text-decoration: underline;
+    cursor: pointer
+}
+
+.pq-grid-header-search-row > .pq-grid-col > .pq-td-div {
+    display: block
+}
+
+.pq-grid-col {
+    overflow: hidden;
+    font-weight: 400
+}
+
+.pq-grid-header-table > tbody > tr > .pq-grid-col {
+    border-width: 0 1px 1px 0;
+    border-style: solid
+}
+
+.pq-grid-number-col {
+    border-right: 1px solid #cfcfcf;
+    padding: 4px 5px;
+    text-align: right
+}
+
+.pq-theme .pq-col-drag-helper {
+    padding: 1px 5px 4px 3px;
+    box-shadow: 0 4px 8px rgba(0,0,0,.5)
+}
+
+    .pq-theme .pq-col-drag-helper .pq-drag-icon {
+        height: 16px;
+        width: 16px;
+        margin-right: 5px;
+        margin-top: 1px;
+        float: left
+    }
+
+.pq-theme .pq-drop-hover {
+    background-image: url(.)
+}
+
+.pq-cont-inner > .pq-table > .pq-grid-row {
+    border-width: 0;
+    border-bottom: 1px solid transparent
+}
+
+div.pq-theme .pq-cell-dirty {
+    background-image: url(images/square_dirty.gif) !important;
+    background-repeat: no-repeat !important;
+    background-position: 0 0 !important
+}
+
+div.pq-theme .pq-cell-red-tr {
+    background-image: url(images/square-red-tr.gif) !important
+}
+
+div.pq-theme .pq-cell-blue-tr, div.pq-theme .pq-cell-red-tr {
+    background-repeat: no-repeat !important;
+    background-position: 100% 0 !important
+}
+
+div.pq-theme .pq-cell-blue-tr {
+    background-image: url(images/square-blue-tr.gif) !important
+}
+
+.pq-wrap > .pq-grid-row > .pq-grid-cell, .pq-wrap > .pq-grid-row > .pq-grid-col {
+    word-wrap: break-word;
+    white-space: normal
+}
+
+.pq-no-wrap > .pq-grid-row > .pq-grid-cell, .pq-no-wrap > .pq-grid-row > .pq-grid-col > .pq-td-div {
+    word-wrap: normal;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
+}
+
+.pq-merge-cell {
+    z-index: 1;
+    background-color: inherit
+}
+
+.pq-grid-header-search-row .pq-grid-hd-search-field {
+    width: 100%;
+    box-sizing: border-box
+}
+
+.pq-grid-header-search-row .pq-from-div {
+    float: left;
+    padding-right: 3px;
+    width: 50%;
+    box-sizing: border-box
+}
+
+.pq-grid-header-search-row .pq-to-div {
+    float: right;
+    padding-left: 3px;
+    width: 50%;
+    box-sizing: border-box
+}
+
+span.pq-from-to-center {
+    width: 6px;
+    position: absolute;
+    left: 50%;
+    line-height: 20px;
+    margin-left: -3px;
+    text-align: center
+}
+
+div.pq-editor-outer {
+    border: 2px solid #666;
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 0;
+    z-index: 5;
+    display: table;
+    color: #333
+}
+
+div.pq-editor-inner {
+    display: table-cell;
+    vertical-align: middle;
+    width: 100%;
+    height: 100%
+}
+
+    .pq-theme textarea, div.pq-editor-inner > div[contenteditable=true] {
+        overflow: auto
+    }
+
+    div.pq-editor-inner > .pq-cell-editor {
+        padding: 2px 3px;
+        width: 100%
+    }
+
+div.pq-tooltip {
+    padding: 3px 10px
+}
+
+span.pq-tooltip-icon {
+    display: inline-block;
+    position: relative;
+    top: 3px;
+    margin-right: 4px
+}
+
+.pq-grid-row > .pq-grid-number-cell {
+    border-top-width: 0;
+    border-right: 1px solid #d0d0d0;
+    overflow: hidden;
+    font-weight: 400;
+    text-align: right
+}
+
+.pq-body-outer .pq-grid-number-cell, .pq-summary-outer .pq-grid-number-cell {
+    border-bottom: 1px solid transparent;
+    z-index: 3
+}
+
+.pq-loading {
+    display: none
+}
+
+.pq-loading, .pq-loading-bg {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0
+}
+
+.pq-loading-bg {
+    z-index: 10
+}
+
+div.pq-loading-mask {
+    width: 100px;
+    height: 25px;
+    z-index: 6;
+    padding: 5px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -50px;
+    margin-top: -13px;
+    box-sizing: content-box
+}
+
+    div.pq-loading-mask > div {
+        border: 1px solid transparent;
+        padding-top: 0;
+        padding-right: 6px;
+        padding-left: 29px;
+        line-height: 23px;
+        background-image: url(images/loading.gif);
+        background-position: 6px;
+        background-repeat: no-repeat;
+        white-space: nowrap;
+        word-wrap: normal
+    }
+
+.pq-pager {
+    padding: 4px 5px
+}
+
+.pq-grid-summary, .pq-pager {
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid transparent;
+    margin-top: -1px
+}
+
+    .pq-pager > span {
+        vertical-align: middle;
+        position: relative
+    }
+
+.pq-theme span.pq-separator {
+    height: 18px;
+    border-left: 1px solid #ccc;
+    display: inline-block;
+    position: relative;
+    margin: 0 6px
+}
+
+.pq-page-current {
+    height: 20px;
+    width: 35px
+}
+
+.pq-theme button.ui-button-icon-only {
+    width: 22px;
+    margin-right: 5px;
+    padding: .4em 0
+}
+
+.pq-arrow-down, .pq-arrow-up {
+    position: absolute !important;
+    z-index: 200
+}
+
+.pq-theme label {
+    display: inline-block
+}
+
+.pq-theme input[type=checkbox], .pq-theme input[type=radio] {
+    width: 14px;
+    height: 14px;
+    padding: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    vertical-align: middle;
+    position: relative;
+    top: -1px
+}
+
+.pq-theme input[type=checkbox] {
+    margin-right: 4px
+}
+
+.ui-menu .pq-menu-item.ui-menu-item {
+    padding: 0
+}
+
+.ui-state-active.ui-menu-item, .ui-state-focus.ui-menu-item {
+    border: 1px solid transparent
+}
+
+.pq-menu-item > label {
+    padding: 3px 5px;
+    text-indent: 0;
+    width: 100%
+}
+
+.pq-tool-panel {
+    width: 200px;
+    float: right
+}
+
+.pq-pivot-pane {
+    padding: 2px;
+    border: 1px solid #666;
+    border-top: 0;
+    border-right: 0;
+    position: relative
+}
+
+    .pq-pivot-pane:last-child {
+        border-bottom: 0
+    }
+
+.pq-pivot-label {
+    position: absolute;
+    background: inherit;
+    left: 2px;
+    top: 0
+}
+
+    .pq-pivot-label input[type=checkbox] {
+        margin-top: 2px
+    }
+
+.pq-tool-panel[panes="4"] .pq-pivot-pane {
+    height: 20%
+}
+
+.pq-tool-panel[panes="3"] .pq-pivot-pane {
+    height: 25%
+}
+
+.pq-tool-panel .pq-pivot-cols-all.pq-pivot-pane, .pq-tool-panel[panes="2"] .pq-pivot-pane {
+    height: 50%
+}
+
+.pq-tool-panel[panes="4"] .pq-pivot-cols-all.pq-pivot-pane {
+    height: 40%
+}
+
+.pq-tool-panel[panes="1"] .pq-pivot-pane {
+    height: 100%
+}
+
+.pq-pivot-col {
+    margin: 0;
+    padding: 1px 4px;
+    position: relative;
+    cursor: move
+}
+
+.pq-deny-drag {
+    cursor: not-allowed
+}
+
+.pq-pivot-pane .pq-pivot-col {
+    border-width: 1px 0 0;
+    border-style: solid
+}
+
+.pq-pivot-col:last-child {
+    border-bottom-width: 1px
+}
+
+.pq-pivot-pane .pq-sortable {
+    padding-top: 18px;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    overflow: auto;
+    position: absolute;
+    background: #fff
+}
+
+.pq-pivot-rows .pq-icon {
+    height: 14px;
+    width: 12px;
+    margin: 2px 4px;
+    float: left;
+    background: url(images/row-group.png)
+}
+
+.pq-pivot-cols .pq-icon {
+    height: 14px;
+    width: 13px;
+    margin: 2px 4px;
+    float: left;
+    background: url(images/pivot.png)
+}
+
+.pq-pivot-vals .pq-icon {
+    height: 12px;
+    width: 12px;
+    margin: 2px 4px;
+    float: left;
+    background: url(images/sum.png)
+}
+
+.pq-grid-overlay {
+    border-width: 1px;
+    border-style: solid;
+    position: absolute;
+    z-index: 1;
+    pointer-events: none
+}
+
+    .pq-grid-overlay.cell, .pq-head-overlay {
+        border-width: 0
+    }
+
+.pq-number-overlay {
+    border-left-width: 0;
+    border-right-width: 0;
+    z-index: 3
+}
+
+.pq-head-menu {
+    width: 250px
+}
+
+.pq-filter-icon, .pq-menu-icon {
+    height: 12px;
+    position: absolute;
+    top: 5px;
+    right: 4px;
+    opacity: .3
+}
+
+.pq-menu-icon {
+    width: 12px;
+    background: url(images/menu.png)
+}
+
+.pq-col-filtered .pq-menu-icon {
+    opacity: .8;
+    border: 1px solid #000
+}
+
+.pq-filter-icon {
+    width: 14px;
+    background: url(images/filter.png)
+}
+
+.pq-col-filtered .pq-filter-icon {
+    opacity: .8
+}
+
+.pq-tab-visible-icon {
+    display: inline-block;
+    width: 16px;
+    background: url(images/eye.png);
+    background-repeat: no-repeat;
+    background-position: 50%
+}
+
+.pq-tab-filter-icon {
+    display: inline-block;
+    width: 14px;
+    background: url(images/filter.png);
+    background-repeat: no-repeat;
+    background-position: 50%
+}
+
+.pq-filter-icon:hover, .pq-menu-icon:hover {
+    opacity: 1
+}
+
+.pq-popup {
+    position: absolute !important;
+    z-index: 10000;
+    box-sizing: border-box;
+    background: #fff;
+    display: inline-block;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 4px;
+    box-shadow: 1px 4px 10px 0 rgba(50,50,50,.75)
+}
+
+    .pq-popup:after {
+        content: ""
+    }
+
+    .pq-popup * {
+        box-sizing: inherit
+    }
+
+div.pq-popup .ui-tabs-panel {
+    padding: 0
+}
+
+.pq-cmenu > table {
+    border-collapse: collapse
+}
+
+.pq-cmenu-item {
+    background: #fff
+}
+
+    .pq-cmenu-item > td:not([colspan]) {
+        padding: 4px
+    }
+
+    .pq-cmenu-item.pq_disabled {
+        color: #aaa
+    }
+
+    .pq-cmenu-item:hover:not(.pq_disabled) {
+        background: #ddd;
+        cursor: pointer
+    }

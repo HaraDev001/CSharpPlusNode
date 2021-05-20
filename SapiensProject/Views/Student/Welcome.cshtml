@@ -1,0 +1,79 @@
+﻿@using SapiensProject.Controllers
+@using SapiensProject.Models.Entities
+@{ 
+    AccountController account = new AccountController();
+    Usuario usr = account.getCurrentUser();
+    Layout = "~/Views/Shared/SiteStudent2021.cshtml";
+    int idEscuela = account.getCurrentUser().idEscuela; 
+    }
+<style>
+    .xls1:hover {
+        background: #d8e2ef;
+        border-radius: 10px;
+        color: white;
+        transform: scale(1.1);
+        /*#1877f2 azul  #d8d8d8 gris*/
+    }
+
+    .xl2:hover {
+        background: #d8d8d8;
+        border-radius: 10px;
+       
+        /*#1877f2 azul  #d8d8d8 gris*/
+    }
+</style>
+<div class="content-body">
+</div>
+
+<script>
+    $(function () {
+        console.log(@idEscuela)
+        if ((@idEscuela == 52) || (@idEscuela == 33) || (@idEscuela == 34)) {
+            console.log('entro');
+        $('.AulaHref').attr('href', 'AgendaVirtual');
+        }
+        ActiveMenu('Iho');
+    //CargarResumenanuncios();
+    CargarInfo();
+        $('#lblNombre').text($('#lblNombreCompleto').text());
+    });
+    function CargarInfo() {
+        var parameters = { "idUsuario": -1 };
+        jQueryAjaxCallback("../Shared/Utility.aspx/cargarDatosContactoEstudiante", JSON.stringify(parameters), "POST", "json", PostCargarInfo);
+    }
+    function PostCargarInfo(data) {
+        console.log(data)
+        var m = $.parseJSON(data.d);
+        console.log(m)
+        $('#lblNombre').text(m[0].Nombre);
+        $('#lblApellido').text(m[0].Apellido);
+        $('#email').html(m[0].Email_estudiante);
+        $('#especialidad').html(m[0].especialidad);
+    }
+    function CargarResumenanuncios() {
+        var parameters = { "idAnuncio": -1 };
+        jQueryAjaxCallback("../Shared/Utility.aspx/Listaranuncios_SIN_DESC", JSON.stringify(parameters), "POST", "json", PostCargarResumenanuncios);
+    }
+    function PostCargarResumenanuncios(data) {
+        var m = $.parseJSON(data.d);
+        var l = m.length;
+        var c = 0;
+        while (c < l) {
+            var d = m[c].Titulo;
+            var p = d.length;
+            console.log('p '+p)
+            if (p > 23) {
+                d = d.substring(0, 23) + '...'
+                }
+                $('#AnunciosDiv').append('<a style="color:#FF9F43" href="Anuncios">' +
+                    '<blockquote style="font-size: 12px;border: 1px solid;border-radius:10px;" class="xl2 blockquote pl-1 border-left-primary border-left-3">' +
+                    '<span class="mb-0" style="font-size: 12px;font-weight: bold;color:#244187;">' + d + '</span>' +
+                    '<footer class="">' +
+                    '<cite title="' + d +'" style="color:#244187;">' + moment(m[c].FechaRegistro).format('MMM D') + '</cite>' +
+                    '</footer>' +
+                    '</blockquote></a>');
+            c ++;
+        }
+    }
+
+</script>

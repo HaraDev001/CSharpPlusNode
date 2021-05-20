@@ -1,0 +1,491 @@
+﻿
+<style>
+    .read {
+        background-color: #f9fafd;
+    }
+</style>
+<link type="text/css" href="~/dist/app-assets/css/pages/app-email.css?0004" rel="stylesheet" />
+
+@RenderPage("../Partial/_PartialViewEstudiantesEncargado.cshtml")
+
+<div class="content-header row">
+    <div class="content-header-left col-md-9 col-12 mb-2">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h2 class="content-header-title float-left mb-0">
+                    <img class="cursor-pointer" src="../images/ACADEMICA_ICONS.png" alt="." width="30">
+                    <span data-i18n="header.t9"> Classroom</span>
+                </h2>
+                <div class="breadcrumb-wrapper col-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="Welcome"><span data-i18n="inicio">Inicio</span></a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="content-area-wrapper">
+    <div class="sidebar-left">
+        <div class="sidebar">
+            <div class="sidebar-content email-app-sidebar d-flex">
+                <span class="sidebar-close-icon">
+                    <i class="feather icon-x"></i>
+                </span>
+                <div class="email-app-menu" style="overflow: auto; max-height: calc(100vh - 150px);">
+                    <h3 class="primary p-1 mb-0 text-center add-task" data-i18n="header.t9">Classroom</h3>
+                    <div class="sidebar-menu-list">
+                        <h5 class="mb-1" data-i18n="header.t38">Períodos</h5>
+                        <div class="list-group list-group-filters font-medium-1" id="UlPeriodo">
+                        </div>
+                        <hr>
+                        <div id="DivGrupo">
+                            <h5 class="mt-2 mb-1 pt-25">Clases</h5>
+                            <div class="list-group list-group-filters font-medium-1" id="UlGrupo">
+                            </div>
+                            <hr>
+                        </div>
+                        <h5 class="mt-2 mb-1 pt-25" id="div_materias" style="display:none;" data-i18n="header.t59">Materias</h5>
+                        <div class="list-group list-group-labels font-medium-1" id="UlMateria">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content-right">
+        <div class="content-wrapper">
+            <div class="content-header row">
+            </div>
+            <div class="content-body">
+                <div class="app-content-overlay"></div>
+                <div class="email-app-area">
+                    <!-- Email list Area -->
+                    <div class="email-app-list-wrapper">
+                        <div class="email-app-list">
+                            <div class="app-fixed-search">
+                                <div class="sidebar-toggle d-block d-lg-none"><i class="feather icon-menu"></i></div>
+                                <fieldset class="form-group position-relative has-icon-left m-0">
+                                    <input type="text" class="form-control SearchM" id="email-search" placeholder="buscar..">
+                                    <div class="form-control-position">
+                                        <i class="feather icon-search"></i>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="app-action">
+                                <div class="action-left">
+                                    <div class="vs-checkbox-con selectAll">
+                                        <span id="TituloClase" onclick="$('.app-content .sidebar-left').toggleClass('show');"></span>
+                                    </div>
+                                </div>
+                                <div class="action-right">
+                                    <ul class="list-inline m-0">
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="email-user-list list-group">
+                                <div class="pleaseWaitDiv" style="display: none;">
+                                    <div>
+                                        <span data-i18n="header.t18">Por favor espere...&nbsp;</span><div></div>
+                                    </div>
+                                </div>
+                                <ul class="users-list-wrapper media-list" id="table1" style=" overflow: auto; max-height: calc(100vh - 150px);">
+                                </ul>
+                                <div class="no-results">
+                                    <h5>No hay actividades.</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../dist/app-assets/js/scripts/pages/app-email.js?0003"></script>
+<input type="hidden" id="idSubnivel" />
+<input id="idUsuario" type="hidden" />
+<input type="hidden" id="tp" />
+<input type="hidden" id="idPeriodo" />
+<input type="hidden" id="idAsignatura" />
+<input type="hidden" id="DesactivarUsuarioPorPeriodo" />
+<input type="hidden" id="idTask" />
+<input type="hidden" id="idMetodoPromedio" />
+<input type="hidden" id="idUsuarioBuscador" value="-1" />
+<input type="hidden" id="FlagPrimeroIdPeriodo" value="0" />
+<script src="~/dist/js/ViewTask_New.js?0041"></script>
+<script>
+    function Inicio() {
+        $('#FlagPrimeroIdPeriodo').val('0');
+        var parameters = {};
+        jQueryAjaxCallback("../Shared/Utility.aspx/ValidarUsuarioDesacPer", JSON.stringify(parameters), "POST", "json", PostInicio, false);
+    }
+    function PostInicio(data) {
+        var m = $.parseJSON(data.d);
+        $('#idAsignatura').val(-1);
+        $('#DesactivarUsuarioPorPeriodo').val(m[0].DesactivarUsuarioPorPeriodo);
+        $('#tp').val(QueryStringCustom.tp);
+        if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == true) {
+            if (QueryStringCustom.tp == 1) {
+                $('#idPeriodo').val(-1);
+            }
+            else if (QueryStringCustom.tp == 2) {
+                $('#idPeriodo').val(QueryStringCustom.prd);
+            }
+            //CargarGruposBuscador($('#idPeriodo').val());
+            CallPeriodosBuscador(-1);
+            $('#div_materias').hide();
+            //$('#ddlAsignatura').hide();
+            $('#LblMateriaCrear').hide();
+        }
+        else if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == false) {
+            CargarGruposBuscador(-1);
+            $('#div_materias').show();
+            if (idRolA == 5)
+                $('#DivGrupo').hide();
+        }
+    }    
+    function CargarGruposBuscador(idP) {
+        $('#idPeriodo').val(idP);// esta de mas este codigo
+        var parameters = { "idUsuario": $('#idUsuarioBuscador').val(), "idRol": idRolA, "idPeriodo": $('#idPeriodo').val(), "idSubnivel": -1, "DesactivarPrescolar": 0 };
+        jQueryAjaxCallback("../Shared/Utility.aspx/CargarSubNivelTask", JSON.stringify(parameters), "POST", "json", PostCargarGruposBuscador, false);
+    }
+    function PostCargarGruposBuscador(data) {
+        $('#UlGrupo').empty();
+        var i = 0;
+        var m = $.parseJSON(data.d);
+        var l = m.length;
+        var html = '', texto = '';
+        var style = '';
+        //if ((TipoModulo == 'AULA') && (idRolA != 5)) {
+        //    var programa = document.getElementById('ddlSubnivel');
+        //}
+        while (i < l) {
+            //if ((TipoModulo == 'AULA') && (idRolA != 5)) {
+            //    var optPrograma = document.createElement('option');
+            //    optPrograma.innerHTML = m[i].Nombre;
+            //    optPrograma.value = m[i].idSubnivel;
+            //    programa.appendChild(optPrograma);
+            //}
+            if ($('#FlagPrimeroIdPeriodo').val() == 0) {
+                if ($('#tp').val() == 2) {
+                    if ($('#idSubnivel').val() == m[i].idSubnivel) {
+                        texto = m[i].NombreCorto;
+                        $('#idMetodoPromedio').val(m[i].idMetodoPromedio);
+                    }
+                }
+            }
+            var opcion = 'GRUPO';
+            if (i == 0) {
+                if ($('#tp').val() == 1) {
+                    texto = m[i].NombreCorto;
+                    $('#idSubnivel').val(m[i].idSubnivel);
+                    $('#idMetodoPromedio').val(m[i].idMetodoPromedio);
+                    //style = 'background-color: #e1e3e9;font-weight:bold;'
+                }
+                if (idRolA == 5)
+                    html += '<a data-idMetodoPromedio="' + m[i].idMetodoPromedio + '" style="padding-left: 9px;' + style + '" id="' + m[i].idSubnivel + '" class="dropdown-item active _grup" href="#" onclick="optionSelecionada(this,\'' + opcion + '\');"><i id="i_' + m[i].idSubnivel + '" class="fa fa-check text-blue grup"></i>' + m[i].NombreCorto + '</a>';
+                else
+                    html += '<li><a data-idMetodoPromedio="' + m[i].idMetodoPromedio + '" style="' + style + '" id="' + m[i].idSubnivel + '" class="dropdown-item _grup" href="#" onclick="optionSelecionada(this,\'' + opcion + '\');"><i id="i_' + m[i].idSubnivel + '" class="fa fa-check text-blue grup"></i>' + m[i].NombreCorto + '</a></li>';
+            }
+            else {
+                if (idRolA == 5)
+                    html += '<a  style="padding-left: 9px;" data-idMetodoPromedio="' + m[i].idMetodoPromedio + '" id="' + m[i].idSubnivel + '" class="dropdown-item _grup" href="#" onclick="optionSelecionada(this, \'' + opcion + '\');"><i style="display:none;" id="i_' + m[i].idSubnivel + '" class="fa fa-check text-blue"></i>' + m[i].NombreCorto + '</a>';
+                else
+                    html += '<li><a data-idMetodoPromedio="' + m[i].idMetodoPromedio + '" id="' + m[i].idSubnivel + '" class="dropdown-item _grup" href="#" onclick="optionSelecionada(this, \'' + opcion + '\');"><i style="display:none;" id="i_' + m[i].idSubnivel + '" class="fa fa-check text-blue"></i>' + m[i].NombreCorto + '</a></li>';
+            }
+            ++i;
+        }
+        $('#UlGrupo').append(html);
+        if ($('#tp').val() == 1) {
+            //$('#BtnGrupo').html(texto + ' <i class="fa fa-chevron-down"></i>');
+            $('.grup').removeClass();
+            //$('._grup').css({ 'color': '#777' });
+            //$('#' + $('#idSubnivel').val()).css({ 'color': '#1c82e1' });
+            //$('#' + $('#idSubnivel').val()).html('<i class="fa fa-check text-blue grup"></i> ' + texto)
+            if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == true) {
+                CallOpconesAEjecutar();
+            }
+            else
+                CallPeriodosBuscador($('#idSubnivel').val());
+        }
+        else if ($('#tp').val() == 2) {
+            $('#BtnGrupo').html(texto + ' <i class="fa fa-chevron-down"></i>');
+            $('.grup').removeClass();
+            $('._grup').css({ 'color': '#777' });
+            $('#' + $('#idSubnivel').val()).css({ 'font-weight': 'bold' });
+            $('#' + $('#idSubnivel').val()).css({ 'background-color': '#e1e3e9' });
+            $('#' + $('#idSubnivel').val()).css({ 'color': '#1c82e1' });
+            $('#' + $('#idSubnivel').val()).html('<i class="fa fa-check text-blue grup"></i> ' + texto)
+            CallPeriodosBuscador($('#idSubnivel').val());
+        }
+    }
+    function CallPeriodosBuscador(idS) {
+        if ($('#FlagPrimeroIdPeriodo').val() == 0) {
+            $('#FlagPrimeroIdPeriodo').val('1');
+            parameters = { "idSubnivel": idS, "idUsuario": $('#idUsuarioBuscador').val(), "idRol": idRolA };
+            jQueryAjaxCallback("../Shared/Utility.aspx/ObtenerPeriodoLibretas", JSON.stringify(parameters), "POST", "json", dibujarPeriodosdeEscuela, false);
+        }
+        else {
+            CallOpconesAEjecutar();
+        }
+    }
+    function dibujarPeriodosdeEscuela(data) {
+        $('#UlPeriodo').empty();
+        var i = 0;
+        var m = $.parseJSON(data.d);
+        var l = m.length;
+        var lec = '', html = '', nombreperiodo = '';
+        while (i < l) {
+            var opcion = "PERIODO";
+            if ((ConverterBool(m[i].Activo) == true) && (idRolA == 4)) {
+                lec = true;
+            }
+            else {
+                lec = false;
+            }
+            if ($('#tp').val() == 2) {
+                if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == true) {
+                    if ($('#idPeriodo').val() == m[i].id) {
+                        nombreperiodo = m[i].Nombre;
+                        $('#idPeriodo').val(m[i].id);
+                    }
+                }
+            }
+            if ($('#idPeriodo').val() == -1) {
+                if (m[0].idPeriodoSet > 0) {
+                    if (m[0].idPeriodoSet == m[i].id) {
+                        $('#idPeriodo').val(m[0].idPeriodoSet);
+                        nombreperiodo = m[i].Nombre;
+                    }
+                }
+                else {
+                    $('#idPeriodo').val(m[0].id);
+                    nombreperiodo = m[0].Nombre;
+                }
+            }
+            if (i == 0) {
+                //if (idRolA == 5)
+                    html += '<a id="' + m[i].id + '" class="dropdown-item _per" href="#" data-Activo="' + m[i].Activo + '" data-fechaini="' + m[i].FechaInicio + '" data-fechafin="' + m[i].FechaFin + '" onclick="optionSelecionada(this, \'' + opcion + '\');" style="padding-left: 9px;font-size: 1rem;" > ' +
+                        ' <i id="i_' + m[i].id + '" class="per"></i>' + m[i].Nombre + '</a>'
+                //else
+                //    html += '<li><a id="' + m[i].id + '" class="dropdown-item _per" href="#" data-Activo="' + m[i].Activo + '" data-fechaini="' + m[i].FechaInicio + '" data-fechafin="' + m[i].FechaFin + '" onclick="optionSelecionada(this, \'' + opcion + '\');" style = "color: rgb(28, 130, 225);" > ' +
+                //        ' <i id="i_' + m[i].id + '" class="fa fa-check text-blue per"></i>' + m[i].Nombre + '</a></li > ';
+            }
+            else {
+                //if (idRolA == 5)
+                    html += '<a style="padding-left: 9px;font-size: 1rem;" id="' + m[i].id + '" class="dropdown-item _per" href="#"  data-Activo="' + m[i].Activo + '" data-fechaini="' + m[i].FechaInicio + '" data-fechafin="' + m[i].FechaFin + '" onclick="optionSelecionada(this, \'' + opcion + '\');">' +
+                        '<i id="i_' + m[i].id + '" class="per" style="display:none;"  ></i>' + m[i].Nombre + '</a >'
+                //else
+                //    html += '<li><a id="' + m[i].id + '" class="dropdown-item _per" href="#"  data-Activo="' + m[i].Activo + '" data-fechaini="' + m[i].FechaInicio + '" data-fechafin="' + m[i].FechaFin + '" onclick="optionSelecionada(this, \'' + opcion + '\');">' +
+                //        '<i id="i_' + m[i].id + '" class="fa fa-check text-blue per" style="display:none;"  ></i>' + m[i].Nombre + '</a ></li>';
+            }
+            i++;
+        }
+        $('#UlPeriodo').append(html);
+        if ($('#tp').val() == 1) {
+            if (idRolA == 5) {
+                var tr_a = $('#UlPeriodo a');
+                var tr_i = $('#UlPeriodo i');
+                //for (i = 0; i < tr_a.length; i++) {
+                //    $(tr_a[i]).css({ 'color': '#777' });
+                //    $(tr_i[i]).hide();
+                //}
+            }
+            else {
+                var tr_a = $('#UlPeriodo li a');
+                var tr_i = $('#UlPeriodo li i');
+                for (i = 0; i < tr_a.length; i++) {
+                    $(tr_a[i]).css({ 'color': '#777' });
+                    $(tr_i[i]).hide();
+                }
+            }
+            $('#' + $('#idPeriodo').val() + '').addClass('active');
+            //$('#' + $('#idPeriodo').val() + '').css({ 'color': 'rgb(28, 130, 225)' });
+            //$('#' + $('#idPeriodo').val() + '').css({ 'font-weight': 'bold' });
+            //$('#' + $('#idPeriodo').val() + '').css({ 'background-color': '#e1e3e9' });
+            var iid = '#i_' + $('#idPeriodo').val();
+            $(iid).show();
+            $('#lectura').val($('#' + m[0].id).data('activo'));
+            $('#fechainiAtrr').val($('#' + m[0].id).data('activo'));
+            $('#fechafinAtrr').val($('#' + m[0].id).data('activo'));
+            $('#BtnPeriodo').html(nombreperiodo + ' <i class="fa fa-chevron-down"></i>');
+        }
+        else if ($('#tp').val() == 2) {
+            if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == true) {
+                $('#BtnPeriodo').html(nombreperiodo + ' <i class="fa fa-chevron-down"></i>');
+                if ($('#tp').val() == 1)
+                    $('#idPeriodo').val($('#idPeriodo').val());
+                $('#fechainiAtrr').val($('#' + $('#idPeriodo').val()).data('activo'));
+                $('#fechafinAtrr').val($('#' + $('#idPeriodo').val()).data('activo'));
+                $('#lectura').val($('#' + $('#idPeriodo').val()).data('activo'));
+            }
+            else if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == false) {
+                var tr_a = $('#UlPeriodo li a');
+                var tr_i = $('#UlPeriodo li i');
+                for (i = 0; i < tr_a.length; i++) {
+                    $(tr_a[i]).css({ 'color': '#777' });
+                    $(tr_i[i]).hide();
+                }
+                $('#' + $('#idPeriodo').val() + '').css({ 'color': 'rgb(28, 130, 225)' });
+                $('#' + $('#idPeriodo').val() + '').css({ 'font-weight': 'bold' });
+                $('#' + $('#idPeriodo').val() + '').css({ 'background-color': '#e1e3e9' });
+                var iid = '#i_' + $('#idPeriodo').val();
+                $(iid).show();
+                $('#BtnPeriodo').html(nombreperiodo + ' <i class="fa fa-chevron-down"></i>');
+                $('#fechainiAtrr').val($('#' + m[0].id).data('activo'));
+                $('#fechafinAtrr').val($('#' + m[0].id).data('activo'));
+                $('#lectura').val($('#' + $('#idPeriodo').val()).data('activo'));
+            }
+        }
+        $('#tp').val('1');
+        if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == true) {
+            //CallOpconesAEjecutar();
+            CargarGruposBuscador($('#idPeriodo').val());
+        }
+        else if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == false) {
+            CallMateriasBuscador();
+        }
+    }
+    function CallMateriasBuscador() {
+        var parameters = { "idSubnivel": $('#idSubnivel').val(), "idRolA": idRolA };
+        jQueryAjaxCallback("../Shared/Utility.aspx/GrupoObtenerAsignatura", JSON.stringify(parameters), "POST", "json", dibujarAsignaturasdelGrupo, false);
+    }
+    function dibujarAsignaturasdelGrupo(data) {
+        $('#UlMateria').empty();
+        var m = JSON.parse(data.d);
+        var html = '';
+        //if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == false) {
+        //    if ((TipoModulo == 'AULA') && (idRolA != 5)) {
+        //        $('#ddlAsignatura').find('option').remove().end();
+        //        var programa = document.getElementById('ddlAsignatura');
+        //    }
+        //}
+        for (var i = 0; i < m.length; i++) {
+            ///
+            //if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == false) {
+            //    if ((TipoModulo == 'AULA') && (idRolA != 5)) {
+            //        var optPrograma = document.createElement('option');
+            //        optPrograma.innerHTML = m[i].Descripcion;
+            //        optPrograma.value = m[i].id;
+            //        programa.appendChild(optPrograma);
+            //    }
+            //}
+            var opcion = "MATERIA";
+            if (i == 0) {
+                //if (idRolA == 5)
+                    html += '<a style="padding-left: 9px;display: block;width: 220px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;font-size: 1rem;" id="' + m[i].id + '" class="dropdown-item _mat active" href="#" onclick="optionSelecionada(this, \'' + opcion + '\');"><i id="i_' + m[i].id + '" class="mat"></i>' + m[i].Descripcion + '</a>';
+                //else
+                //    html += '<li><a style="color: rgb(28, 130, 225);background-color: #e1e3e9;font-weight:bold;" id="' + m[i].id + '" class="dropdown-item _mat" href="#" onclick="optionSelecionada(this, \'' + opcion + '\');"><i id="i_' + m[i].id + '" class="fa fa-check text-blue mat"></i>' + m[i].Descripcion + '</a></li>';
+            }
+            else {
+                //if (idRolA == 5)
+                    html += '<a id="' + m[i].id + '" style="padding-left: 9px;display: block;width: 220px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;font-size: 1rem;" class="dropdown-item _mat" href="#" onclick="optionSelecionada(this, \'' + opcion + '\');"><i style="display:none; id="i_' + m[i].id + '" class="fa fa-check text-blue"></i>' + m[i].Descripcion + '</a>';
+                //else
+                //    html += '<li><a id="' + m[i].id + '" class="dropdown-item _mat" href="#" onclick="optionSelecionada(this, \'' + opcion + '\');"><i style="display:none;" id="i_' + m[i].id + '" class="fa fa-check text-blue"></i>' + m[i].Descripcion + '</a></li>';
+            }
+        }
+        $('#UlMateria').append(html);
+        $('#BtnMateria').html(m[0].Descripcion + '<i class="fa fa-chevron-down"></i>');
+        $('#idAsignatura').val(m[0].id);
+        CallOpconesAEjecutar();
+    }
+    function optionSelecionada(thisElement, opcion) {
+        $('.sidebar-left').removeClass('show');
+        $('.app-content-overlay').removeClass('show');
+        if (opcion == "PERIODO") {
+            $('#idPeriodo').val(thisElement.id);
+            if ($('#UlPeriodo a').hasClass('active')) {
+                $('#UlPeriodo a').removeClass('active');
+            }
+            $(thisElement).addClass("active");
+            //$('#BtnPeriodo').html($(thisElement).text() + ' <i class="fa fa-chevron-down"></i>');
+            //$('.per').removeClass();
+            //$('._per').css({ 'color': '#777' });
+            //$('._per').css({ 'background-color': '' });
+            //$('._per').css({ 'font-weight': '' });
+            //$('#' + thisElement.id).css({ 'color': '#1c82e1' });
+            //$('#' + thisElement.id).css({ 'background-color': '#e1e3e9' });
+            //$('#' + thisElement.id).css({ 'font-weight': 'bold' });
+            //$('#' + thisElement.id).html('<i class="fa fa-check text-blue per"></i> ' + $(thisElement).text());
+            $('#lectura').val($(thisElement).data('activo'));
+            $('#fechainiAtrr').val($(thisElement).data('fechaini'));
+            $('#fechafinAtrr').val($(thisElement).data('fechafin'));
+            if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == true)
+                CargarGruposBuscador($('#idPeriodo').val());
+            else if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == false)
+                CallOpconesAEjecutar();
+        }
+        else if (opcion == 'MATERIA') {
+            $('#idAsignatura').val(thisElement.id);
+            //if ((TipoModulo == 'AULA') && (idRolA != 5))
+            //    $('#ddlAsignatura').val($('#idAsignatura').val())
+            if ($('#UlMateria a').hasClass('active')) {
+                $('#UlMateria a').removeClass('active');
+            }
+            $(thisElement).addClass("active");
+            CallOpconesAEjecutar();
+            //$('#BtnMateria').html($(thisElement).text() + '<i class="fa fa-chevron-down"></i>');
+            //$('.mat').removeClass();
+            //$('._mat').css({ 'color': '#777' });
+            //$('._mat').css({ 'background-color': '' });
+            //$('._mat').css({ 'font-weight': '' });
+            //$('#' + thisElement.id).css({ 'color': '#1c82e1' });
+            //$('#' + thisElement.id).css({ 'background-color': '#e1e3e9' });
+            // $('#' + thisElement.id).css({ 'font-weight': 'bold' });
+            // $('#' + thisElement.id).html('<i class="fa fa-check text-blue mat"></i> ' + $(thisElement).text());
+
+        }
+        else if (opcion == 'GRUPO') {
+            $('#idSubnivel').val(thisElement.id);
+            //$('#BtnGrupo').html($(thisElement).text() + ' <i class="fa fa-chevron-down"></i>');
+            //$('.grup').removeClass();
+            //$('._grup').css({ 'color': '#777' });
+            //$('._grup').css({ 'font-weight': '' });
+            //$('._grup').css({ 'background-color': '' });
+            //$('#' + thisElement.id).css({ 'color': '#1c82e1' });
+            //$('#' + thisElement.id).css({ 'background-color': '#e1e3e9' });
+            //$('#' + thisElement.id).css({ 'font-weight': 'bold' });
+            //$('#' + thisElement.id).html('<i class="fa fa-check text-blue grup"></i> ' + $(thisElement).text());
+            if ($('#UlGrupo a').hasClass('active')) {
+                $('#UlGrupo a').removeClass('active');
+            }
+            $(thisElement).addClass("active");
+            $('#idMetodoPromedio').val($(thisElement).data('idmetodopromedio'));
+            if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == true) {
+                CallOpconesAEjecutar();
+            }
+            else if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == false) {
+                CallMateriasBuscador();
+                //if ((TipoModulo == 'AULA') && (idRolA != 5))
+                //    $('#ddlSubnivel').val($('#idSubnivel').val());
+            }
+        }
+    }
+    function CallOpconesAEjecutar() {
+        BlogAdmin();
+    }
+    function BlogAdmin() {
+        var idSubnivel = $('#idSubnivel').val();
+        if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == true)
+            var idAsignatura = $('#BuscSubnivel option:selected').attr('idAsignatura');
+        else
+            var idAsignatura = $('#idAsignatura').val();
+        var idAsignatura = $('#idAsignatura').val();
+        $('#idSubnivel').val(idSubnivel);
+        $('#idAsignatura').val(idAsignatura);
+        CargarTask(idAsignatura);
+    }
+    function CargarTask(idAsignatura) {
+        $('#table1').empty();
+        $('#TituloClase').html($('#' + $('#idSubnivel').val()).text()+' - '+$('#' + idAsignatura).text());
+        var parameters = {
+            "idSubnivel": $('#idSubnivel').val(), "idAsignatura": idAsignatura, "idPeriodo": $('#idPeriodo').val(),
+            "Estatus": 1, "idTask": -1, "idOpcion": 1, "idUsuario": $('#idUsuario').val(), "idRol": idRolA
+        };
+        console.log(parameters)
+        jQueryAjaxCallback_new("../Shared/Utility.aspx/iCargarTask", JSON.stringify(parameters), "POST", "json", CargarBlog);
+    }
+</script>

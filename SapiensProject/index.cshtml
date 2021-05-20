@@ -1,0 +1,163 @@
+﻿@using SapiensProject.Controllers
+@using System.Web.Script.Serialization;
+@using System.Web.UI;
+@using System.IdentityModel.Tokens.Jwt;
+@using Microsoft.IdentityModel.Tokens;
+@using System.Security.Claims;
+@{
+    string div = string.Empty;
+    string encTicket = "";
+    if (IsPost)
+    {
+        string txtUserName = Request.Form["txtUserName"];
+        string txtPassword = Request.Form["txtPassword"];
+        string player_id = Request.Form["player_id"];
+        double time = 20000;
+        if ((txtUserName.Trim() != "") && (txtPassword.Trim() != ""))
+        {
+            div = "";
+            AccountController account = new AccountController();
+            if (account.esUsuarioValido(txtUserName.Trim(), txtPassword.Trim(), player_id.Trim()))
+            {
+                JavaScriptSerializer jss = new JavaScriptSerializer();
+                string userData = jss.Serialize(account.currentUser);
+                if (txtUserName.Trim() == "demo451")
+                {
+                    time = 20000;
+                }
+
+                FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, account.currentUser.NombreUsuario, DateTime.Now, DateTime.Now.AddMinutes(time), true, userData, FormsAuthentication.FormsCookiePath);
+                encTicket = FormsAuthentication.Encrypt(ticket);
+                HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
+                //cookie.Expires = DateTime.Now.AddMinutes(480);
+                Response.Cookies.Add(cookie);
+                HttpCookie cookieAdmin = new HttpCookie(SapiensProject.Views.Shared.Utility.AUTH_ANT, "");      //elimino cookie admin para evitar confusion
+                cookieAdmin.Expires = DateTime.Now.AddDays(-1);
+                HttpContext.Current.Response.Cookies.Add(cookieAdmin);
+                // Here have to add token header
+
+                
+                
+                //**/
+
+                // --------------------------------------
+                string rutaModulo = account.currentUser.RutaModulo;
+                if (account.currentUser.idEscuela == 43)
+                {
+                    if (account.currentUser.idRol == 5)
+                    {
+                        rutaModulo = "/Views/Student/Anuncios";
+                    }
+                }
+
+                Response.Redirect(rutaModulo);
+            }
+            else
+            {
+                div = "<aside class='alert alert-warning' id='dvMensaje'><strong> Atencion — </strong><span> El Usuario o Contraseña es incorrecto, favor de revisar.</span></ aside>";
+                SapiensProject.Models.Utility.WriteErrorLog("Intento de Usuario Invalido:  Usuario: " + txtUserName.Trim() + ", Contrasena: " + txtPassword.Trim());
+
+            }
+        }
+        else
+        {
+            div = "<aside class='alert alert-warning' id='dvMensaje'><strong> Atencion — </strong><span> El Usuario o Contraseña es incorrecto, favor de revisar.</span></ aside>";
+            SapiensProject.Models.Utility.WriteErrorLog("Intento de Usuario Invalido:  Usuario: " + txtUserName.Trim() + ", Contrasena: " + txtPassword.Trim());
+        }
+    }
+}
+
+<!doctype html>
+<html lang="es">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta property="og:image:alt" content="Software Académico, administrativo y de educación virtual" />
+    <!-- CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assetss/css/pace.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.1.0/css/all.css" rel="stylesheet">
+    <link href="assetss/themify-icons/themify-icons.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.7.9/metisMenu.min.css" rel="stylesheet">
+    @*<link href="assetss/css/github.min.css" rel="stylesheet">*@
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" rel="stylesheet">
+    <link href="assetss/css/style.css" rel="stylesheet">
+    <title>SISTEMA DE NOTAS</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <script>
+        localStorage.removeItem("token")
+    </script>
+</head>
+<body>
+    <div class="loader">
+        <!-- /.End of Navbar -->
+        <div class="minimal-header header-bg" style="padding: 40px 0 200px;">
+            <div class="container">
+                <div class="header-content">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-12 order-lg-first">
+                            <div style="padding: 30px 40px 30px 40px;border-radius: 10px;background:#fff;box-shadow: 0 16px 37px -22px rgba(2,2,2,0.32);box-shadow: 0 3px 14px -1px rgba(0,0,0,0.2);width: 100%;margin: 0 auto;margin-top: 40px;">
+                                <h2 style="color:#273c56;"> Inicia sesión. </h2>
+                                <a href="~/Views/public/index.cshtml" class="nav-link">
+                                    nodejs public page
+                                </a>
+                                <form method="post" class="contact__form">
+                                    <div class="form-group input-icon">
+                                        <span class="ti-user form-control-feedback"></span>
+                                        <input style="background-color: #fff;" name="txtUserName" maxlength="22" autofocus="autofocus" id="txtUserName" type="text" class="form-control" placeholder="Usuario">
+                                        <input type="hidden" id="txtFecha" name="txtFecha" />
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <input style="height: 46px;" maxlength="20" autocomplete="foo" class="form-control" type="password" name="txtPassword" id="txtPassword" placeholder="Contraseña">
+                                        <input type="hidden" id="player_id" name="player_id" value="-1" />
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">
+                                                <a class="link" id="linkTxtPwdNueva" href="#" onclick="mostrarPwd('txtPassword', 'linkTxtPwdNueva');"> Mostrar</a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div id="dvMensaje">@Html.Raw(div)</div>
+                                    <button type="submit" class="btn btn-primary btn-outline-primary btn-block">Ingresar</button>
+                                    @*<p style="color:red">En el dia de hoy Académica estará fuera de servicio desde las 6:00 p.m. hasta las 6:00 a.m. por motivos de mantenimiento.  Gracias por su Comprensión.</strong></p>*@
+                                </form>
+                            </div>
+                        </div>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="assetss/js/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+    <script src="assetss/js/jquery.easing.min.js"></script>
+    <script src="assetss/js/jquery.dd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.7.9/metisMenu.min.js"></script>
+    <script src="assetss/js/ResizeSensor.min.js"></script>
+    <script src="assetss/js/theia-sticky-sidebar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="assetss/js/script.js"></script>
+    <script src="../../dist/js/ajax-custom_11.js?00051"></script>
+    <script>
+        function mostrarMensajeError() { document.getElementById("dvMensaje").style.display = "block"; }
+        function mostrarPwd(txt, link) { var txtNombre = '#' + txt; $('#linkTxtPwdNueva').html('No Mostrar'); $('#linkTxtPwdNuevaRepet').html('No Mostrar'); $(txtNombre).prop("type", "text"); $('#' + link).attr('onclick', 'noMostrarPwd(\'' + txt + '\',\'' + link + '\');'); $('#' + link + ' i').attr('class', 'fa fa-eye-slash'); return false; }
+        function noMostrarPwd(txt, link) { var txtNombre = '#' + txt; $('#linkTxtPwdNueva').html('Mostrar'); $('#linkTxtPwdNuevaRepet').html('Mostrar'); $(txtNombre).prop("type", "password"); $('#' + link).attr('onclick', 'mostrarPwd(\'' + txt + '\',\'' + link + '\');'); $('#' + link + ' i').attr('class', 'fa fa-eye'); return false; }
+
+
+    </script>
+
+
+</body>
+</html>

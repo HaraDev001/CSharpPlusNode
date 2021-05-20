@@ -1,0 +1,468 @@
+﻿<div class="row">
+    <div class="col-sm-12">
+        <br />
+        <div class="card">
+            <ul class="nav nav-tabs customtab justify-content-center" role="tablist" id="UlTaskTab" style="display:none;">
+                <li class="nav-item" id="TabInst"> <a class="nav-link active" data-toggle="tab" href="#home1" role="tab"><span class="hidden-sm-up"><svg viewBox="0 0 24 24" focusable="false" width="24" height="24" class=" NMm5M hhikbc"><path d="M7 15h7v2H7zm0-4h10v2H7zm0-4h10v2H7z"></path><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-.14 0-.27.01-.4.04a2.008 2.008 0 0 0-1.44 1.19c-.1.23-.16.49-.16.77v14c0 .27.06.54.16.78s.25.45.43.64c.27.27.62.47 1.01.55.13.02.26.03.4.03h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7-.25c.41 0 .75.34.75.75s-.34.75-.75.75-.75-.34-.75-.75.34-.75.75-.75zM19 19H5V5h14v14z"></path></svg>Tarea</span> <span class="hidden-xs-down"><svg viewBox="0 0 24 24" focusable="false" width="24" height="24" class=" NMm5M hhikbc"><path d="M7 15h7v2H7zm0-4h10v2H7zm0-4h10v2H7z"></path><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-.14 0-.27.01-.4.04a2.008 2.008 0 0 0-1.44 1.19c-.1.23-.16.49-.16.77v14c0 .27.06.54.16.78s.25.45.43.64c.27.27.62.47 1.01.55.13.02.26.03.4.03h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7-.25c.41 0 .75.34.75.75s-.34.75-.75.75-.75-.34-.75-.75.34-.75.75-.75zM19 19H5V5h14v14z"></path></svg> Instrucciones</span></a> </li>
+                <li class="nav-item" style="display:none;" id="TabCal"> <a onclick="CallCalificar();" class="nav-link" data-toggle="tab" href="#home4" role="tab"><span class="hidden-sm-up"><svg viewBox="0 0 24 24" focusable="false" width="24" height="24" class="mxmXhf NMm5M hhikbc"><path d="M3 5v14h17V5H3zm4 2v2H5V7h2zm-2 6v-2h2v2H5zm0 2h2v2H5v-2zm13 2H9v-2h9v2zm0-4H9v-2h9v2zm0-4H9V7h9v2z"></path></svg> Notas</span> <span class="hidden-xs-down"><svg viewBox="0 0 24 24" focusable="false" width="24" height="24" class="mxmXhf NMm5M hhikbc"><path d="M3 5v14h17V5H3zm4 2v2H5V7h2zm-2 6v-2h2v2H5zm0 2h2v2H5v-2zm13 2H9v-2h9v2zm0-4H9v-2h9v2zm0-4H9V7h9v2z"></path></svg> Trabajo de los Alumnos</span></a> </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="home1" role="tabpanel">
+                    @RenderPage("../Partial/_PartialDetalleAula.cshtml")
+                </div>
+                <div class="tab-pane" id="home4" role="tabpanel">
+                    <div class="card-header d-flex justify-content-between align-items-start">
+                        <h4 class="card-title w-100" id="toolTipHeader_updatedialog"></h4>
+                        <p class="desc_pmheader"></p>
+                        <div class="pull-right">
+                            <button onclick="SaveNotas();" class="btn btn-sm btn-primary _TdNota" type="button"> Guardar Notas</button>
+                        </div>
+                    </div>
+                    <div class="card-body" style="padding-top: .5rem;">
+                        <p id="toolTipBody_updatedialog"></p>
+                        <div class="form-group">
+                            <div>
+                                <table id="tblNotaEstudiantes" class="table table-striped table-responsive-lg" style="font-size:13px;">
+                                    <thead>
+                                        <tr>
+                                            <td>Alumno</td>
+                                            <td id="TdLabelNota" class="_TdNota">Nota</td>
+                                            <td style="text-align: center;">Tarea entregada</td>
+                                            <td>Fecha Entregado</td>
+                                            <td>Fecha Leído</td>
+                                            <td>Comentarios Privados</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                                <div class="pleaseWaitDiv" style="display: none;">
+                                    <div>
+                                        <span data-i18n="header.t18">Por favor espere...&nbsp;</span><div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalActEst">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="border-radius: 6px;">
+            <div class="modal-header">
+                <div class="user-block">
+                    <img class="rounded" id="ProAlum" src="" alt="User">
+                    <span class="username" id="tarAlum">...</span>
+                    <span class="description"></span>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-remove (alias) fa-2x"></i></button>>
+            </div>
+            <div class="modal-body" style="overflow: auto;max-height: calc(100vh - 150px);">
+                <div class="pleaseWaitDiv" style="display: none;">
+                    <div>
+                        <span data-i18n="header.t18">Por favor espere...&nbsp;</span><div></div>
+                    </div>
+                </div>
+                <table id="tblTakPendingal" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Tareas Virtuales</th>
+                            <th>Fecha Límite</th>
+                            <th>Estatus</th>
+                            <th>Nota</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalAdjuntos">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+        <div class="modal-content" style="border-radius: 6px;">
+            <div class="modal-header">
+                <h4 class="modal-title">Tareas del alumno</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-remove (alias) fa-2x"></i></button>
+            </div>
+            <div class="modal-body" style="overflow: auto; max-height: calc(100vh - 150px);">
+                <input type="hidden" id="idusuarioPrivadoProf" />
+                <div class="pleaseWaitDiv" style="display: none;">
+                    <div>
+                        <span data-i18n="header.t18">Por favor espere...&nbsp;</span><div></div>
+                    </div>
+                </div>
+                <div id="DivAdjuntos">
+                </div>
+
+            </div>
+            <div>
+                <span style="letter-spacing: .01785714em;font-size: .875rem;font-weight: bold;line-height: 1.25rem;color: #3c4043;padding: 1rem !important;"><span></span> Comentarios privados</span>
+                <div id="listaComentariosProf" style="display: none;background-color: rgba(34, 41, 47, 0.03);border-top: 1px solid #DAE1E7;padding-top: 10px;padding-left: 5px;padding-right: 15px;">
+                </div>
+                <div style="border-top: 1px solid #DAE1E7;padding-top: 10px;padding-left: 5px;padding-right: 15px;">
+                    <div class="d-flex justify-content-start align-items-center mb-2">
+                        <div class="avatar mr-50">
+                            <img src="../../dist/img/male.png" class="ImgMyUser" alt="Avatar" width="40" height="40">
+                        </div>
+                        <div class="user-page-info" style="width: 100%;">
+                            <input id="nuevoComentarioProf" maxlength="500" type="text" dsaasd="" onkeypress="function a(){console.log('dfsdf')}" class="form-control input-sm" placeholder="Añade un comentario privado…">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input id="idAgenda" type="hidden" />
+<input id="AplicaPuntos" type="hidden" />
+<input id="PuntosTotales" type="hidden" />
+<script>
+    var currentNotaMinima = -1, currentNotaMaxima = -1;
+    function ComentariosPrivados3(idTask, idUsuario) {
+        $('#idusuarioPrivadoProf').val(idUsuario);
+        GetReadPrivados();
+    }
+    function GetReadPrivados() {
+        var parameters = { "idTask": $('#idTask').val(), "idUsuarioPrivado": $('#idusuarioPrivadoProf').val(), "FechaAccion": GetDate() };
+        jQueryAjaxCallback("../Shared/Utility.aspx/GetcomentariosPrivados", JSON.stringify(parameters), "POST", "json", PostCp3);
+    }
+    function PostCp3(data) {
+        var comentarios = data.d
+        comentarios = JSON.parse(comentarios)
+        var c = 0;
+        $('#listaComentariosProf').show()
+        $('#listaComentariosProf').empty()
+        comentarios.forEach(function (comentario) {
+            if (c > 0)
+                $('#listaComentariosProf').append('<hr>')
+            var foto = $('<div class="avatar mr-50"><img id="ImgMyUserss" width="40" height="40" src="' + comentario.ProfilePhoto + '" alt="Alt"></div>')
+            var box = $('<div></div>')
+            //var foto = $('<img id="ImgMyUserss" class="img-fluid rounded img-sm" src="' + comentario.ProfilePhoto + '" alt="Alt Text">')
+            //var box = $('<div></div>')
+            box.addClass('d-flex justify-content-start align-items-center mb-2')
+            //box.addClass('box-comment')
+            var comentariodiv = $('<div></div>')
+            comentariodiv.addClass('user-page-info')
+            //comentariodiv.addClass('comment-text')
+            var username = $('<h6></h6>')
+            //var username = $('<span></span>')
+            username.addClass('mb-0')
+            //username.addClass('username')
+            username.append(comentario.Nombrecompleto)
+            comentariodiv.append(username)
+            var fecha = $('<div style="font-size: 0.7rem;"></div>')
+            fecha.addClass('ml-auto cursor-pointer')
+            //var fecha = $('<span></span>')
+            //fecha.addClass('text-muted pull-right')
+            var fecharegistro = moment(comentario.FechaRegistro).format("D MMM h:mm a");
+            //var fecharegistro = comentario.FechaRegistro
+            fecha.text(fecharegistro)
+            var com = comentario.Comentario;
+            comentariodiv.append('<span class="font-small-2">' + com + '</span>')
+
+            //username.append(fecha)
+            //comentariodiv.append(comentario.Comentario)
+            box.append(foto)
+            box.append(comentariodiv)
+            box.append(fecha)
+            $('#listaComentariosProf').append(box)
+        })
+    }
+    $('#nuevoComentarioProf').on('keypress', SaveComentario3)
+    function SaveComentario3(e) {
+        if (e.key != "Enter") return
+        var comentario = $.trim($('#nuevoComentarioProf').val());
+        $('#nuevoComentarioProf').val('');
+
+        if (comentario != '') {
+            var parameters = { "idTask": $('#idTask').val(), "idUsuarioPrivado": $('#idusuarioPrivadoProf').val(), "Comentario": comentario, "FechaRegistro": GetDate() };
+            jQueryAjaxCallback("../Shared/Utility.aspx/_InsertComentPrivadosAlumnos", JSON.stringify(parameters), "POST", "json", PostSaveComentario3);
+        }
+    }
+    function PostSaveComentario3(data) {
+        GetReadPrivados();
+        SaveNotas();
+    }
+    function CallCalificar() {
+        $('#tblNotaEstudiantes tbody').empty();
+        var parameters = { "idTask": $('#idTask').val() };
+        jQueryAjaxCallback("../Shared/Utility.aspx/CargarAlumnosTask", JSON.stringify(parameters), "POST", "json", PostCaAL);
+    }
+    function PostCaAL(data) {
+        console.log('entra a la funcion sin datos')
+        $('#tblNotaEstudiantes tbody').empty();
+        var ArrayAlumnos = JSON.parse(data.d);
+        var html = '', tfoot = '';
+        currentNotaMinima = ArrayAlumnos[0].NotaMinima;
+        currentNotaMaxima = ArrayAlumnos[0].NotaMaxima;
+        $('#idMetodoPromedio').val(ArrayAlumnos[0].idMetodoPromedio);
+        $('#AplicaPuntos').val(ArrayAlumnos[0].AplicaPuntos);
+        if (ArrayAlumnos[0].AplicaPuntos== 1)
+        $('#TdLabelNota').text('Puntos');
+        $('#PuntosTotales').val(ArrayAlumnos[0].PuntosTotales);
+        $('#AdDetalleSpan').text(ArrayAlumnos[0].NombreGrupo);
+        for (var i = 0; i < ArrayAlumnos.length; i++) {
+            console.log(ArrayAlumnos[i].Nombre)
+            var tdNota = '';
+            html = '';
+            var icon = '<span style="color:red;">No entregado</span>';
+            var j = i + 1;
+            var tarea = '-';
+            if (ArrayAlumnos[i].ComentPriv > 0)
+                var comentPriv = '<span style="cursor:pointer;" onclick="VerTareas(' + ArrayAlumnos[i].idTask + ',' + ArrayAlumnos[i].idUsuario + ');" class="text-aqua"><svg width="24" height="24" viewBox="0 0 24 24" focusable="false" class=" NMm5M hhikbc" style="width: 16px;height: 16px;"><path d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18zM4 16V4h16v12H4z"></path><path d="M6 12h12v2H6zm0-3h12v2H6zm0-3h12v2H6z"></path></svg> ' + ArrayAlumnos[i].ComentPriv + ' Comentarios Privados </span>';
+            else
+                var comentPriv = '<span style="cursor:pointer;" onclick="VerTareas(' + ArrayAlumnos[i].idTask + ',' + ArrayAlumnos[i].idUsuario + ');" class="text-aqua"><i class="fa fa-pencil text-blue"></i></span>';
+            var FechaEntregado = '-';
+            if (ArrayAlumnos[i].FechaEntregado != '')
+                FechaEntregado = ArrayAlumnos[i].FechaEntregado;
+            if (ArrayAlumnos[i].EsConFechaEntrega == 1) {
+                var Fecha_Entrega = 'Fecha límite de entrega: ' + moment(ArrayAlumnos[i].Fecha_Entrega).format('D MMM');
+            }
+            else if (ArrayAlumnos[i].EsConFechaEntrega == 0) {
+                var Fecha_Entrega = 'Fecha límite de entrega: Sin fecha límite';
+            }
+            var FechaLeido = ArrayAlumnos[i].FechaLeido;
+            if (ArrayAlumnos[i].FechaLeido == '')
+                FechaLeido = '-';
+            if (ArrayAlumnos[i].Entregado == 1) {
+                icon = '<div style="color:blue;"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 15" width="16" height="15"><path fill="currentColor" d="M15.01 3.316l-.478-.372a.365.365 0 0 0-.51.063L8.666 9.879a.32.32 0 0 1-.484.033l-.358-.325a.319.319 0 0 0-.484.032l-.378.483a.418.418 0 0 0 .036.541l1.32 1.266c.143.14.361.125.484-.033l6.272-8.048a.366.366 0 0 0-.064-.512zm-4.1 0l-.478-.372a.365.365 0 0 0-.51.063L4.566 9.879a.32.32 0 0 1-.484.033L1.891 7.769a.366.366 0 0 0-.515.006l-.423.433a.364.364 0 0 0 .006.514l3.258 3.185c.143.14.361.125.484-.033l6.272-8.048a.365.365 0 0 0-.063-.51z"></path></svg>' + FechaEntregado + '</div>';
+                tarea = '<span style="cursor:pointer;" class="text-aqua" onclick="VerTareas(' + ArrayAlumnos[i].idTask + ',' + ArrayAlumnos[i].idUsuario + ');"> Ver Entregados </span>';
+            }
+            if (ArrayAlumnos[0].TipoNota == 'Formativa') {
+                tdNota = '';
+                $('._TdNota').remove();
+            }
+            else {
+                if (ArrayAlumnos[i].idMetodoPromedio == 6) {
+                    if ($('#AplicaPuntos').val() == 1) {
+                        tdNota = '<td><input onkeypress="return onKeyDecimal(event,this);" style="width:100px;" value="' + ArrayAlumnos[i].PuntosObtenidos + '" maxlength="5" id="' + ArrayAlumnos[i].idUsuario + '" type="text" /></td>'
+
+                    }
+                    else
+                    tdNota = '<td><input onkeypress="return onKeyDecimal(event,this);" style="width:100px;" value="' + ArrayAlumnos[i].nota + '" maxlength="5" id="' + ArrayAlumnos[i].idUsuario + '" type="text" /></td>'
+                }
+                else if (ArrayAlumnos[i].idMetodoPromedio != 1) {
+                    tdNota = '<td><input onkeypress="return onKeyDecimal(event,this);" style="width:100px;" value="' + ArrayAlumnos[i].nota + '" maxlength="5" id="' + ArrayAlumnos[i].idUsuario + '" type="text" /></td>'
+
+                }
+                /////
+                else if (ArrayAlumnos[i].idMetodoPromedio == 1) {
+                    if (ArrayAlumnos[i].OptionLetras != undefined) {
+                        var a = ArrayAlumnos[0].OptionLetras;
+                        a = $.parseJSON(a)
+                        var leng_a = a.length;
+                        var cont_a = 0;
+                        var option = '';
+                        while (cont_a < leng_a) {
+                            console.log(a[cont_a]);
+                            option += '<option value="' + a[cont_a].Nomenclatura + '">' + a[cont_a].Nomenclatura + '</option>';
+                            cont_a++;
+                        }
+                        var select = '<select class="form-control select98" id="' + ArrayAlumnos[i].idUsuario + '" style="width:150px;display:block;">' +
+                            '<option value="">--Seleccione--</option>' + option + '</select>';
+                    }
+                    tdNota = '<td>' + select + '</td>';
+                }
+                /////
+            }
+            html += '<tr><td style="cursor:pointer;" onclick="VerActividadesEst(' + ArrayAlumnos[i].idUsuario + ')">'
+                + '<span class="text-aqua" style="font-weight:bold;">' + (i + 1) + '. ' + ArrayAlumnos[i].Apellido + '</span>'
+                + '<p style = "line-height: 0.7;font-size: 11.5px;color: #999;margin-bottom: 0;">' + ArrayAlumnos[i].Nombre + '</p>'
+                + '</td>'
+                + tdNota
+                + '<td style="text-align: center;">' + tarea + '</td>'
+                + '<td>' + icon + '</td>'
+                + '<td>' + FechaLeido + '</td>'
+                + '<td>' + comentPriv + '</td>'
+                + '</tr>';
+            $('#tblNotaEstudiantes tbody').append(html);
+            if (ArrayAlumnos[i].idMetodoPromedio == 1) {
+                $('#' + ArrayAlumnos[i].idUsuario).val(ArrayAlumnos[i].NotaText)
+            }
+        }
+        if (ArrayAlumnos[0].TipoNota != 'Formativa') {
+            var tfoot = '<tr class="_TdNota"><td></td><td><button onclick="SaveNotas();" class="btn btn-sm btn-primary" type="button"> Guardar Notas</button></td>' +
+                '<td></td> <td></td><td></td><td></td>';
+        }
+        $('#tblNotaEstudiantes tbody').append(tfoot);
+        $('#toolTipHeader_updatedialog').text(ArrayAlumnos[0].Actividad);
+        $('.desc_pmheader').text(Fecha_Entrega);
+    }
+    function VerTareas(idTask, idUsuario) {
+        $('#listaComentariosProf').empty();
+        $('#listaComentariosProf').hide();
+        $('#ModalAdjuntos').modal('show');
+        ComentariosPrivados3(idTask, idUsuario);
+        VerAdjuntos(idTask, idUsuario);
+    }
+    function VerAdjuntos(idTask, idUsuario) {
+        $('#DivAdjuntos').empty();
+        var parameters = { "idTask": idTask, "idUsuario": idUsuario };
+        jQueryAjaxCallback("../Shared/Utility.aspx/CargarAdjuntosTaskAlumno", JSON.stringify(parameters), "POST", "json", PostVerTareas);
+    }
+    function PostVerTareas(data) {
+        var m = $.parseJSON(data.d);
+        var counter = 0;
+        var arrayLength = m.length;
+        while (counter < arrayLength) {
+            html = ConstruirAttachCss(m[counter].archivo, 1);
+            $('#DivAdjuntos').append(html + '</br>');
+            counter++;
+        }
+    }
+    function isNumeric(n) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
+    }
+    function IsValid(input, action) {
+        if (action == 'ERROR') {
+            $('#' + input + '').css('background', '#ffe3e5');
+            $('#' + input + '').css('border', '1px solid #ff808a');
+            $('#' + input + '').focus();
+        }
+        else if (action == 'NOTERROR') {
+            $('#' + input + '').css('border', '1px solid #ccc');
+            $('#' + input + '').css('background', '');
+        }
+    }
+    function SaveNotas() {
+        var idmetodopromedio = $('#idMetodoPromedio').val();
+        var exitSubmit = false;
+        var xml = '<notas>';
+        console.log(idmetodopromedio)
+        if (idmetodopromedio == 1) {
+            $('.select98').each(function (i, obj) {
+                console.log($.trim($(this).val()))
+                currentValue = $.trim($(this).val());
+                currentId = this.id;
+                if (currentValue.trim() === '')
+                    preescolarTieneNotaEnBlanco = true;
+                xml += '<estudiante idUsuario="' + this.id + '" nota="0" puntos="0" notaText="' + currentValue + '"/>';
+            });
+        }
+        else if (idmetodopromedio != 1) {
+            var AplicaPuntos = $('#AplicaPuntos').val();
+            var $inputsText = $('#tblNotaEstudiantes' + ' input[type=text]');
+            $inputsText.each(function () {
+                currentValue = autocompletar($.trim($(this).val()), currentNotaMaxima);
+                currentId = this.id;
+                if (currentValue != "") { //ok
+                    if (isNumeric(currentValue)) {//ok
+                        var nota = currentValue;//ok
+                        if (idmetodopromedio == 6) {                            
+                            if (AplicaPuntos == 1) {
+                                var max = parseInt($('#PuntosTotales').val());
+                            }
+                            else {
+                                var max = currentNotaMaxima;
+                            }                           
+                            if (currentValue < 0 || currentValue > max) {
+                                exitSubmit = true;
+                                IsValid(currentId, 'ERROR');
+                                alert('Por favor verifique: La nota mínima es de: ' + 0 + ' y la nota máxima es de: ' + max);
+                                return false;
+                            }
+                            else {
+                                if (AplicaPuntos == 1) {
+                                    nota = notaFromPuntos(currentNotaMinima, currentNotaMaxima, currentValue, max)
+                                }
+                                else {
+                                    nota = currentValue;
+                                }
+                            }
+                        }
+                        else {
+                            if (currentValue < currentNotaMinima || currentValue > currentNotaMaxima) {
+                                exitSubmit = true;
+                                IsValid(currentId, 'ERROR');
+                                alert('Por favor verifique: La nota mínima es de: ' + currentNotaMinima + ' y la nota máxima es de: ' + currentNotaMaxima);
+                                return false;
+                            }
+                        }
+
+                        xml += '<estudiante idUsuario="' + this.id + '" nota="' + nota + '" puntos="' + currentValue + '" notaText=""/>';
+                    }
+            }
+                //if (currentValue != "") {//ok
+                //    if (isNumeric(currentValue)) {///ok
+
+                //        //var nota = currentValue;//ok
+                //        //if (currentValue < currentNotaMinima || currentValue > currentNotaMaxima) {
+                //        //    exitSubmit = true;
+                //        //    IsValid(currentId, 'ERROR');
+                //        //    alert('Por favor verifique: La nota mínima es de: ' + currentNotaMinima + ' y la nota máxima es de: ' + currentNotaMaxima);
+                //        //    return false;
+                //        //}
+                //        //xml += '<estudiante idUsuario="' + currentId + '" puntos="' + currentValue+'" nota="' + currentValue + '" notaText=""/>';
+
+                //    }
+                //    else {
+                //        IsValid(currentId, 'ERROR');
+                //        exitSubmit = true;
+                //        alert('El campo de nota solo acepta números [0-9] y punto decimal [.]');
+                //        return false;
+                //    }
+                //}
+                IsValid(currentId, 'NOTERROR');
+        });
+    }
+    if (exitSubmit) {
+        return false;
+    }
+    xml += '</notas>';
+    var parameters = {
+        "idAsignatura": -1, "idSubnivel": -1, "idPeriodo": -1,
+        "idAgenda": $('#idAgenda').val(),
+        "xmlNotas": xml, "lectura": 1, "FechaAccion": GetDate(), "origen": "CLASSROOM"
+    };
+    console.log('parameters ' + parameters)
+    jQueryAjaxCallback("../Shared/Utility.aspx/actualizarNotas", JSON.stringify(parameters), "POST", "json", PostNota);
+    }
+    function PostNota(data) {
+        console.log(data)
+        Message(1, 'Se ha guardado las notas exitosamente', 'Mensaje Exitoso');
+    }
+    function PostCargarTask(data) {
+        Message(1, 'Se ha creado exitosamente la Actividad', 'Mensaje Exitoso');
+        $('#modalTarea').modal('hide');
+    }
+    function VerActividadesEst(idUsuario) {
+        $('#ModalActEst').modal('show');
+        $('#tblTakPendingal tbody').empty();
+        var parameters = { "idUsuario": idUsuario };
+        jQueryAjaxCallback("../Shared/Utility.aspx/GetActividadesestTask", JSON.stringify(parameters), "POST", "json", PostVerActividadesEst);
+    }
+    function PostVerActividadesEst(data) {
+        var counter = 0;
+        var nota = '', mensaje = '';
+        var m = $.parseJSON(data.d);
+        var arrayLength = m.length;
+        console.log(m[0].NombreCompleto);
+        $('#ProAlum').attr('src', m[0].foto);
+        $('#tarAlum').text(m[0].NombreCompleto);
+        while (counter < arrayLength) {
+            if (m[counter].Nota == -1)
+                nota = '-'
+            else
+                nota = m[counter].Nota;
+            if (m[counter].Estatus == 'No Entregada') {
+                mensaje = '<span class="fa fa-remove (alias) fa-2x" aria-hidden="true" style="padding-top: 1px;zoom: 1.5;color: red;cursor: pointer;"></span>'
+            }
+            else
+                mensaje = '<span class="fa fa-check fa-2x" aria-hidden="true" style="padding-top: 1px;zoom: 1.5;color: #00ac64;cursor: pointer;"></span>';
+            $('#tblTakPendingal tbody').append('<tr><td>'
+                + '<span class="text-aqua" style="font-weight:bold;">' + (counter + 1) + '. ' + m[counter].NombreActividad + '</span>'
+                + '<p style="line-height: 0.7;font-size: 11.5px;color: #999;margin-bottom: 0;">' + m[counter].Grupo + '</p></td>'
+                //'<td>' + (counter + 1) + '. ' + m[counter].NombreActividad + '</td>' +
+                + '<td>' + moment(m[counter].FechaInicioActividad).format('MMMM D') + '</td>' +
+                '<td style="text-align: center;">' + mensaje + '</td>' +
+                '<td>' + nota + '</td>' +
+                //'<td><button class="btn btn-primary" onclick="VerActividades(2, -1,' + m[counter].idUsuario + ');">Ver Actividades</button></td>' +
+                '</tr>')
+            counter++;
+        }
+    }
+</script>

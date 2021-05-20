@@ -1,0 +1,16 @@
+/*
+ ___      _ _                _                _     
+  / __\___ | | | __ _ _ __ ___(_) ___  _ __    (_)___ 
+ / /  / _ \| | |/ _` | '_ \_  / |/ _ \| '_ \   | / __|
+/ /__| (_) | | | (_| | |_) / /| | (_) | | | |_ | \__ \
+\____/\___/|_|_|\__,_| .__/___|_|\___/|_| |_(_)/ |___/
+                     |_|                     |__/     
+
+ Version: 1.0.0
+  Author: channa bandara
+ Website:
+    Repo: http://github.com/channasmcs
+
+ */
+
+a._collapz_parant._close:after,a._collapz_parant._open:after{content:"\E5CD";font-family:'Material Icons';font-size:30px;position:relative;top:16px;font-style:normal;color:#fff}a._collapz_parant{color:#fff;border-radius:50%;width:60px;height:60px;display:inline-block;text-decoration:none;float:right;-webkit-transition:-webkit-transform .1s linear 0s;-moz-transition:-moz-transform .1s linear 0s;transition:transform .1s linear 0s;transform:rotate(44deg)}a._collapz_parant._close{background-color:#e45353}a._collapz_parant._close:after{left:0}a._collapz_parant._open{background-color:#2f353e}ul._child_collapzion{position:absolute;margin:0;list-style:none;padding:1px;top:0;left:0;width:100%;overflow:auto;z-index:10;-webkit-transform:translate3d(0,-100%,0);-moz-transform:translate3d(0,-100%,0);transform:translate3d(0,-100%,0);-webkit-transition:-webkit-transform .3s ease-in-out;-moz-transition:-moz-transform .3s ease-in-out;transition:transform .3s ease-in-out}ul._child_collapzion li a._collapz_child{color:#fff;border-radius:50%;width:53px;height:53px;display:inline-block;background-color:#e45353;margin:6px 14px;text-align:center}ul._child_collapzion li{text-align:right}ul._child_collapzion li a._collapz_child i{margin-top:15px}ul._child_collapzion li span._title{position:relative;left:8px;top:-6px;padding:3px}._col_shadow{box-shadow:0 4px 17px 0 rgba(0,0,0,.14),0 1px 32px 0 rgba(0,0,0,.12),0 2px 9px -1px rgba(0,0,0,.2)}

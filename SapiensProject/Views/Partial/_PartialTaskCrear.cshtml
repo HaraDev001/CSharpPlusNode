@@ -1,0 +1,562 @@
+﻿<link href="https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/skins/square/blue.css" rel="stylesheet" />
+
+<style>
+    .label-container {
+        z-index: 1151 !important;
+        position: fixed;
+        bottom: 48px;
+        right: 105px;
+        display: table;
+        visibility: hidden;
+    }
+
+    .label-text {
+        color: #FFF;
+        background: rgba(51,51,51,0.5);
+        display: table-cell;
+        vertical-align: middle;
+        padding: 10px;
+        border-radius: 3px;
+    }
+
+    .label-arrow {
+        display: table-cell;
+        vertical-align: middle;
+        color: #333;
+        opacity: 0.5;
+    }
+
+    .float {
+        z-index: 1151 !important;
+        position: fixed;
+        width: 60px;
+        height: 60px;
+        bottom: 40px;
+        right: 40px;
+        background-color: #06C;
+        color: #FFF;
+        border-radius: 50px;
+        text-align: center;
+        box-shadow: 2px 2px 3px #999;
+    }
+
+    .my-float {
+        font-size: 24px;
+        margin-top: 18px;
+    }
+
+    a.float + div.label-container {
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s, opacity 0.5s ease;
+    }
+
+    a.float:hover + div.label-container {
+        visibility: visible;
+        opacity: 1;
+    }
+</style>
+<div class="modal fade" id="modalTarea" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+        <div class="modal-content" style="border-radius: 6px;">
+            <div class="modal-header with-border">
+                <h4 class="modal-title">
+                    <span style="margin-top:0;align-items: flex-start;font-size: .875rem;display: flex;min-height: 2.25rem;">
+                        <span style="height: 1.5rem;margin-right: .5rem;padding-top: .375rem;color: #5f6368;font-size: .875rem;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" focusable="false" style="fill: currentColor;color:#1967d2;fill:#1967d2;">
+                                <path d="M7 15h7v2H7zm0-4h10v2H7zm0-4h10v2H7z"></path>
+                                <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-.14 0-.27.01-.4.04a2.008 2.008 0 0 0-1.44 1.19c-.1.23-.16.49-.16.77v14c0 .27.06.54.16.78s.25.45.43.64c.27.27.62.47 1.01.55.13.02.26.03.4.03h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7-.25c.41 0 .75.34.75.75s-.34.75-.75.75-.75-.34-.75-.75.34-.75.75-.75zM19 19H5V5h14v14z"></path>
+                            </svg>
+                        </span>
+                        <span style="line-height: 2.25rem;margin: 0;text-align: left;letter-spacing: .01785714em;font-weight: 500;font-style: normal;color: #1967d2;" id="ModalCrearTaskTit">....</span>
+
+                    </span>
+                </h4>
+                <button type="button" onclick="$('#BtnCrearTask').show();$('#modalTarea').modal('hide');" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-remove (alias) fa-2x"></i></button>
+            </div>
+            <div class="modal-body" style="overflow: auto;max-height: calc(100vh - 150px);">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="pleaseWaitDiv" style="display: none;">
+                            <div>
+                                <span data-i18n="header.t18">Por favor espere...&nbsp;</span><div></div>
+                            </div>
+                        </div>
+
+                        @RenderPage("../Partial/_PartialAgendaContenedor.cshtml")
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" >
+                <div class="box-tools pull-right">
+                    <button id="BtnSaveTask"  onclick="SaveTask();" class="btn btn-primary" type="button"><i class="fa fa-fw fa-save"></i> Guardar Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="delete_dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" style="border-radius: 6px;">
+            <div class="modal-header">
+                <h4 class="modal-title">Eliminar esta Actividad</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-remove (alias) fa-2x"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="pleaseWaitDiv" style="display: none;">
+                    <div>
+                        <span data-i18n="header.t18">Por favor espere...&nbsp;</span><div></div>
+                    </div>
+                </div>
+                <div class="form-horizontal">
+                    <input id="deleteidagenda" type="hidden" />
+                    <div class="form-group">
+                        <p>¿Está seguro de eliminar esta Actividad?</p><p>La eliminación de esta Actividad y las notas relacionadas seran irreversible. Una vez completada la acción no podrá recuperar las notas ni la actividad en el calendario. Para cancelar la acción click en el botón"Cancelar."</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" id="ElmTask">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="fab-container" onclick="FuncionMultiple(1, 'origen');" id="BtnCrearTask">
+    <div class="fab fab-icon-holder" style="background-color: #1967d2;box-shadow: 0 1px 2px 0 rgba(25,103,210,0.3), 0 2px 6px 2px rgba(25,103,210,0.15);border-radius: 48px;min-width: 120px;">
+        <i id="i_crear" class="fa fa-plus">  <span id="spanCrea">&nbsp;Crear</span></i>
+    </div>
+    <ul class="fab-options" style="display:none;">
+        <li style="display:none;">
+            <span class="fab-label"> Cargar Prueba Existente</span>
+            <a href="Forms" onclick="CallListaExamen();">
+                <div class="fab-icon-holder">
+                    <i class="fa fa-plus"></i>
+                </div>
+            </a>
+        </li>
+        <li>
+            <span class="fab-label"> Crear Prueba</span>
+            <a href="forms" class="fab-icon-holder" target="_blank">
+                <i class="fa fa-plus"></i>
+            </a>
+        </li>
+        <li>
+            <span class="fab-label"> &nbsp;Crear Material</span>
+            <div onclick="AbrirListaAlumno(3);" class="fab-icon-holder">
+                <i class="fa fa-plus"></i>
+            </div>
+        </li>
+        <li>
+            <span class="fab-label"> &nbsp;Crear Tarea</span>
+            <div onclick="AbrirListaAlumno(1);" class="fab-icon-holder">
+                <i class="fa fa-plus"></i>
+            </div>
+        </li>
+    </ul>
+</div>
+<style>
+    .fab-container {
+        position: fixed;
+        bottom: 50px;
+        right: 50px;
+        z-index: 999;
+        cursor: pointer;
+    }
+
+    .fab-icon-holder {
+        width: 50px;
+        height: 50px;
+        border-radius: 100%;
+        background: #016fb9;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    }
+
+        .fab-icon-holder:hover {
+            opacity: 0.8;
+        }
+
+        .fab-icon-holder i {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            font-size: 25px;
+            color: #ffffff;
+        }
+
+    .fab {
+        width: 60px;
+        height: 60px;
+        background: #d23f31;
+    }
+
+    .fab-options {
+        list-style-type: none;
+        margin: 0;
+        position: absolute;
+        bottom: 70px;
+        right: 0;
+        opacity: 1;
+        transition: all 0.3s ease;
+        transform: scale(1);
+        transform-origin: 85% bottom;
+    }
+
+
+        .fab-options li {
+            display: flex;
+            justify-content: flex-end;
+            padding: 5px;
+        }
+
+    .fab-label {
+        padding: 2px 5px;
+        align-self: center;
+        user-select: none;
+        white-space: nowrap;
+        border-radius: 3px;
+        font-size: 16px;
+        background: #666666;
+        color: #ffffff;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        margin-right: 10px;
+    }
+</style>
+<input id="_idTask" type="hidden" />
+<input id="_idTipoTask" type="hidden" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/icheck.min.js"></script>
+
+<script>    
+    function ReiniciarPlugins() {
+        console.log('reiniciar');
+    }
+    function ChangeMateria() {
+        $('#idMetodoPromedio').val($('#ddlSubnivel option:selected').attr('idMetodoPromedio'));
+        GetCalificacion();
+        if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == false) {
+            var parameters = { "idSubnivel": $('#ddlSubnivel').val(), "idRolA": idRolA };
+            jQueryAjaxCallback("../Shared/Utility.aspx/GrupoObtenerAsignatura", JSON.stringify(parameters), "POST", "json", PostChangeMateria);
+        }
+    }
+    function PostChangeMateria(data) {
+        var i = 0;
+        var m = $.parseJSON(data.d);
+        var l = m.length;
+        $('#ddlAsignatura').find('option').remove().end();
+        var programa = document.getElementById('ddlAsignatura');
+        while (i < l) {
+            var optPrograma = document.createElement('option');
+            optPrograma.innerHTML = m[i].Descripcion;
+            optPrograma.value = m[i].id;
+            programa.appendChild(optPrograma);
+            ++i;
+        }
+    }
+    function FuncionMultiple(i, tipo) {
+        if (i == 1) {
+            $('.fab-options').show();
+            $('#spanCrea').hide();
+            $('#i_crear').removeClass().addClass('fa fa-close (alias)');
+            $('#BtnCrearTask').attr('onclick', 'FuncionMultiple(0,"secambio1")');
+        }
+        else if (i == 0) {
+            $('.fab-options').hide();
+            $('#spanCrea').show();
+            $('#i_crear').removeClass().addClass('fa fa-plus');
+            $('#BtnCrearTask').attr('onclick', 'FuncionMultiple(1,"secambio0")');
+        }
+    }
+    
+    function ReiniciarPlugins() {
+        console.log('reiniciar');
+    }
+    function ClearAulaVirtual() {
+        $('#fechaIni').show();
+        $('#_2').hide();
+        $('#_1').show();
+        $('#EsConFechaEntrega').val(0);
+        $('#_idTask').val('');
+        ReiniciarPlugins();
+        $('.click2edit').summernote('code', ' ');
+        $('#Tema').val('');
+        $('#fechaIni').val('');
+        $('#fechaAgenda').val('');
+        $('#horaInicioExamen').val('01:00');
+        $('#horaEntregaExamen').val('01:00');
+        LimpiarArchivos();
+        GetCalificacion();
+    }
+    function AbrirListaAlumno(tipo) {
+        ClearAulaVirtual();
+        $('#BtnSaveTask').text('Guardar Cambios');
+        $('#BtnSaveTask').attr('onclick', 'SaveTask()');
+        $('#modalTarea').modal('show');
+        if (tipo == 1) {
+            DeshabilitarOpciones(1);
+            $('#TxtFechaLabel').text('Fecha de entrega de la tarea:');
+            $('#_idTask').val(-1);
+            if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == true)
+                $('#LblPara').html($('#BtnGrupo').text());
+            else if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == false)
+                $('#LblPara').html($('#BtnGrupo').text() + ' ' + $('#BtnMateria').text());
+        }
+        else if (tipo == 2) {
+            DeshabilitarOpciones(2);
+        }
+        else if (tipo == 3) {
+            DeshabilitarOpciones(3);
+        }
+    }
+    function SaveTask() {       
+        var horaEntrega
+        var horaInicio
+
+        horaEntrega = ValidarHora($('#horaEntregaExamen').val());
+        if (horaEntrega == undefined) {
+            Message(2, 'El valor: "' + $('#horaEntregaExamen').val() + '" no es una hora válida. Por favor ingrese una hora de esta forma: "15:30"', 'Corrija');
+            return
+        }
+        horaInicio = ValidarHora($('#horaInicioExamen').val());
+        if (horaInicio == undefined) {
+            Message(2, 'El valor: "' + $('#horaInicioExamen').val() + '" no es una hora válida. Por favor ingrese una hora de esta forma: "15:30"', 'Corrija');
+            return
+        }
+
+
+
+        var DesactivarUsuarioPorPeriodo = $('#DesactivarUsuarioPorPeriodo').val();
+        var descripcion = $('.click2edit').summernote('code');
+        var tema = $.trim($("#Tema").val());
+        if (tema == '') {
+            Message(2, 'Favor de completar los campos vacios obligatorios de Título para poder continuar creando la Tarea. ', 'Corrija');
+            return;
+        }
+        fechaEntrega = ValidarFechaEntrega();   
+        if (fechaEntrega == undefined) {
+            console.log(fechaEntrega)
+            return;
+        }
+        fechaAgenda = ValidarFecha($('#fechaAgenda').val(), 1);
+        if (fechaAgenda == undefined) {
+            console.log(fechaAgenda)
+            return;
+        }
+
+
+        var fechaEntregaTexto = fechaEntrega + ' ' + horaEntrega
+        var fechaAgendaTexto = fechaAgenda + ' ' + horaInicio
+
+
+        var idSubnivel = $('#ddlSubnivel').val();
+        if (ConverterBool(DesactivarUsuarioPorPeriodo) == false)
+            var idAsignatura = $('#ddlAsignatura').val();
+        else if (ConverterBool(DesactivarUsuarioPorPeriodo) == true)
+            var idAsignatura = -1;
+        var TipoNota = GetTipoNota();
+        var SubTipoNota = GetSubTipoNota();
+        $('#BtnCrearTask').show();
+        if ($('#_idTipoTask').val() == 3)
+            TipoNota = 'Formativa';
+
+
+        var parameters = {
+            "Puntos": 100,
+            "FechaRegistro": GetDate(),
+            "tema": tema,
+            "descripcion": descripcion,
+            "DesactivarUsuarioPorPeriodo": DesactivarUsuarioPorPeriodo,
+            "idSubnivel": idSubnivel,
+            "idAsignatura": idAsignatura,
+            "EsConFechaEntrega": $('#EsConFechaEntrega').val(),
+            "FechaAgenda": fechaAgendaTexto,
+            "FechaEntrega": fechaEntregaTexto,
+            "idOpcion": 1,
+            "id": -1,
+            "idPeriodo": $('#idPeriodo').val(),
+            "idTipoTask": $('#_idTipoTask').val(),
+            "TipoNota": TipoNota,
+            "SubTipoNota": SubTipoNota,
+            "PermitirTareaTarde": $('#ddlTareaTarde').val()
+        };
+        console.log(parameters)
+        jQueryAjaxCallback("../Shared/Utility.aspx/SaveTask", JSON.stringify(parameters), "POST", "json", PostGuardarTask);
+    }
+    function EliminarTask(id) {
+        $('#delete_dialog').modal('show');
+        $('#ElmTask').html('<button onclick="EliminarConfTask(' + id + ');" class="btn btn-danger float-right" type="button">Eliminar</button>');
+    }
+    function EliminarConfTask(id) {
+        var parameters = { "id": id };
+        jQueryAjaxCallback("../Shared/Utility.aspx/iEliminarTask", JSON.stringify(parameters), "POST", "json", PostEliminar);
+    }
+    function PostEliminar(data) {
+        Message(1, 'Se ha eliminado exitosamente la Actividad', 'Mensaje Exitoso');
+        $('#delete_dialog').modal('hide');
+        BlogAdmin();
+    }
+    function CallCalificar(idTask) {
+        $('#BtnCrearTask').hide();
+        $('#_idTask').val(idTask);
+        $('#modalAlum').modal('show');
+        $('#tblNotaEstudiantes tbody').empty();
+        var parameters = { "idTask": idTask };
+        jQueryAjaxCallback("../Shared/Utility.aspx/CargarAlumnosTask", JSON.stringify(parameters), "POST", "json", PostCaAL);
+    }
+    function PostCaAL(data) {
+        $('#tblNotaEstudiantes tbody').empty();
+        var ArrayAlumnos = JSON.parse(data.d);
+        var html = '';
+        for (var i = 0; i < ArrayAlumnos.length; i++) {
+            var icon = '<i class="fa fa-close text-red"></i>';
+            var j = i + 1;
+            var Adjunto = 'Sin Subir';
+            var FechaEntregado = 'Sin Fecha';
+            if (ArrayAlumnos[i].FechaEntregado != '')
+                FechaEntregado = ArrayAlumnos[i].FechaEntregado; //moment(ArrayAlumnos[i].FechaEntregado);//.format('lll');
+            var Fecha_Entrega = ArrayAlumnos[i].Fecha_Entrega; //moment(ArrayAlumnos[i].Fecha_Entrega).format('lll');
+            if (ArrayAlumnos[i].Entregado == 1) {
+                icon = '<i class="fa fa-check text-green"></i>';
+                var ruta = 'http://www.academicanet.com/Documents/Attachment/' + ArrayAlumnos[i].Adjunto;
+                Adjunto = '<a target="_blank" class="btn btn-default" href=\'' + ruta + '\' >Ver Archivo</a>';
+            }
+            html += '<tr><td>' + j + '</td>'
+                + '<td><div class="product-img"><img src="../../Documents/ProfilePhotos/' + ArrayAlumnos[i].ProfilePhoto + '" class="img-circle50" alt="" /></div></td>'
+                + '<td>' + ArrayAlumnos[i].NombreCompleto + '</td>'
+                + '<td><input onkeypress="return onKeyDecimal(event,this);" class="form-control" style="width:100px;" value="' + ArrayAlumnos[i].nota + '" maxlength="4" id="' + ArrayAlumnos[i].idUsuario + '" type="text" /></td>'
+                + '<td>' + Adjunto + '</td>'
+                + '<td>' + FechaEntregado + '</td>'
+                + '<td>' + icon + '</td></tr>';
+        }
+        $('#tblNotaEstudiantes tbody').html(html);
+        $('#toolTipHeader_updatedialog').text(ArrayAlumnos[0].Actividad);
+        $('#toolTipBody_updatedialog').text('Fecha de Entrega: ' + Fecha_Entrega);
+    }
+    function CerrarCalAl() {
+        $('#modalAlum').modal('hide');
+        $('#BtnCrearTask').show();
+    }
+    function PostGuardarTask(data) {
+        var d = JSON.parse(data.d)
+        var idAgenda = d[0].idAgenda
+        if (attachments.length == 0) {
+            PostCargarTask(undefined)
+            return
+        }
+        var archivos = JSON.stringify(attachments)
+        var parameters = { "archivos": archivos, "idRelacionado": idAgenda, "funcionalidad": "AGENDA", "idUsuario": -1, "Fecha": GetDate() };
+        jQueryAjaxCallback("../Shared/Utility.aspx/GuardarArchivos", JSON.stringify(parameters), "POST", "json", PostCargarTask);
+    }
+    function PostCargarTask(data) {
+        Message(1, 'Se ha creado exitosamente la Actividad', 'Mensaje Exitoso');
+        $('#modalTarea').modal('hide');
+        BlogAdmin();
+    }
+    function EditarTask(idtask) {
+        $('#BtnSaveTask').attr('onclick', 'SaveEditarTask(' + idtask + ')');
+        $('#BtnSaveTask').text('Guardar Cambios');
+        $('#_idTask').val(idtask);
+        $('#BtnCrearTask').hide();
+        $('#modalTarea').modal('show');
+        ClearAulaVirtual();
+        var parameters = { "idTask": idtask, "Fecha": GetDate(), "idUsuario": -1, "idRolA": idRolA };
+        jQueryAjaxCallback("../Shared/Utility.aspx/ObtenerTaskId", JSON.stringify(parameters), "POST", "json", PostEditarTask);
+    }
+    function PostEditarTask(data) {
+        var m = $.parseJSON(data.d);
+        $('.click2edit').summernote('code', m[0].Descripcion);
+        $("#Tema").val(m[0].Tema);
+        DeshabilitarOpciones(m[0].idTipoTask);
+        var EsConFechaEntrega = m[0].EsConFechaEntrega;
+        if (EsConFechaEntrega == 1) {
+            $('#fechaIni').show();
+            $('#_1').hide();
+            $('#_2').show();
+            $('#EsConFechaEntrega').val(1);
+            //$('#fechaIni').val(m[0].Fecha_Entrega);
+            var e1 = moment(m[0].Fecha_Entrega, 'YYYY-MM-DD');
+            var e2 =e1.format('DD/MM/YYYY');
+            console.log(e2);
+            $('#fechaIni').val(e2)
+            $('#LabelTareaTarde').show();
+            $('#LabelHoraEntrega').show();
+            $('#DivHoraTarde').show();            
+            $('#DivTareaTarde').show();
+            $('#ddlTareaTarde').val(m[0].PermitirTareaTarde);
+            $('#horaEntregaExamen').val(moment(m[0].Fecha_Entrega).format('HH:mm'));
+        }
+        $('#fechaAgenda').val(m[0].Fecha_Agenda);
+        $('#horaInicioExamen').val(moment(m[0].Fecha_Agenda_hora).format('HH:mm'));
+        $('#LblPara').text(m[0].Grupo);
+        $('#idMetodoPromedio').val(m[0].idMetodoPromedio);
+        SetCalificacion(m[0].TipoNota, m[0].SubTipoNota);
+        ///////////////inicio archivo
+        var h = '';
+        if (m[0].arrayArchivo != undefined) {
+            var a = m[0].arrayArchivo;
+            h = ProcesoData(a);
+        }
+        ///////fin comentario
+        $('#attachments').html(h);
+    }
+    function SaveEditarTask(idtask) {
+        var DesactivarUsuarioPorPeriodo = $('#DesactivarUsuarioPorPeriodo').val();
+        var t = $('#Tema').val();
+        var d = $('.click2edit').summernote('code');
+        fechaEntrega = ValidarFechaEntrega();  
+        if (fechaEntrega == undefined) {
+            console.log(fechaEntrega)
+            return;
+        }
+        fechaAgenda = ValidarFecha($('#fechaAgenda').val(), 1);
+        if (fechaAgenda == undefined) {
+            console.log(fechaAgenda)
+            return;
+        }
+        var TipoNota = GetTipoNota();
+        var SubTipoNota = GetSubTipoNota()
+        if (ConverterBool(DesactivarUsuarioPorPeriodo) == false)
+            var idAsignatura = $('#ddlAsignatura').val();
+        else if (ConverterBool(DesactivarUsuarioPorPeriodo) == true)
+            var idAsignatura = -1;
+        if ($('#_idTipoTask').val() == 3)
+            TipoNota = 'Formativa';
+        var horaEntrega = $('#horaEntregaExamen').val()
+        var horaInicio = $('#horaInicioExamen').val()
+        var fechaEntregaTexto = fechaEntrega + ' ' + horaEntrega
+        var fechaAgendaTexto = fechaAgenda + ' ' + horaInicio
+        var parameters = {
+            "idTask": idtask, "tema": t, "descripcion": d, "FechaRegistro": GetDate(),
+            "idSubnivel": $('#ddlSubnivel').val(), "idAsignatura": idAsignatura,
+            "EsConFechaEntrega": $('#EsConFechaEntrega').val(), "FechaAgenda": fechaAgendaTexto, "FechaEntrega": fechaEntregaTexto,
+            "TipoNota": TipoNota, "SubTipoNota": SubTipoNota, "PermitirTareaTarde": $('#ddlTareaTarde').val()
+        };
+        jQueryAjaxCallback("../Shared/Utility.aspx/ActualizarTask", JSON.stringify(parameters), "POST", "json", PostSaveEditarTask);
+    }
+    function PostSaveEditarTask(data) {
+        var d = JSON.parse(data.d)
+        var idAgenda = d[0].idAgenda
+        $('#BtnCrearTask').show();
+        if (attachments.length == 0) {
+            PostCargarTask(undefined)
+            return
+        }
+        var archivos = JSON.stringify(attachments)
+        var parameters = { "archivos": archivos, "idRelacionado": idAgenda, "funcionalidad": "AGENDA", "idUsuario": -1, "Fecha": GetDate() };
+        jQueryAjaxCallback("../Shared/Utility.aspx/GuardarArchivos", JSON.stringify(parameters), "POST", "json", PostCargarTask);
+    }
+    function subirCambiosOpciones() {
+        mostrarAttachments();
+    }
+
+
+    document.addEventListener('paste', function (evt) {
+        clipdata = evt.clipboardData || window.clipboardData;
+        var texto = clipdata.getData('text/plain')
+        if (texto.length > 65000) {
+            evt.preventDefault();
+            Message(2, 'Este texto ha supera el tamaño máximo permitido para esta descripción. Si necesita enviar una información de mayor longitud, por favor adjunte un archivo', 'Texto eliminado');
+        }
+        evt.target.value = ''
+        return false
+    });
+</script>

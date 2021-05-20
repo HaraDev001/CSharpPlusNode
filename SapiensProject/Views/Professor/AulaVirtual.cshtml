@@ -1,0 +1,138 @@
+﻿@using SapiensProject.Controllers
+@using SapiensProject.Models.Entities
+@{
+    Layout = "~/Views/Shared/SiteStudent2021.cshtml";
+    AccountController account = new AccountController();
+    Usuario usr = account.getCurrentUser();
+    int idUsuario = usr.idUsuario;
+    int idEscuela = usr.idEscuela;
+    int idRol = usr.idRol;
+
+}
+<script>
+    var TipoModulo = 'AULA';
+    var idRolA = 4;</script>
+<div class="content-header row">
+    <div class="content-header-left col-md-9 col-12 mb-2">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h2 class="content-header-title float-left mb-0">
+                    <img class="cursor-pointer" src="../images/ACADEMICA_ICONS_AGENDA.png" alt="" width="30"> <span data-i18n="header.t9"> Classroom</span>
+                </h2>
+                <div class="breadcrumb-wrapper col-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="Welcome"><span data-i18n="inicio">Inicio</span></a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="content-body">
+    <div class="router-content">
+        <input id="idUsuario" type="hidden" value="-1" />
+        <script>
+    $(function () {
+        $('#idUsuario').val(-1);
+        ActiveMenu('IaAv',1);
+        Inicio();
+        $('#Toolbar_Aula').show();
+    });
+        </script>
+         
+            <div class="card">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="dropdown pull-right tabdrop open ">
+                            <div class="dropdown">
+                                <button type="button" class="btn btn-box-tool" data-toggle="dropdown" aria-expanded="false">
+                                    <svg viewBox="0 0 24 24" focusable="false" width="24" height="24" class=" NMm5M"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path></svg>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#" class="dropdown-item" onclick="ActivarAyuda(2);"><i class="fa fa-life-buoy (alias)"></i> Ayuda</a></li>
+                                    <li><a class="dropdown-item" href="#!" onclick="AgendasEliminadas(-1, -1, -1, 0);"><i class="fa fa-trash"></i> Ver Agendas Eliminadas</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <ul class="nav nav-tabs customtab" role="tablist">
+                            <li class="nav-item"><a class="nav-link active" data-toggle="tab" id="pill-home-tab" href="#pill-tab-home" role="tab" aria-controls="pill-tab-home" aria-selected="true"><span class="hidden-sm-up"><i class="fa fa-caret-square-o-right"></i> Tareas</span> <span class="hidden-xs-down"><i class="fa fa-caret-square-o-right"></i> Tareas</span></a> </li>
+                            <li class="nav-item"> <a onclick="GetBiblioteca('AGENDA');" class="nav-link" data-toggle="tab" id="pill-profile-file" href="#pill-tab-file" role="tab"><span class="hidden-sm-up"><i class="fa fa-file-text-o"></i> Biblioteca</span> <span class="hidden-xs-down"><i class="fa fa-file-text-o"></i> Biblioteca</span></a> </li>
+                            <li class="nav-item"> <a onclick="VerActividades();" class="nav-link" id="pill-profile-tab" data-toggle="tab" href="#pill-tab-profile" role="tab"><span class="hidden-sm-up"><i class="ion ion-person-stalker"></i> Rep. Docentes</span> <span class="hidden-xs-down"><i class="ion ion-person-stalker"></i> Reporte por docentes</span></a> </li>
+                        </ul>
+                        <div class="tab-content" id="pill-myTabContent">
+                            <div class="tab-pane fade show active" id="pill-tab-home" role="tabpanel" aria-labelledby="home-tab">
+                                @RenderPage("../Partial/_PartialAulaVirtual.cshtml")
+                                @RenderPage("../Partial/_PartialTaskCrear.cshtml")
+                            </div>
+                            <div class="tab-pane fade" id="pill-tab-file" role="tabpanel" aria-labelledby="profile-tab">
+                                @RenderPage("../Partial/_PartialBiblioteca.cshtml")
+                            </div>
+                            <div class="tab-pane fade" id="pill-tab-profile" role="tabpanel" aria-labelledby="profile-tab">
+                                <div class="pleaseWaitDiv" style="display: none;">
+                                    <div>
+                                        <span data-i18n="header.t18">Por favor espere...&nbsp;</span><div></div>
+                                    </div>
+                                </div>
+                                <table id="TblTaskActividad" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Tareas Virtuales</th>
+                                            <th>Clase</th>
+                                            <th>Fecha límite</th>
+                                            <th>Creado el</th>
+                                            <th>Completado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+     
+    </div>
+</div>
+@RenderPage("../Partial/_PartialAyudaModal.cshtml")
+@RenderPage("../Partial/_PartialAgendasEliminadas.cshtml")
+<script>
+    function VerActividades() {
+        $('#TblTaskActividad tbody').empty();
+        var parameters = { "idOpcion": 2, "idSubnivel": -1, "idUsuario": @Html.Raw(idUsuario) };
+        jQueryAjaxCallback("../Shared/Utility.aspx/GetTaskActividades", JSON.stringify(parameters), "POST", "json", PostVerActividades);
+    }
+    function PostVerActividades(data) {
+        var counter = 0, complet = 0, Nocomplet = 0;
+        var m = $.parseJSON(data.d);
+        var arrayLength = m.length;
+        while (counter < arrayLength) {
+            complet = m[counter].Completado;
+            Nocomplet = m[counter].NoCompletado;
+            console.log(m[counter].idTipoTask);
+            if (m[counter].idTipoTask == 2)
+                var url = 'href="Preguntas?y_=' + m[counter].idTask + '"';
+            else
+                var url = 'href="Auladetalle?y_=' + m[counter].idTask + '"';
+            $('#TblTaskActividad tbody').append('<tr>' +
+                '<td style="padding-bottom:0px;">' +
+                '<a target="_blank" ' + url + '><div class="user-block">' +
+                '<div style="color: #fff;cursor: default;flex-shrink: 0;height: 2.5rem;line-height: 0;margin-right:1rem;width: 2.5rem;fill: #fff;background-color: #1e8e3e;display: flex;justify-content: center;align-items: center;border-radius: 50%;width: 40px;height: 40px;float: left;">' +
+                '<svg viewBox="0 0 24 24" focusable="false" width="24" height="24" class=" NMm5M hhikbc"><path d="M7 15h7v2H7zm0-4h10v2H7zm0-4h10v2H7z"></path>' +
+                '<path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-.14 0-.27.01-.4.04a2.008 2.008 0 0 0-1.44 1.19c-.1.23-.16.49-.16.77v14c0 .27.06.54.16.78s.25.45.43.64c.27.27.62.47 1.01.55.13.02.26.03.4.03h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7-.25c.41 0 .75.34.75.75s-.34.75-.75.75-.75-.34-.75-.75.34-.75.75-.75zM19 19H5V5h14v14z"></path></svg></div>' +
+                '<span class="">' +
+                '<span style="letter-spacing: .01785714em;font-size: .875rem;font-weight: 500;line-height: 1.25rem;color:#3c4043;">' + (counter + 1)+'. '+m[counter].Nombre + '</span>' +
+                '</span>' +
+                '<span class="description">' +
+                '<p>' + m[counter].NombreCompleto + '</p></span></div></a>'+
+                '</td> ' +
+                '<td>' + m[counter].Columna + '</td>' +
+                '<td>' + moment(m[counter].f1).format('MMMM D') + '</td>' +
+                '<td>' + moment(m[counter].f2).format('MMMM D, h:mm') + '</td>' +
+                '<td>' + Nocomplet + ' / ' + complet + '</td>' +
+                '</tr>')
+            counter++;
+        }
+    }
+</script>

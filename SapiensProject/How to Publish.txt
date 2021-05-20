@@ -1,0 +1,11 @@
+
+Right-click the project in Solution Explorer and select Publish. ...
+In the Publish dialog, select Azure > Next.
+Select the Azure service.
+Select Advanced. ...
+Select a Resource group and Hosting plan, or create new ones.
+Select Finish.
+In the Publish page:
+
+
+https://docs.microsoft.com/en-us/aspnet/core/tutorials/publish-to-azure-webapp-using-vs?view=aspnetcore-5.0

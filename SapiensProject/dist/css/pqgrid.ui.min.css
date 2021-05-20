@@ -1,0 +1,80 @@
+﻿/**
+ * ParamQuery Pro
+ * 
+ * Copyright (c) 2012-2019 Paramvir Dhindsa (http://paramquery.com)
+ * Released under Evaluation license
+ * http://paramquery.com/pro/license/evaluate
+ * 
+ */
+div.pq-theme * {
+    line-height: normal;
+    font-family: inherit;
+    font-size: inherit
+}
+
+.pq-theme .ui-icon {
+    display: inline-block
+}
+
+.ui-icon.pq-col-sort-icon {
+    vertical-align: bottom
+}
+
+.pq-slider-icon {
+    top: 4px
+}
+
+.pq-grid-header-search-row, .pq-grid-top.ui-widget-header {
+    font-weight: 400
+}
+
+.pq-ui-button.ui-widget-header {
+    background: transparent;
+    border-width: 0;
+    border-radius: 4px;
+    margin: 1px;
+    padding: 0 3px;
+    cursor: pointer;
+    font-size: 16px
+}
+
+.pq-ui-button:focus, .pq-ui-button:hover {
+    border-width: 1px;
+    margin: 0;
+    outline: none
+}
+
+.pq-body-outer .pq-cont-left, .pq-cont-lt, .pq-cont-tr {
+    border-color: #ccc
+}
+
+.pq-grid-cell, .pq-grid-number-cell {
+    padding: 3px
+}
+
+.pq-grid-cell, .pq-grid-row {
+    border-color: #ccc
+}
+
+.pq-td-border-right > .pq-grid-row > .pq-grid-cell {
+    border-right-color: #ccc
+}
+
+.pq-loading-bg {
+    background: #ccc
+}
+
+.pq-grid-bottom select {
+    color: initial
+}
+
+.pq-page-current {
+    color: initial;
+    padding: 0 1px;
+    text-align: center;
+    border-width: 1px
+}
+
+.pq-ui-button.disabled {
+    opacity: .3
+}

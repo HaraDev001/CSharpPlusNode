@@ -1,0 +1,33 @@
+﻿.highlight{background-color:#f9f5c6}.pleaseWaitDiv{width:100%;text-align:center}.pleaseWaitDiv span{color:#004AFF;display:inline-block}
+    .pleaseWaitDiv div div {
+        background-image: url(https://academicanet.com/dist/css/img/ajax-loader.gif);
+        height: 11px;
+        width: 43px;
+        display: inline-block
+    }.subsubsub li{display:inline-block;margin:0;padding:0;white-space:nowrap}.subsubsub{list-style:none;font-size:13px;color:#666;margin-left:15px}a.current{color:#000}.subsubsub a.current{font-weight:600;border:none}.subsubsub a{line-height:2;padding:.2em;text-decoration:none}.btn-white{color:inherit;background:#fff;border:1px solid #e7eaec}.table-bordered{border:1px solid #EBEBEB}.table-bordered>thead>tr>td,.table-bordered>thead>tr>th{background-color:#F5F5F6}.table-bordered>tbody>tr>td,.table-bordered>tbody>tr>th,.table-bordered>tfoot>tr>td,.table-bordered>tfoot>tr>th,.table-bordered>thead>tr>td,.table-bordered>thead>tr>th{border:1px solid #e7e7e7}.logo-mini{height:25px;width:25px}
+    .close_button {
+    background-image: url(https://dziaodg7d4has.cloudfront.net/assets/fancybox_sprite-34a7c426274a072a2fb3c1509b4eec39.png);
+    position: absolute;
+    top: -18px;
+    right: -18px;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    z-index: 8040;
+}.img-circle25{height:25px;
+    width:25px;
+    overflow:hidden;
+    border-radius:50%;}
+ .img-circle50{height:50px;
+    width:50px;
+    overflow:hidden;
+    border-radius:50%;}
+.loading > .fa {
+    color: #000;
+    font-size: 30px;
+    left: 50%;
+    margin-left: -15px;
+    margin-top: -15px;
+    position: absolute;
+    top: 50%;
+}

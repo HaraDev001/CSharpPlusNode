@@ -1,0 +1,303 @@
+﻿@*using Microsoft.Azure.Storage.Blob *@
+@*using SapiensProject.Views.Shared.Utility*@
+@using System.Web.Configuration;
+@using System;
+@using System.Globalization;
+@{
+    string sas = SapiensProject.Views.Shared.Utility.GetSAS();
+    string carpeta = DateTime.Now.ToString("MMMM-yyyy", CultureInfo.InvariantCulture).ToLower();
+}
+<div class="col-sm-12" id="DivFileUpload">
+    <div class="pleaseWaitDiv" style="display: none;">
+        <div>
+            <span data-i18n="header.t18">Por favor espere...&nbsp;</span><div></div>
+        </div>
+    </div>
+    <div id="attachments"></div>
+    <div id="maxuploadsize" class="alert-danger" style="display:none">Por favor, si está subiendo videos, puede subirlos a Youtube, Google Drive. El tamaño máximo de archivo es de 30 MB.</div>
+    <div id="botonfileupload">
+      
+        <div class="btn-group dropdown mr-1 mb-1" style="margin-top: 1rem !important;">
+            <button type="button" class="btn btn-outline-primary dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <svg width="18" height="18" viewBox="0 0 24 24" class="file-attachment-icon">
+                    <path fill="#5c6178" fill-rule="evenodd" stroke="none" stroke-width="1" id="Icon/small/clip" d="M5 8.654a1 1 0 112 0V14a5 5 0 0010 0V7.993a2.993 2.993 0 00-5.985 0v5.978a.998.998 0 001.995 0V8.654a1 1 0 012 0v5.317a2.998 2.998 0 11-5.995 0V7.993a4.993 4.993 0 119.985 0V14a7 7 0 01-14 0V8.654z"></path>
+                </svg>
+                <span data-i18n="header.t111"> Agregar</span>
+            </button>
+            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
+                <a class="dropdown-item" href="#">
+                    <label for="files" class="btn" style="padding-left:0px">
+                        <div class="btn-show-label" >
+                            <svg width="18" height="18" viewBox="0 0 24 24" class="file-attachment-icon">
+                                <path fill="#5c6178" fill-rule="evenodd" stroke="none" stroke-width="1" id="Icon/small/clip" d="M5 8.654a1 1 0 112 0V14a5 5 0 0010 0V7.993a2.993 2.993 0 00-5.985 0v5.978a.998.998 0 001.995 0V8.654a1 1 0 012 0v5.317a2.998 2.998 0 11-5.995 0V7.993a4.993 4.993 0 119.985 0V14a7 7 0 01-14 0V8.654z"></path>
+                            </svg>
+                            <span data-i18n="header.t111"> Archivo</span>
+                        </div>
+                        <input type="file" id="files" name="file" onclick="" style="display: none;">
+                    </label>
+                </a>
+                <a class="dropdown-item" onclick="OpenEnlace();" href="#"><i class="fa fa-link"></i>Enlace</a>
+            </div>
+        </div>
+    </div>
+    <div id="barraprogreso">
+        <div class="progress progress-bar-primary progress-xl">
+            <div class="progress-bar progress-bar-success" id="barProgress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+            </div>
+        </div>
+    </div>   
+</div>
+<div class="modal fade" id="FileDeleteDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content" style="border-radius: 6px;">
+            <div class="modal-header">
+                <h4 class="modal-title"><span>Eliminar Archivo</span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-remove (alias) fa-2x"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="pleaseWaitDiv" style="display: none;">
+                    <div>
+                        <span data-i18n="header.t18">Por favor espere...&nbsp;</span><div></div>
+                    </div>
+                </div>
+                <div class="form-horizontal">
+                    <p>¿Está seguro de eliminar este Archivo?</p>
+                    <p>La eliminación de este Archivo sera irreversible. Una vez completada la acción no podrá recuperar su archivo. Para cancelar la acción click en el botón"Cancelar."</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button onclick="$('#FileDeleteDialog').modal('hide');" class="btn btn-default" type="button">Cancelar</button>
+                <button id="btnFileAluSubir" onclick=";" class="btn btn-danger float-right" type="button">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalEnlace" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+        <div class="modal-content" style="border-radius: 6px;">
+            <div class="modal-header">
+                <h4 class="modal-title"><span>    Añadir Enlace</span></h4>
+                <button type="button" class="close" onclick="$('#ModalEnlace').modal('hide');"><i class="fa fa-remove (alias) fa-2x"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="pleaseWaitDiv" style="display: none;">
+                    <div>
+                        <span data-i18n="header.t18">Por favor espere...&nbsp;</span><div></div>
+                    </div>
+                </div>
+                <div class="form-horizontal">
+                    <input class="form-control" type="text" id="txtEnlace" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button onclick="$('#ModalEnlace').modal('hide');" class="btn btn-default" type="button">Cancelar</button>
+                <button onclick="GuardarEnlace();" class="btn btn-primary float-right" type="button">Añadir Enlace</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../dist/js/azure-storage.blob.js"></script>
+<script>
+    var counter = 0;
+    var attachments = [];
+    var sas = '@Html.Raw(sas)'
+    var url;
+    var tamano;
+    var account = '@WebConfigurationManager.AppSettings["StorageAccount"]'
+    var container = '@carpeta'
+    $('input[type=file]').on('change', blobUploadFile);
+    function blobUploadFile() {
+        blobUpload(container)
+    }
+    function canUpload() {
+        return true
+    }
+
+    function GuardarEnlace() {
+        var url = $('#txtEnlace').val();
+        if (!url.match(/^https?:\/\//i)) {
+            url = 'http://' + url;
+        }
+        if (url.length == 0) {
+            console.log('error')
+            return
+        } 
+        fileUploaded(url, 0);
+        $('#ModalEnlace').modal('hide');
+    }
+    function OpenEnlace() {
+        $('#txtEnlace').val('');
+        $('#ModalEnlace').modal('show');
+    }
+    function getAttachments() {
+        var lista = $('<div></div>')
+        attachments.forEach(function (item) {
+            var html = ConstruirAttachCss(item.url, 1);//verificar
+            lista.append(html)
+        })
+        return lista.html()
+    }
+    function maxSizeArchivo(size) {
+         var limit = 30457280
+        if (size >= limit) {
+            $('#maxuploadsize').show()
+            return true
+        }
+        $('#maxuploadsize').hide()
+        return false
+    }
+    function barraProgressive(porcentaje) {
+        $('.progress-bar').css('width', porcentaje + '%').attr('aria-valuenow', porcentaje).text(porcentaje + '%')
+    }
+    function nombreUnico(nombre) {
+        var fecha = moment().format('YYYYMMDDHHmmss');
+        var partesNombre = nombre.split('.')
+        var size = partesNombre.length
+        for (i = 0; i < size; i++) {
+            partesNombre[i] = partesNombre[i].replace(/\W/g, '')
+        }
+        var nuevoNombre = partesNombre[0]
+        nuevoNombre += '_' + fecha
+        if (size < 2)
+            return nuevoNombre
+        for (i = 1; i < size; i++) {
+            nuevoNombre += '.' + partesNombre[i]
+        }
+        return nuevoNombre
+    }
+    function blobUpload(container) {
+        url = ''
+        tamano=''
+        var blobUri = 'https://' + account + '.blob.core.windows.net';
+        var blobService = AzureStorage.Blob.createBlobServiceWithSas(blobUri, sas);
+        // blob upload
+        var file = document.getElementById('files').files[0];
+        console.log(file.size)
+        if (maxSizeArchivo(file.size)) return
+        var customBlockSize = file.size > 1024 * 1024 * 32 ? 1024 * 1024 * 4 : 1024 * 512;
+        // 5kb = 524288
+        blobService.singleBlobPutThresholdInBytes = customBlockSize;
+        var filename = file.name.substring(0, file.name.lastIndexOf('.'));
+        var ext = file.name.substring(file.name.lastIndexOf('.'));
+        var blobname = nombreUnico(file.name);
+        var finishedOrError;
+        var speedSummary = blobService.createBlockBlobFromBrowserFile(container, blobname, file, { blockSize: customBlockSize }, function (error, result, response) {
+            finishedOrError = true;
+            if (error) {
+                console.log(error)
+            }
+            else {
+                tamano = file.size;
+                url = 'https://' + account + '.blob.core.windows.net/' + container + '/' + blobname
+                blobService.listBlobsSegmentedWithPrefix(container, blobname, null, verificarArchivoSubido)
+            }
+        });
+        speedSummary.on("progress", function (e) {
+            var process = speedSummary.getCompletePercent();
+            barraProgressive(process)
+        })
+    }
+    function verificarArchivoSubido(error, results) {
+        if (!error) {
+            if (results.entries.length > 0)
+                fileUploaded(url, tamano)
+        }
+        else {
+            alert('Se produjo un error al intentar subir el archivo, porfavor intentelo de nuevo.')
+        }
+    }
+    function LimpiarArchivos(accion) {
+        $('#txtEnlace').val('');
+        $('#barraprogreso').html('<div class="progress progress-bar-primary progress-xl"><div class="progress-bar progress-bar-success" id="barProgress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%"></div></div>');
+
+        if (accion == 'delete') {
+            $('input[type=file]').val('')
+            //attachments = [];
+            //$('#attachments').empty();
+       }
+        else {
+             attachments = [];
+            $('#attachments').empty();
+
+        }
+           }
+    function fileUploaded(url,tamano) {
+        attachments.forEach(function (item) {
+            counter++;
+        })
+        if (counter == 0)
+            counter++
+        var item = {};
+        item.id = counter;
+        item.idArchivo = counter;
+        item.url = url;
+        item.flag = -1;
+        item.tamano = tamano;
+        attachments.push(item);
+        subirCambios();
+        subirCambiosOpciones();
+    }
+    function ProcesoData(a) {
+        var h = '';
+        var l = a.length;
+        var c = 0;
+        while (c < l) {
+            var item = {};
+            item.id = c;
+            item.url = a[c].archivo;
+            item.flag = 0;
+            item.idArchivo = a[c].idArchivo;
+            attachments.push(item);
+            h += ConstruirAttachCss(a[c].archivo, 2, c, a[c].idArchivo);
+            c++;
+        }
+        return h;
+    }
+    function subirCambiosOpciones() {
+        mostrarAttachments()
+    }
+    function subirCambios() {
+    }
+    function mostrarAttachments() {
+        var lista = $('<div></div>')
+        attachments.forEach(function (item) {
+            var html = ConstruirAttachCss(item.url,  2, item.id, item.idArchivo);
+            lista.append(html)
+        })
+        $('#attachments').html(lista)
+    }
+    ////pruebas
+    function EliminarAttachment(i, idArchivo) {
+        $('#btnFileAluSubir').attr('onclick', 'EliminarFileAulaEstu(' + i + ', ' + idArchivo+')');
+        $('#FileDeleteDialog').modal('show');
+    }
+    function EliminarFileAulaEstu(i, idArchivo) {
+        $('#' + i).remove();//borra el div
+        var remove_Item = i;
+        attachments = $.grep(attachments, function (value) {
+            return value.id != remove_Item;
+        });
+        $('#FileDeleteDialog').modal('hide');
+        DeleteFileArchivoFileUpload(idArchivo);
+        LimpiarArchivos('delete');
+    }
+    function DeleteFileArchivoFileUpload(idArchivo) {
+        var parameters = { "idArchivo": idArchivo};
+        jQueryAjaxCallback("../Shared/Utility.aspx/DelArchivoAlumno", JSON.stringify(parameters), "POST", "json", PostDeleteFileArchivoFileUpload);
+    }
+    function PostDeleteFileArchivoFileUpload(data) {
+        var m = $.parseJSON(data.d);
+        Message(2, 'Se ha eliminado exitosamente el archivo', 'Mensaje Exitoso');
+        if (m[0].Funcionalidad =='AULA_ALUMNO')
+            ShowEstatus(m[0].cont, NotaAlumno);//variable global desde el partialDetalleAula sobre la nota de un alumno tener cuidado.
+
+    }
+    function guardarArchivo(idRelacionado, funcionalidad, idUsuario, postGuardarArchivo) {
+        if (attachments.length == 0) {
+            postGuardarArchivo(undefined)
+        }
+        var archivos = JSON.stringify(attachments)
+        var parameters = { "archivos": archivos, "idRelacionado": idRelacionado, "funcionalidad": funcionalidad, "idUsuario": idUsuario, "Fecha": GetDate() };
+        jQueryAjaxCallback("../Shared/Utility.aspx/GuardarArchivos", JSON.stringify(parameters), "POST", "json", postGuardarArchivo);
+    }
+</script>

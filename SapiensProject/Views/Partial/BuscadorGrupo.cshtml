@@ -1,0 +1,407 @@
+﻿<div class="" style="">
+    <div class="card-header">
+        <div id="DivOpcionDiu_">
+            <div class="btn-group">
+                <button id="BtnPeriodo" type="button" style="font-weight: 900;" class="btn btn-box-tool primary" data-toggle="dropdown">Periodos..... <i class="fa fa-chevron-down"></i></button>
+                <ul id="UlPeriodo" style="font-size:12px" class="dropdown-menu" role="menu"></ul>
+            </div>
+            <div class="btn-group" style="">
+                <button id="BtnGrupo" style="font-weight: 900;" type="button" class="btn btn-box-tool primary" data-toggle="dropdown">Grupos..... <i class="fa fa-chevron-down"></i></button>
+                <ul id="UlGrupo" style="font-size:12px;max-height: 400px; overflow: auto;" class="dropdown-menu" role="menu"></ul>
+            </div>
+            <div class="btn-group" style="display:none;" id="div_materias">
+                <button style="font-weight: 900;" id="BtnMateria" type="button" class="btn btn-box-tool primary" data-toggle="dropdown">Materias..... <i class="fa fa-chevron-down"></i></button>
+                <ul id="UlMateria" class="dropdown-menu" role="menu"></ul>
+            </div>
+        </div>
+        <div class="content-header-right text-md-right col-md-3 col-12" id="OpcionRightMulti" style="display:none">
+            <div class="form-group breadcrum-right">
+                <div class="dropdown">
+                    <button class="btn-icon btn btn-primary btn-round btn-sm dropdown-toggle waves-effect waves-light" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-settings"></i></button>
+                    <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; transform: translate3d(124px, 36px, 0px); top: 0px; left: 0px; will-change: transform;">
+                        <a href="#" class="dropdown-item" onclick="mostrarVentanaAgregarNvaNota();"><i class="fa fa-plus"></i>  Agregue nueva Calificación</a>
+                        <a id="opc_2" href="#" class="dropdown-item" onclick="mostrarubro();"><i class="fa fa-th"></i>  Rúbricas</a>
+                        <a href="#" class="dropdown-item" onclick="notificar();"><i class="fa fa-bell"></i>  Notificar Notas</a>
+                        <a id="opc_4" style="display:none;" href="#" class="dropdown-item" onclick="compartirRubro();"><i class="fa fa-share-alt"></i>  Compartir Rubros</a>
+                        <a href="#" class="dropdown-item" onclick="CategoriaConfig();"><i class="fa fa-pencil-square-o"></i> Editar Actividades</a>
+                        <a href="#" class="dropdown-item" onclick="CallDeleteActivities(),$('#MdActividadesEliminadas').modal('show');"><i class="fa fa-trash-o"></i> Ver Actividades Eliminadas</a>
+                        <a href="Rpt1" target="_blank" class="dropdown-item"><i class="fa fa fa-eye"></i> Ver Reportes</a>
+                        <a href="#" class="dropdown-item" onclick="printDiv();"><i class="fa fa-print text-black"></i> Imprimir</a>
+                        <a class="dropdown-item" href="#" onclick="printPrueba();"><i class="fa fa-file-excel-o text-black"></i>Descargar en Excel</a>
+                        <a style="cursor:pointer;" class="dropdown-item" onclick="ActivarAyuda(3);"><i class="fa fa-life-buoy (alias) plus text-black"></i> Ayuda</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*<div class="box-tools pull-right">
+            <div class="dropdown" id="OpcionRightMulti" style="display:none">
+                <button class="btn-icon btn btn-primary btn-round btn-sm dropdown-toggle waves-effect waves-light" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <i class="feather icon-settings"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-toggle="dropdown" aria-expanded="false">
+                    <span class="hidden-sm-up">
+                        <svg viewBox="0 0 24 24" focusable="false" width="24" height="24" class=" NMm5M"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path></svg>
+                    </span>
+                    <span class="hidden-xs-down">
+                        <i class="fa fa-cog fa-2x fa-spin text-red"></i>
+                    </span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right show" x-placement="top-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(124px, -104px, 0px);">
+                    <a href="#" class="dropdown-item" onclick="mostrarVentanaAgregarNvaNota();"><i class="fa fa-plus"></i>  Agregue nueva Calificación</a>
+                    <a href="#" class="dropdown-item" onclick="mostrarubro();"><i class="fa fa-th"></i>  Rúbricas</a>
+                    <a href="#" class="dropdown-item" onclick="notificar();"><i class="fa fa-bell"></i>  Notificar</a>
+                    <a href="#" class="dropdown-item" onclick="CategoriaConfig();"><i class="fa fa-pencil-square-o"></i> Editar Actividades</a>
+                    <a href="#" class="dropdown-item" onclick="CallDeleteActivities(),$('#MdActividadesEliminadas').modal('show');"><i class="fa fa-trash-o"></i> Ver Actividades Eliminadas</a>
+                    <a href="Rpt1" target="_blank" class="dropdown-item"><i class="fa fa fa-eye"></i> Ver Reportes Promedios</a>
+                    <a href="GraficosA" target="_blank" class="dropdown-item"><img class="cursor-pointer" src="../images/reporte1.png" alt="" width="17"> Ver Reportes Actividades</a>
+                    <a href="#" class="dropdown-item" onclick="printDiv();"><i class="fa fa-print text-black"></i> Imprimir</a>
+                    <a class="dropdown-item" href="#" onclick="printPrueba();"><i class="fa fa-file-excel-o text-black"></i>Descargar en Excel</a>
+                    <a class="dropdown-item" href="grupo"><i class="fa fa-user-plus text-black"></i> Ir a Grupos</a>
+                    <a style="cursor:pointer;" class="dropdown-item" onclick="ActivarAyuda(3);"><i class="fa fa-life-buoy (alias) plus text-black"></i> Ayuda</a>
+                </div>
+            </div>
+        </div>*@
+    </div>
+</div>
+<input type="hidden" id="idUsuarioBuscador" value="-1" />
+<input type="hidden" id="FlagPrimeroIdPeriodo" value="0" />
+<script>
+    $(this).closest('li').find('.nav-dropdown').slideDown();
+    function Inicio() {
+        $('#FlagPrimeroIdPeriodo').val('0');
+        var parameters = {};
+        jQueryAjaxCallback("../Shared/Utility.aspx/ValidarUsuarioDesacPer", JSON.stringify(parameters), "POST", "json", PostInicio, false);
+    }
+    function PostInicio(data) {
+        var m = $.parseJSON(data.d);
+        $('#idAsignatura').val(-1);
+        $('#DesactivarUsuarioPorPeriodo').val(m[0].DesactivarUsuarioPorPeriodo);
+        $('#tp').val(QueryStringCustom.tp);
+        if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == true) {
+            if (QueryStringCustom.tp == 1) {//classroom
+               // $('#idPeriodo').val(-1);  que busque direto los periodos
+                CallPeriodosBuscador(-1);
+            }
+            else if (QueryStringCustom.tp == 2) {//libreta de notas, asistencia
+                $('#idPeriodo').val(QueryStringCustom.prd);
+                 CargarGruposBuscador($('#idPeriodo').val());
+            }
+           
+            $('#div_materias').hide();
+            $('#ddlAsignatura').hide();
+            $('#LblMateriaCrear').hide();
+        }
+        else if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == false) {
+            CargarGruposBuscador(-1);
+            $('#div_materias').show();
+        }
+    }
+    function CargarGruposBuscador(idP) {
+        $('#idPeriodo').val(idP);// esta de mas este codigo
+        var parameters = { "idUsuario": $('#idUsuarioBuscador').val(), "idRol": idRolA, "idPeriodo": $('#idPeriodo').val(), "idSubnivel": -1, "DesactivarPrescolar": 0 };
+        console.log(parameters)
+        jQueryAjaxCallback("../Shared/Utility.aspx/CargarSubNivelTask", JSON.stringify(parameters), "POST", "json", PostCargarGruposBuscador, false);
+    }
+    function PostCargarGruposBuscador(data) {
+        $('#UlGrupo').empty();
+        var i = 0;
+        var m = $.parseJSON(data.d);
+        var l = m.length;
+        var html = '', texto = '';
+        var style = '';
+        if ((TipoModulo == 'AULA') && (idRolA != 5)) {
+            $('#ddlSubnivel').find('option').remove().end();
+            var programa = document.getElementById('ddlSubnivel');
+        }
+        while (i < l) {
+            if ((TipoModulo == 'AULA') && (idRolA != 5)) {
+                var optPrograma = document.createElement('option');
+                optPrograma.innerHTML = m[i].Nombre;
+                optPrograma.value = m[i].idSubnivel;
+                optPrograma.setAttribute("idMetodoPromedio", m[i].idMetodoPromedio);
+                programa.appendChild(optPrograma);
+            }
+            if ($('#FlagPrimeroIdPeriodo').val() == 0) {
+                if ($('#tp').val() == 2) {
+                    if ($('#idSubnivel').val() == m[i].idSubnivel) {
+                        texto = m[i].NombreCorto;
+                        $('#idMetodoPromedio').val(m[i].idMetodoPromedio);
+                        $('#AplicaPuntos').val(m[i].AplicaPuntos);
+                    }
+                }
+            }
+            var opcion = 'GRUPO';
+            if (i == 0) {
+                if ($('#tp').val() == 1) {
+                    texto = m[i].NombreCorto;
+                    $('#idSubnivel').val(m[i].idSubnivel);
+                    $('#idMetodoPromedio').val(m[i].idMetodoPromedio);
+                    $('#AplicaPuntos').val(m[i].AplicaPuntos);
+                    style = 'background-color: #e1e3e9;font-weight:bold;'
+                }
+                html += '<li><a data-aplicapuntos="' + m[i].AplicaPuntos + '" data-idMetodoPromedio="' + m[i].idMetodoPromedio + '" style="' + style + '" id="' + m[i].idSubnivel + '" class="dropdown-item _grup" href="#" onclick="optionSelecionada(this,\'' + opcion + '\');"><i id="i_' + m[i].idSubnivel + '" class="fa fa-check text-blue grup"></i>' + m[i].NombreCorto + '</a></li>';
+            }
+            else
+                html += '<li><a data-aplicapuntos="' + m[i].AplicaPuntos + '" data-idMetodoPromedio="' + m[i].idMetodoPromedio + '" id="' + m[i].idSubnivel + '" class="dropdown-item _grup" href="#" onclick="optionSelecionada(this, \'' + opcion + '\');"><i style="display:none;" id="i_' + m[i].idSubnivel + '" class="fa fa-check text-blue"></i>' + m[i].NombreCorto + '</a></li>';
+            ++i;
+        }
+        $('#UlGrupo').append(html);
+        if ($('#tp').val() == 1) {
+            $('#BtnGrupo').html(texto + ' <i class="fa fa-chevron-down"></i>');
+            $('.grup').removeClass();
+            $('._grup').css({ 'color': '#777' });
+            $('#' + $('#idSubnivel').val()).css({ 'color': '#1c82e1' });
+            $('#' + $('#idSubnivel').val()).html('<i class="fa fa-check text-blue grup"></i> ' + texto)
+            if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) ==false)
+            CallPeriodosBuscador($('#idSubnivel').val());
+            else
+            CallOpconesAEjecutar();
+        }
+        else if ($('#tp').val() == 2) {
+            $('#BtnGrupo').html(texto + ' <i class="fa fa-chevron-down"></i>');
+            $('.grup').removeClass();
+            $('._grup').css({ 'color': '#777' });
+            $('#' + $('#idSubnivel').val()).css({ 'font-weight': 'bold' });
+            $('#' + $('#idSubnivel').val()).css({ 'background-color': '#e1e3e9' });
+            $('#' + $('#idSubnivel').val()).css({ 'color': '#1c82e1' });
+            $('#' + $('#idSubnivel').val()).html('<i class="fa fa-check text-blue grup"></i> ' + texto)
+            CallPeriodosBuscador($('#idSubnivel').val());
+        }
+    }
+    function CallPeriodosBuscador(idS) {
+        if ($('#FlagPrimeroIdPeriodo').val() == 0) {
+            $('#FlagPrimeroIdPeriodo').val('1');
+            parameters = { "idSubnivel": idS, "idUsuario": $('#idUsuarioBuscador').val(), "idRol": idRolA };
+            jQueryAjaxCallback("../Shared/Utility.aspx/ObtenerPeriodoLibretas", JSON.stringify(parameters), "POST", "json", dibujarPeriodosdeEscuela, false);
+        }
+        else {
+            CallOpconesAEjecutar();
+        }
+    }
+    function dibujarPeriodosdeEscuela(data) {
+        console.log(data)
+        $('#UlPeriodo').empty();
+        var i = 0;
+        var m = $.parseJSON(data.d);
+        var l = m.length;
+        var lec = '', html = '', nombreperiodo = '';
+        while (i < l) {
+            var opcion = "PERIODO";
+            var activo = m[i].Activo
+            var nuevoActivo = activo
+            var autorizados = m[i].docentes
+            if (activo == 2) nuevoActivo = 0
+            if (activo == 2 && autorizados != undefined) {
+                
+                var autorizadosJson = esc_unquot(autorizados)
+                var profesoresPreSeleccionados = JSON.parse(autorizadosJson)
+                var existe
+                if (profesoresPreSeleccionados != undefined)
+                    existe = profesoresPreSeleccionados.find(function (profesor) {
+                        var pid = profesor.id
+                        console.log(pid)
+                        return pid == idProfesor
+                    })
+                if (existe) {
+                    nuevoActivo = 1
+                }
+
+            }
+
+            if ((ConverterBool(nuevoActivo) == 1) && (idRolA == 4)) {
+                lec = true;
+            }
+            else {
+                lec = false;
+            }
+            if ($('#tp').val() == 2) {
+                if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == true) {
+                    if ($('#idPeriodo').val() == m[i].id) {
+                        nombreperiodo = m[i].Nombre;
+                        $('#idPeriodo').val(m[i].id);
+                    }
+                }
+            }
+            else if ($('#tp').val() == 1) {
+                if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == true) {                   
+                        nombreperiodo = m[0].Nombre;
+                    $('#idPeriodo').val(m[0].id);
+                }
+                }
+            if ($('#idPeriodo').val() == -1) {
+                if (m[0].idPeriodoSet > 0) {
+                    if (m[0].idPeriodoSet == m[i].id) {
+                        $('#idPeriodo').val(m[0].idPeriodoSet);
+                        nombreperiodo = m[i].Nombre;
+                    }
+                }
+                else {
+                    $('#idPeriodo').val(m[0].id);
+                    nombreperiodo = m[0].Nombre;
+                }
+            }
+            if (i == 0) {
+                html += '<li><a id="' + m[i].id + '" class="dropdown-item _per" href="#" data-Activo="' + nuevoActivo + '" data-AplicaPuntajeNotas="' + m[i].AplicaPuntajeNotas + '" data-fechaini="' + m[i].FechaInicio + '" data-fechafin="' + m[i].FechaFin + '" ' +
+                    ' onclick="optionSelecionada(this, \'' + opcion + '\');" style = "color: rgb(28, 130, 225);" > ' +
+                    ' <i id="i_' + m[i].id + '" class="fa fa-check text-blue per"></i>' + m[i].Nombre + '</a></li > ';
+            }
+            else {
+                html += '<li><a id="' + m[i].id + '" class="dropdown-item _per" href="#"  data-Activo="' + nuevoActivo + '" data-AplicaPuntajeNotas="' + m[i].AplicaPuntajeNotas + '" data-fechaini="' + m[i].FechaInicio + '" data-fechafin="' + m[i].FechaFin + '" onclick="optionSelecionada(this, \'' + opcion + '\');">' +
+                    '<i id="i_' + m[i].id + '" class="fa fa-check text-blue per" style="display:none;"  ></i>' + m[i].Nombre + '</a ></li>';
+            }
+            i++;
+        }
+        $('#UlPeriodo').append(html);
+
+        if ($('#tp').val() == 1) {
+            //if (m[0].idPeriodoSet > 0) {
+            var tr_a = $('#UlPeriodo li a');
+            var tr_i = $('#UlPeriodo li i');
+            for (i = 0; i < tr_a.length; i++) {
+                $(tr_a[i]).css({ 'color': '#777' });
+                $(tr_i[i]).hide();
+            }
+            $('#' + $('#idPeriodo').val() + '').css({ 'color': 'rgb(28, 130, 225)' });
+            $('#' + $('#idPeriodo').val() + '').css({ 'font-weight': 'bold' });
+            $('#' + $('#idPeriodo').val() + '').css({ 'background-color': '#e1e3e9' });
+            var iid = '#i_' + $('#idPeriodo').val();
+            $(iid).show();
+            $('#lectura').val($('#' + m[0].id).data('activo'));
+            $('#fechainiAtrr').val($('#' + m[0].id).data('activo'));
+            $('#fechafinAtrr').val($('#' + m[0].id).data('activo'));
+            console.log('nombreperiodo' + nombreperiodo)
+            $('#BtnPeriodo').html(nombreperiodo + ' <i class="fa fa-chevron-down"></i>');
+            //}
+        }
+        else if ($('#tp').val() == 2) {
+            if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == true) {
+                $('#BtnPeriodo').html(nombreperiodo + ' <i class="fa fa-chevron-down"></i>');
+                if ($('#tp').val() == 1)
+                    $('#idPeriodo').val($('#idPeriodo').val());
+                $('#fechainiAtrr').val($('#' + $('#idPeriodo').val()).data('activo'));
+                $('#fechafinAtrr').val($('#' + $('#idPeriodo').val()).data('activo'));
+                $('#lectura').val($('#' + $('#idPeriodo').val()).data('activo'));
+            }
+            else if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == false) {
+                var tr_a = $('#UlPeriodo li a');
+                var tr_i = $('#UlPeriodo li i');
+                for (i = 0; i < tr_a.length; i++) {
+                    $(tr_a[i]).css({ 'color': '#777' });
+                    $(tr_i[i]).hide();
+                }
+                $('#' + $('#idPeriodo').val() + '').css({ 'color': 'rgb(28, 130, 225)' });
+                $('#' + $('#idPeriodo').val() + '').css({ 'font-weight': 'bold' });
+                $('#' + $('#idPeriodo').val() + '').css({ 'background-color': '#e1e3e9' });
+                var iid = '#i_' + $('#idPeriodo').val();
+                $(iid).show();
+                $('#BtnPeriodo').html(nombreperiodo + ' <i class="fa fa-chevron-down"></i>');
+                $('#fechainiAtrr').val($('#' + m[0].id).data('activo'));
+                $('#fechafinAtrr').val($('#' + m[0].id).data('activo'));
+                $('#lectura').val($('#' + $('#idPeriodo').val()).data('activo'));
+            }
+        }      
+        $('#tp').val('1');
+        if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == true) {
+            if ($('#tp').val() == 1) 
+                CargarGruposBuscador($('#idPeriodo').val());
+            else
+            CallOpconesAEjecutar();
+        }
+        else if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == false) {
+            CallMateriasBuscador();
+        }
+    }
+    function CallMateriasBuscador() {
+        var parameters = { "idSubnivel": $('#idSubnivel').val(), "idRolA": idRolA };
+        jQueryAjaxCallback("../Shared/Utility.aspx/GrupoObtenerAsignatura", JSON.stringify(parameters), "POST", "json", dibujarAsignaturasdelGrupo, false);
+    }
+    function dibujarAsignaturasdelGrupo(data) {
+        $('#UlMateria').empty();
+        var m = JSON.parse(data.d);
+        var html = '';
+        if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == false) {
+            if ((TipoModulo == 'AULA') && (idRolA != 5)) {
+                $('#ddlAsignatura').find('option').remove().end();
+                var programa = document.getElementById('ddlAsignatura');
+            }
+        }
+        for (var i = 0; i < m.length; i++) {
+            ///
+            if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == false) {
+                if ((TipoModulo == 'AULA') && (idRolA != 5)) {
+                    var optPrograma = document.createElement('option');
+                    optPrograma.innerHTML = m[i].Descripcion;
+                    optPrograma.value = m[i].id;
+                    programa.appendChild(optPrograma);
+                }
+            }
+            var opcion = "MATERIA";
+            if (i == 0)
+                html += '<li><a style="background-color: #e1e3e9;font-weight:bold;" id="' + m[i].id + '" class="dropdown-item _mat" href="#" onclick="optionSelecionada(this, \'' + opcion + '\');"><i id="i_' + m[i].id + '" class="fa fa-check text-blue mat"></i>' + m[i].Descripcion + '</a></li>';
+            else
+                html += '<li><a id="' + m[i].id + '" class="dropdown-item _mat" href="#" onclick="optionSelecionada(this, \'' + opcion + '\');"><i style="display:none;" id="i_' + m[i].id + '" class="fa fa-check text-blue"></i>' + m[i].Descripcion + '</a></li>';
+        }
+        $('#UlMateria').append(html);
+        $('#BtnMateria').html(m[0].Descripcion + '<i class="fa fa-chevron-down"></i>');
+        $('#idAsignatura').val(m[0].id);
+        CallOpconesAEjecutar();
+    }
+    function optionSelecionada(thisElement, opcion) {       
+        if (opcion == "PERIODO") {
+            $('#idPeriodo').val(thisElement.id);
+            $('#BtnPeriodo').html($(thisElement).text() + ' <i class="fa fa-chevron-down"></i>');
+            $('.per').removeClass();
+            $('._per').css({ 'color': '#777' });
+            $('._per').css({ 'background-color': '' });
+            $('._per').css({ 'font-weight': '' });
+            $('#' + thisElement.id).css({ 'color': '#1c82e1' });
+            $('#' + thisElement.id).css({ 'background-color': '#e1e3e9' });
+            $('#' + thisElement.id).css({ 'font-weight': 'bold' });
+            $('#' + thisElement.id).html('<i class="fa fa-check text-blue per"></i> ' + $(thisElement).text());
+            $('#lectura').val($(thisElement).data('activo'));
+            $('#fechainiAtrr').val($(thisElement).data('fechaini'));
+            $('#fechafinAtrr').val($(thisElement).data('fechafin'));
+            if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == true)
+                CargarGruposBuscador($('#idPeriodo').val());
+            else if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == false)
+                CallOpconesAEjecutar();
+        }
+        else if (opcion == 'MATERIA') {
+            $('#idAsignatura').val(thisElement.id);
+            $('#BtnMateria').html($(thisElement).text() + '<i class="fa fa-chevron-down"></i>');
+            $('.mat').removeClass();
+            $('._mat').css({ 'color': '#777' });
+            $('._mat').css({ 'background-color': '' });
+            $('._mat').css({ 'font-weight': '' });
+            $('#' + thisElement.id).css({ 'color': '#1c82e1' });
+            $('#' + thisElement.id).css({ 'background-color': '#e1e3e9' });
+            $('#' + thisElement.id).css({ 'font-weight': 'bold' });
+            $('#' + thisElement.id).html('<i class="fa fa-check text-blue mat"></i> ' + $(thisElement).text());
+            if ((TipoModulo == 'AULA') && (idRolA != 5))
+                $('#ddlAsignatura').val($('#idAsignatura').val())
+            CallOpconesAEjecutar();
+        }
+        else if (opcion == 'GRUPO') {
+            $('#idSubnivel').val(thisElement.id);
+            $('#BtnGrupo').html($(thisElement).text() + ' <i class="fa fa-chevron-down"></i>');
+            $('.grup').removeClass();
+            $('._grup').css({ 'color': '#777' });
+            $('._grup').css({ 'font-weight': '' });
+            $('._grup').css({ 'background-color': '' });
+            $('#' + thisElement.id).css({ 'color': '#1c82e1' });
+            $('#' + thisElement.id).css({ 'background-color': '#e1e3e9' });
+            $('#' + thisElement.id).css({ 'font-weight': 'bold' });
+            $('#' + thisElement.id).html('<i class="fa fa-check text-blue grup"></i> ' + $(thisElement).text());
+            $('#idMetodoPromedio').val($(thisElement).data('idmetodopromedio'));
+            $('#AplicaPuntos').val($(thisElement).data('aplicapuntos'));
+            if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == true) {
+                CallOpconesAEjecutar();
+            }
+            else if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == false) {
+                CallMateriasBuscador();
+                if ((TipoModulo == 'AULA') && (idRolA != 5))
+                    $('#ddlSubnivel').val($('#idSubnivel').val());
+            }
+        }
+    }
+</script>

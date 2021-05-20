@@ -1,0 +1,29 @@
+﻿@{
+    Layout = "~/Views/Shared/SiteStudent2021.cshtml";
+}
+<div class="content-header row">
+    <div class="content-header-left col-md-9 col-12 mb-2">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h2 class="content-header-title float-left mb-0">
+                    <img class="cursor-pointer" src="../images/ACADEMICA_ICONS_AGENDA.png" alt="" width="30"> <span data-i18n="header.t5"> Prueba</span>
+                </h2>
+                <div class="breadcrumb-wrapper col-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="AulaVirtual?tp=1"><span data-i18n="inicio">Classroom</span></a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="Welcome"><span data-i18n="inicio">Inicio</span></a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="content-body">
+    <div class="router-content">
+        @RenderPage("../Partial/_PartialPreguntas.cshtml")
+    </div>
+</div>

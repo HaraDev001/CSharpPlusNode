@@ -1,0 +1,76 @@
+﻿<div class="row">
+    <div class="col-12">
+        <div class="box-header">
+            <div class="pull-right">
+                <div class="input-group input-group-sm float-left" style="width: 150px;padding:3px;">
+                    <input name="table_Msearch" class="form-control pull-right SearchM" placeholder="Buscar" type="text">
+                    <input id="Mwd_search" class="form-control input-sm pull-right" style="display: none;" placeholder="Buscar" value="" type="text">
+                    <div class="input-group-prepend">
+                        <a href="#" class="btn btn-default"><i class="fa fa-search"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table id="TblBiblioteca" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Nombre</th>
+                        <th>Creado Por</th>
+                        <th>Módulo</th>
+                        <th>Tamaño</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    $(".SearchM").keyup(function () {
+        var bus = $.trim($(this).val());
+        if (bus != "") {
+            $("#TblBiblioteca tbody>tr").hide();
+            $("#TblBiblioteca td:contains-ci('" + bus + "')").parent("tr").show();
+        }
+        else {
+            $("#TblBiblioteca tbody>tr").show();
+        }
+    });
+    function GetBiblioteca(Funcionalidad) {
+        $('#TblBiblioteca tbody').empty();
+        var idUser = -1;
+        if (idRolA == 5)
+            idUser = $('#idUsuario').val();
+        var parameters = { "Funcionalidad": Funcionalidad, "idRolA": idRolA, "idUsuario": idUser };
+        jQueryAjaxCallback("../Shared/Utility.aspx/GetBiblioteca", JSON.stringify(parameters), "POST", "json", PostGetBiblioteca);
+    }
+    function bytesToSize(bytes) {
+        var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+        if (bytes == 0) return '0 Byte';
+        var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+        return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+    }
+    function PostGetBiblioteca(data) {
+        var counter = 0;
+        var m = $.parseJSON(data.d);
+        var arrayLength = m.length;
+        while (counter < arrayLength) {
+            var nombre = getNombre(m[counter].Archivo);
+            var cadena = nombre.split('.').pop().toLowerCase()
+            cadena = cadena.slice(0, 4);
+            $('#TblBiblioteca tbody').append('<tr><td>' + cadena + '</td>' +
+                '<td style="width: 300px;">' +
+                '<span class="text-aqua" style="font-weight:bold;"><a target="_blank" class="text-aqua" href="' + m[counter].Archivo + '">' + nombre + '</a></span>' +
+                '<p style = "line-height: 0.7;font-size: 11.5px;color: #999;margin-bottom: 0;">' + m[counter].FechaRegistro + '</p>' +
+                //'</td>'+
+                //'<td style="width: 300px;"><a target="_blank" class="text-aqua" href="' + m[counter].Archivo + '">' + nombre + '</a></td>' +
+                '<td>' + m[counter].NombreCompleto + '</td>' +
+                '<td>' + m[counter].Funcionalidad + '</td>' +
+                '<td>' + bytesToSize(m[counter].tamano) + ' </td>' +
+                '</tr>')
+            counter++;
+        }
+    }
+</script>

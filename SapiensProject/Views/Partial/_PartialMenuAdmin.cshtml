@@ -1,0 +1,176 @@
+﻿@using SapiensProject.Controllers
+@using SapiensProject.Models.Entities
+@{ AccountController account = new AccountController();
+    Usuario usr = account.getCurrentUser();
+    var style = "";
+    var style2 = "";
+    var style3 = "";
+    var style4 = "";
+    int idRol = usr.idRol;
+    int idEscuela = account.getCurrentUser().idEscuela;
+
+
+    string pagina = Request.Url.AbsolutePath;
+    var accesoConcedido = account.tieneAccesoaPagina(usr.idUsuario, usr.idRol, pagina);
+    if(idEscuela == 53)
+    {
+        account.redirectToNotAccessPage();
+    }
+    if (!accesoConcedido)
+    {
+        account.redirectToNotAccessPage();
+    }
+    if (idRol == 1)
+    {
+        if (usr.TipoContabilidad == 1)
+        {
+            style3 = "<li><a href='FacturaInicio'><i class='fa fa-usd'></i> <span data-i18n='header.t13'> Registro de Pagos</span></a></li>";
+        }
+        else if (usr.TipoContabilidad == 2)
+        {
+            style3 = "<li><a href='Pagos'><i class='fa fa-usd'></i> <span data-i18n='header.t13'> Registro de Pagos</span></a></li>";
+        }
+        if (usr.DesactivarColegioPorPeriodo == false)
+        {
+            if ((idEscuela == 35) || (idEscuela == 39))
+            {
+                style2 = "<li><a href='Matricula'><i class='fa fa-recycle'></i> Pre-Matrícula 2021</a></li>";
+                style4 = "<li class='nav-item'><a href='Creditos'><img class='cursor-pointer' src='../images/ACADEMICA_ICONS_BOLETINES.png' alt='.' width='25'><span id='menCre' data-i18n='header.t118'> Informes</span></a></li>";
+            }
+            else
+            {
+                if (idEscuela == 25)
+                {
+                    style4 = "<li class='nav-item' id='Iac1'><a href='Creditos'><img class='cursor-pointer' src='../images/ACADEMICA_ICONS_BOLETINES.png' alt='.' width='25'><span id='menCre' data-i18n='header.t118'> Boletines</span></a></li>";
+                }
+                else
+                {
+                    style2 = "<li><a href='Matricula'><i class='fa fa-recycle'></i> Pre-Matrícula 2021</a></li>";
+                    style4 = "<li id='Iac1' class='nav-item'><a href='Creditos'><img class='cursor-pointer' src='../images/ACADEMICA_ICONS_BOLETINES.png' alt='.' width='25'><span id='menCre' data-i18n='header.t118'> Boletines</span></a></li>";
+                }
+            }
+            style = "<li><a href='ConfBoletin'><i class='fa fa-spinner'></i> Ajustes-Creditos</a></li><li id='sub_plan_estudio' style='display:none;'><a href='PEstudio'><i class='fa fa-building-o'></i> Planes de Estudios</a></li>";
+        }
+        else if (usr.DesactivarColegioPorPeriodo == true)
+        {
+            style4 = "<li id='Iac1' class='nav-item' ><a href='CreditosLaboral'><img class='cursor-pointer' src='../images/ACADEMICA_ICONS_BOLETINES.png' alt='.' width='25'><span id='menCre'> Créditos</span></a></li>";
+            style = "<li id='sub_plan_estudio' style='display:inline;'><a href='PEstudio'><i class='fa fa-building-o'></i> Planes de Estudios</a></li>";
+        }
+    }
+}
+<div class="main-menu-content">
+    <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+        <li class="nav-item" id="Iho">
+            <a href="Welcome" class="nav-link">
+                <img class="cursor-pointer" src="../images/ACADEMICA_ICONS_HOME-BLANCO.png" alt="." width="25">
+                <span class="_x1" data-i18n="inicio">Inicio</span>
+            </a>
+        </li>
+        <li class="nav-item has-sub">
+            <a href="#">
+                <i class="fa fa-th"></i><span data-i18n="header.t125">Administración</span>
+            </a>
+            <ul class="menu-content">
+                <li><a href="Usuarios"><i class="fa fa-user-times"></i> <span data-i18n="header.t116">Usuarios</span></a></li>
+                <li><a href="Grupo"> <img class="cursor-pointer" src="../images/ACADEMICA_ICONS_CLASES.png" alt="." width="25"> <span data-i18n="header.t117">Grupos</span></a></li>
+                @Html.Raw(style2)
+                @Html.Raw(style3)
+                <li><a href="Boleta"><i class="fa fa-gavel"></i> <span data-i18n="header.t121">Boleta Virtual</span></a></li>
+                <li><a href="Comportamiento?tp=2&prd=-1&idS=-1"><i class="fa fa-gavel"></i> <span data-i18n="header.t127">Comportamiento</span></a></li>
+                <li><a href="Visitantes"><i class="fa fa-volume-control-phone"></i> <span data-i18n="header.t128">Registro de visitantes</span></a></li>
+            </ul>
+        </li>
+        @Html.Raw(style4)
+        <li class="nav-item has-sub" id="Iamo">
+            <a href="#">
+                <img class="cursor-pointer" src="../images/ACADEMICA_ICONS_MONITOREO DE DOCENTES.png" alt="." width="25">
+                <span class="_x1" data-i18n="header.t119">Monitoreo</span>
+            </a>
+            <ul class="menu-content">
+                <li><a href="Monitoreo"><i class="fa fa-binoculars"></i> <span data-i18n="header.t119">Monitoreo de Docentes</span></a></li>
+                <li><a href="Notificaciones"><i class="fa fa-bell-o"></i> <span data-i18n="header.t122">Bitacora de Registros</span></a></li>
+            </ul>
+        </li>
+        <li class="nav-item" id="IaA">
+            <a href="AgendaA" class="nav-link">
+                <img class="cursor-pointer" src="../images/ACADEMICA_ICONS_AGENDA.png" alt="." width="25">
+                <span class="_x1" data-i18n="header.t5">Agenda</span>
+            </a>
+        </li>
+        <!-- My work start -->
+        <li class="nav-item" id="IaA">
+            <a href="~/Views/public/index.cshtml" class="nav-link">
+                <img class="cursor-pointer" src="../images/ACADEMICA_ICONS_AGENDA.png" alt="." width="25">
+                <span class="_x1" data-i18n="header.t5">Nodejs demo1</span>
+            </a>
+        </li>
+        <!-- end -->
+        @if ((@idEscuela == 35) || (@idEscuela == 39) || (@idEscuela == 41) || (@idEscuela == 105) || (@idEscuela == 114) || (@idEscuela == 23))
+        {
+            <li id='sa1' class="nav-item">
+                <a href='MeetGoogle' class="nav-link b1">
+                    <img class="cursor-pointer" width="25" src="../images/ACADEMICA_ICONS_SALON-VIRTUAL.png" alt=".">
+                    <span class="_x1" data-i18n="header.t10">&nbsp;Salón Virtual</span>
+                </a>
+            </li>
+        }
+        else
+        {
+            <li id='sa1' class="nav-item">
+                <a href='SalonVirtualAdmin' class="nav-link b1">
+                    <img class="cursor-pointer" width="25" src="../images/ACADEMICA_ICONS_SALON-VIRTUAL.png" alt=".">
+                    <span class="_x1" data-i18n="header.t10">&nbsp;Salón Virtual</span>
+                </a>
+            </li>
+        }
+        <li class="nav-item" id="IaAv">
+            <a href="AulaVirtual?tp=1" class="nav-link">
+                <img class="cursor-pointer" width="25" src="../images/ACADEMICA_ICONS.png" alt=".">
+                <span class="_x1" data-i18n="header.t9">&nbsp;Classroom</span>
+                <span class="badge new badge pill badge-warning accent-2 float-right mr-2 span_noti_cantidad">0</span>
+            </a>
+        </li>
+        <li class="nav-item" id="IaM">
+            <a href="Mensaje" class="nav-link">
+                <img class="cursor-pointer" src="../images/ACADEMICA_ICONS_MENSAJES.png" alt="." width="25">
+                <span class="_x1" data-i18n="header.t11">&nbsp;Mensajes</span>
+                <span class="badge new badge pill badge-warning accent-2 float-right mr-2 span_resumen_cantidad">0</span>
+            </a>
+        </li>
+
+        <li class="nav-item" id="Irp">
+            <a href="Reportes" class="nav-link">
+                <img class="cursor-pointer" src="../images/ACADEMICA_ICONS_REPORTES.png" alt="." width="25">
+                <span class="_x1" data-i18n="header.t6">Reportes</span>
+            </a>
+        </li>
+        <li class="nav-item" id="Irp">
+            <a href="Configuracion" class="nav-link">
+                <img class="cursor-pointer" src="../images/ACADEMICA_ICONS_CONFIGURACION.png" alt="." width="25">
+                <span class="_x1" data-i18n="header.t126">Configuración</span>
+            </a>
+        </li>
+        <li class="nav-item" id="Iay">
+            <a href="Facturacion" class="nav-link">
+                <img class="cursor-pointer" src="../images/ACADEMICA_ICONS3.png" alt="." width="25">
+                <span class="_x1" data-i18n="header.t15">&nbsp;Facturaciòn</span>
+            </a>
+        </li>
+        <li class="nav-item" id="Iay">
+            <a href="Ayuda" class="nav-link">
+                <img class="cursor-pointer" src="../images/ACADEMICA_ICONS3.png" alt="." width="25">
+                <span class="_x1" data-i18n="header.t15">&nbsp;Ayuda</span>
+            </a>
+        </li>
+        <li class="nav-item" id="IpA">
+            <a onclick="exit();" class="nav-link">
+                <img class="cursor-pointer" src="../images/ACADEMICA_ICONS_LOG OUT.png" alt="." width="25">
+                <span class="_x1" data-i18n="header.t4">&nbsp;Salir</span>
+            </a>
+        </li>
+    </ul>
+    </div>
+
+
+
+

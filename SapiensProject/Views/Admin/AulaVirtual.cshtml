@@ -1,0 +1,236 @@
+﻿@using SapiensProject.Controllers
+@using SapiensProject.Models.Entities
+@{
+    Layout = "~/Views/Shared/SiteStudent2021.cshtml";
+    AccountController account = new AccountController();
+    Usuario usr = account.getCurrentUser();
+    int idUsuario = usr.idUsuario;
+    int idEscuela = usr.idEscuela;
+    int idRol = usr.idRol;
+
+}
+<script>
+    var idRolA = 1;
+</script>
+<div class="content-header row">
+    <div class="content-header-left col-md-9 col-12 mb-2">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h2 class="content-header-title float-left mb-0">
+                    <img class="cursor-pointer" src="../images/ACADEMICA_ICONS_AULA_VIRTUAL.png" alt="" width="30"> <span data-i18n="header.t9"> Classroom</span>
+                </h2>
+                <div class="breadcrumb-wrapper col-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="Welcome"><span data-i18n="inicio">Inicio</span></a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input id="idUsuario" type="hidden" value="-1" />
+<div class="content-body">
+    <div class="router-content">
+        
+            <div class="card">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="dropdown pull-right tabdrop open ">
+                            <div class="dropdown">
+                                <button type="button" class="btn btn-box-tool" data-toggle="dropdown" aria-expanded="false">
+                                    <svg viewBox="0 0 24 24" focusable="false" width="24" height="24" class=" NMm5M"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path></svg>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#" class="dropdown-item" onclick="ActivarAyuda(2);"><i class="fa fa-life-buoy (alias)"></i> Ayuda</a></li>
+                                    <li><a class="dropdown-item" href="#!" onclick="AgendasEliminadas(-1, -1, -1, 0);"><i class="fa fa-trash"></i> Ver Agendas Eliminadas</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <ul class="nav nav-tabs customtab" role="tablist">
+                            <li class="nav-item"> <a class="nav-link active" data-toggle="tab" id="pill-home-tab" href="#pill-tab-home" role="tab" aria-controls="pill-tab-home" aria-selected="true"><span class="hidden-sm-up"><i class="fa fa-caret-square-o-right"></i> Tareas</span> <span class="hidden-xs-down"><i class="fa fa-caret-square-o-right"></i> Tareas</span></a> </li>
+                            <li class="nav-item"> <a onclick="GetBiblioteca('AGENDA');" class="nav-link" data-toggle="tab" id="pill-profile-file" href="#pill-tab-file" role="tab"><span class="hidden-sm-up"><i class="fa fa-file-text-o"></i> Biblioteca</span> <span class="hidden-xs-down"><i class="fa fa-file-text-o"></i> Biblioteca</span></a> </li>
+                            <li class="nav-item"> <a onclick="GetEstadiTask(1);" class="nav-link" data-toggle="tab" id="pill-profile-tab" href="#pill-tab-profile" role="tab"><span class="hidden-sm-up"><i class="fa fa-sitemap"></i> Rep. Grupos</span> <span class="hidden-xs-down"><i class="fa fa-sitemap"></i> Reporte por grupos</span></a> </li>
+                            <li class="nav-item"> <a onclick="GetEstadiTask(2);" class="nav-link" data-toggle="tab" id="pill-word-tab" href="#pill-tab-word" role="tab"><span class="hidden-sm-up"><i class="ion ion-person-stalker"></i> Rep. Docentes</span> <span class="hidden-xs-down"><i class="ion ion-person-stalker"></i> Reporte por docentes</span></a> </li>
+                        </ul>
+                        <div class="tab-content" id="pill-myTabContent">
+                            <div class="tab-pane fade show active" id="pill-tab-home" role="tabpanel" aria-labelledby="home-tab">
+                                @RenderPage("../Partial/_PartialAulaVirtual.cshtml")
+                                @RenderPage("../Partial/_PartialTaskCrear.cshtml")
+                            </div>
+                            <div class="tab-pane fade" id="pill-tab-profile" role="tabpanel" aria-labelledby="profile-tab">
+                                <div class="pleaseWaitDiv" style="display: none;">
+                                    <div>
+                                        <span data-i18n="header.t18">Por favor espere...&nbsp;</span><div></div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table id="tblTask" class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Grupo</th>
+                                                <th>Total</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                            <div class="tab-pane fade" id="pill-tab-word" role="tabpanel" aria-labelledby="profile-tab">
+                                <div class="pleaseWaitDiv" style="display: none;">
+                                    <div>
+                                        <span data-i18n="header.t18">Por favor espere...&nbsp;</span><div></div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table id="tblTaskDocente" class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Docente</th>
+                                                <th>Total</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="pill-tab-file" role="tabpanel" aria-labelledby="profile-tab">
+                                @RenderPage("../Partial/_PartialBiblioteca.cshtml")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+      
+    </div>
+</div>
+<div class="modal fade" id="ModalVerActividader">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content" style="border-radius: 6px;">
+            <div class="modal-header with-border">
+                <h4 class="modal-title"><span>Actividades</span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-remove (alias)"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="pleaseWaitDiv" style="display: none;">
+                    <div>
+                        <span data-i18n="header.t18">Por favor espere...&nbsp;</span><div></div>
+                    </div>
+                </div>
+                <div style="overflow: auto;max-height: calc(100vh - 150px);">
+                    <table id="TblTaskActividad" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Tareas Virtuales</th>
+                                <th>Clase</th>
+                                <th>Fecha límite</th>
+                                <th>Creado el</th>
+                                <th>Completado</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@RenderPage("../Partial/_PartialAgendasEliminadas.cshtml")
+<script>
+    var TipoModulo = 'AULA';
+    $(function () {
+        $('#idUsuario').val(-1);
+        ActiveMenu('IaAv');
+        $('#Toolbar_Aula').show();
+        Inicio();
+       
+    });
+    function GetEstadiTask(idOpcion) {
+        if (idOpcion == 1)
+            GetGrupos();
+        else if (idOpcion == 2)
+            GetDocentes();
+    }
+    function GetDocentes() {
+        $('#tblTaskDocente tbody').empty();
+        var parameters = { "idOpcion": 2 };
+        jQueryAjaxCallback("../Shared/Utility.aspx/GetTask", JSON.stringify(parameters), "POST", "json", PostGetEstadiTaskDoc);
+    }
+    function GetGrupos() {
+        $('#tblTask tbody').empty();
+        var parameters = { "idOpcion": 1 };
+        jQueryAjaxCallback("../Shared/Utility.aspx/GetTask", JSON.stringify(parameters), "POST", "json", PostGetEstadiTask);
+    }
+    function PostGetEstadiTaskDoc(data) {
+        var counter = 0;
+        var m = $.parseJSON(data.d);
+        var arrayLength = m.length;
+        while (counter < arrayLength) {
+            $('#tblTaskDocente tbody').append('<tr><td>' + (counter + 1) + '. ' + m[counter].Grupo + '</td>' +
+                '<td>' + m[counter].Total + '</td>' +
+                '<td><button class="btn btn-primary" onclick="VerActividades(2, -1,' + m[counter].idUsuario + ');">Ver Actividades</button></td>' +
+                '</tr>')
+            counter++;
+        }
+    }
+    function PostGetEstadiTask(data) {
+        var counter = 0;
+        var m = $.parseJSON(data.d);
+        var arrayLength = m.length;
+        while (counter < arrayLength) {
+            $('#tblTask tbody').append('<tr><td>' + m[counter].Grupo + '</td>' +
+                '<td>' + m[counter].Total + '</td>' +
+                '<td><button class="btn btn-primary" onclick="VerActividades(1, ' + m[counter].idSubnivel + ', -1);">Ver Actividades</button></td>' +
+                '</tr>')
+            counter++;
+        }
+    }
+    function VerActividades(idOpcion, idSubnivel, idUsuario) {
+        $('#ModalVerActividader').modal('show');
+        $('#TblTaskActividad tbody').empty();
+        var parameters = { "idOpcion": idOpcion, "idSubnivel": idSubnivel, "idUsuario": idUsuario };
+        jQueryAjaxCallback("../Shared/Utility.aspx/GetTaskActividades", JSON.stringify(parameters), "POST", "json", PostVerActividades);
+    }
+    function PostVerActividades(data) {
+        var counter = 0, complet = 0, Nocomplet = 0;
+        var m = $.parseJSON(data.d);
+        var arrayLength = m.length;
+        while (counter < arrayLength) {
+            complet = m[counter].Completado;
+            Nocomplet = m[counter].NoCompletado;
+            console.log(m[counter].idTipoTask);
+            if (m[counter].idTipoTask == 2)
+                var url = 'href="Preguntas?y_=' + m[counter].idTask +'"';
+            else
+                var url = 'href="Auladetalle?y_=' + m[counter].idTask + '"';
+            if (m[counter].EsConFechaEntrega == 1) {
+                var Fecha_Entrega = moment(m[counter].f1).format('MMM D');
+            }
+            else if (m[counter].EsConFechaEntrega == 0) {
+                var Fecha_Entrega = 'Sin fecha límite';
+            }
+            var icono = ReturnIcono(m[counter].idTipoTask);
+            $('#TblTaskActividad tbody').append('<tr>' +
+                '<td style="padding-bottom:0px;">' +
+                '<a target="_blank" ' + url+' ><div class="user-block">' +
+                icono + '<span class="">' +
+                '<span style="letter-spacing: .01785714em;font-size: .875rem;font-weight: 500;line-height: 1.25rem;color:#3c4043;">' + (counter + 1) + '. ' + m[counter].Nombre + '</span>' +
+                '</span>' +
+                '<span class="description"> <b>Evaluación:</b> ' + m[counter].TipoNota + '</span>' +
+                '<span class="description">' +
+                '<p>' + m[counter].NombreCompleto + '</p></span></div></a>' +
+                '</td> ' +
+                '<td>' + m[counter].Columna + '</td>' +
+                '<td>' + Fecha_Entrega + '</td>' +
+                '<td>' + moment(m[counter].f2).format('MMM D, h:mm') + '</td>' +
+                '<td>' + Nocomplet + ' / ' + complet + '</td>' +
+                '</tr>')
+            counter++;
+        }
+    }
+</script>

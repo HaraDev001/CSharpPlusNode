@@ -1,0 +1,23 @@
+﻿@using SapiensProject.Controllers
+@using SapiensProject.Models.Entities
+@{
+    Layout = "~/Views/Shared/SiteStudent2021.cshtml";
+    AccountController account = new AccountController();
+    Usuario usr = account.getCurrentUser();
+    int idRol = usr.idRol;
+}
+<script>
+    var TipoModulo = 'AULA';
+    ActiveMenu('IaAv');
+    var idRolA = 1;
+</script>
+@RenderPage("../Partial/_PartialClassroom.cshtml")
+@RenderPage("../Partial/_PartialTaskCrear.cshtml")
+<script>
+    $(function () {
+        $('#idUsuario').val(-1);
+        $('#idUsuarioBuscador').val(-1);
+        Inicio(idUsuario);
+    });
+
+</script>

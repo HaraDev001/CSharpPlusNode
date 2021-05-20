@@ -1,0 +1,229 @@
+﻿<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/locales/bootstrap-datepicker.es.min.js"></script>
+<style>
+    .ui-timepicker-container {
+        z-index: 9999 !important;
+    }
+</style>
+<div class="form-group row" style="margin-bottom:0px;">
+    <label for="example-text-input" class="col-sm-2">Grupo:</label>
+    <div class="col-sm-4">
+        <select id="ddlSubnivel" onchange="ChangeMateria();" style="width: 210px;"></select>
+    </div>
+    <label for="example-text-input" id="LblMateriaCrear" class="col-sm-2">Materia:</label>
+    <div class="col-sm-4">
+        <select id="ddlAsignatura" style="width: 210px;"></select>
+    </div>
+</div>
+<div class="form-group row" style="margin-bottom:0px;">
+    <label for="example-text-input" class="col-sm-2" id="LabelFechaInicio">Fecha en la Agenda:</label>
+    <div class="col-sm-4">
+        <input id="fechaAgenda"  placeholder="dd/mm/yyyy" type="text" style="width: 210px;" />
+        <span data-original-title="Fecha en la cual aparecera esta actividad en la Agenda Semanal." data-toggle="tooltip" class="info-icon"><svg width="20" height="20" viewBox="0 0 24 24" name="info-circle-icon"><path fill="#2e313e" fill-rule="evenodd" stroke="none" stroke-width="1" id="Icon/small/infocirle" d="M12 21a9 9 0 110-18 9 9 0 010 18zm-1.227-9.411v4.095a1.226 1.226 0 002.454 0v-4.095a1.226 1.226 0 00-2.454 0zM12 8.727a1.227 1.227 0 100-2.454 1.227 1.227 0 000 2.454z"></path></svg></span>
+    </div>
+    <label class="col-sm-2 label_materia" id="LabelFechaEntrega">Fecha entrega tarea:</label>
+    <div class="col-sm-4">
+        <input type="hidden" id="EsConFechaEntrega" value="0" />
+        <div class="input-group" id="_1">
+            <input type="text"  style="width: 210px;" onclick="$('#DivHoraTarde').show();$('#LabelHoraEntrega').show();$('#LabelTareaTarde').show();$('#DivTareaTarde').show();$('#fechaIni').show();$('#_1').hide();$('#_2').show();$('#EsConFechaEntrega').val(1);" readonly="readonly" value="Sin fecha límite">
+        </div>
+        <div class="input-group" id="_2" style="display:none;">
+            <input id="fechaIni" placeholder="dd/mm/yyyy" type="text" style="display:none;width: 210px;">
+            <div class="input-group-append" id="btnTaskOp1">
+                <button onclick="$('#DivHoraTarde').hide();$('#LabelHoraEntrega').hide();$('#fechaIni').show();$('#LabelTareaTarde').hide();$('#DivTareaTarde').hide();$('#_2').hide(); $('#_1').show();$('#EsConFechaEntrega').val(0);" type="button" id="button-addon2"><i class="fa fa-close"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="form-group row lblTE" style="margin-bottom:0px;">
+    <label class="col-sm-2" id="LabelHoraInicio" style="display:none;">Hora inicio tarea:</label>
+    <div class="col-sm-4" id="DivHoraInicio" style="display:none;">
+        <input class="timepicker" style="width: 210px;" type="text" id="horaInicioExamen" />
+    </div>
+    <label class="col-sm-2" id="LabelHoraEntrega" style="display:none;">Hora entrega tarea:</label>
+    <div class="col-sm-4" id="DivHoraTarde" style="display:none;">
+        <input class="timepicker" style="width: 210px;" type="text" id="horaEntregaExamen" />
+    </div>
+</div>
+<div class="form-group row lblTE" style="margin-bottom:0px;">
+    <label for="example-text-input" class="col-sm-2">Tipo Evaluación:</label>
+    <div class="col-sm-4">
+        @RenderPage("../Partial/_PartialTipoNota.cshtml")
+    </div>
+    <label class="col-sm-2" id="LabelTareaTarde" style="display:none;">Permitir Tareas Tardes?:</label>
+    <div class="col-sm-4" id="DivTareaTarde" style="display:none;">
+        <select id="ddlTareaTarde" style="width: 210px;">
+            <option value="1">SI</option>
+            <option value="0">NO</option>
+        </select>
+    </div>
+</div>
+<div class="form-group row" id="DivTema" style="display:none;">
+    <label for="example-text-input" class="col-sm-2">Tema:</label>
+    <div class="col-sm-10">
+        <input style="width: 800px;" maxlength="200" id="Tema" placeholder="Título" type="text">
+    </div>
+</div>
+<div class="form-group row" id="DivDescripcion" style="display:none;">
+    <div class="col-sm-12">
+        <div id="click2edit" name="click2edit" class="click2edit"></div>
+    </div>
+</div>
+<div class="form-group" id="div_metodologia" style="display:none">
+    <select id="ddlMetodologia" onchange="Call_Periodo();" class="form-control input-sm"> </select>
+</div>
+@RenderPage("../Partial/_PartialFileUpload.cshtml")
+<script>
+    $('#fechaAgenda').datepicker({ format: 'dd/mm/yyyy', autoclose: true, language: "es", daysOfWeekHighlighted: "0,6", todayHighlight: true }).attr('readonly', 'readonly');
+    $('#fechaIni').datepicker({ format: 'dd/mm/yyyy', autoclose: true, language: "es", daysOfWeekHighlighted: "0,6", todayHighlight: true }).attr('readonly', 'readonly');
+    $('[data-toggle="tooltip"]').tooltip();
+    $('.click2edit').summernote({
+        //shortcuts: false,
+        height: 200,
+        dialogsInBody: true,
+        placeholder: 'Describa las instrucciones (opcional)',
+        toolbar: [
+            ['style', ['bold', 'italic', 'underline']],
+            ['fontsize', ['fontsize', 'fontname']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['insert', ['video', 'table', 'picture']],
+            ['para2', ['codeview']]
+        ]
+    });
+    $(".note-editable").css("font-size", "12px");
+    $(".note-editable").css("font-family", "Arial");
+    $(document).ready(function () {
+        $('.timepicker').timepicker({
+            timeFormat: 'HH:mm',
+            interval: 60,
+            minTime: '1',
+            maxTime: '23',
+            defaultTime: '12',
+            startTime: '1',
+            dynamic: false,
+            dropdown: true,
+            scrollbar: true
+        });
+        $('input.timepicker').timepicker({});
+    });
+    function ValidarHora(horatext) {
+        var valid = moment(horatext, "HH:mm", true).isValid();
+        if (valid) {
+            return horatext
+        } else {
+            return undefined
+        }
+    }
+    function ValidarFecha(f, SiAplica) {
+        var fecha = $.trim(f);
+        if (SiAplica == 1) {
+            if (fecha == '') {
+                Message(2, 'Favor de completar los campos vacios obligatorios de Fecha  para poder continuar creando la Tarea. ', 'Corrija');
+                return;
+            }
+        }
+        if (fecha == '') {
+            //////////////////////////////////////
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1;
+            var yyyy = today.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            today = dd + '/' + mm + '/' + yyyy;
+            fecha = today.toString();
+        }
+        return fecha;
+    }
+    function ValidarFechaEntrega() {
+        var fechaEntrega;
+        if ($('#EsConFechaEntrega').val() == 1) {
+            fechaEntrega = ValidarFecha($('#fechaIni').val(), 1);
+            if (fechaEntrega == undefined) {
+                return;
+            }
+        }
+        else if ($('#EsConFechaEntrega').val() == 0) {
+            fechaEntrega = ValidarFecha($('#fechaIni').val(), 0);
+        }
+        return fechaEntrega
+    }
+    function DeshabilitarOpciones(idTipoTask) {
+        if (idTipoTask == 1) {
+            $('#ModalCrearTaskTit').html('Actividad Virtual');
+            $('#LabelFechaInicio').text('Fecha en la Agenda:');
+            $('#_idTipoTask').val(1);
+            $('.label_materia').show();
+            $('#_1').show();
+            GetCalificacion();
+            $('.lblTE').show();
+            $('#LabelTareaTarde').hide();
+            $('#LabelHoraEntrega').hide();
+            $('#LabelHoraInicio').show();
+            $('#DivHoraTarde').hide();
+            $('#DivHoraInicio').show();            
+            $('#DivTareaTarde').hide();
+            $('#ddlTareaTarde').val(1);
+            $('#DivTema').show();
+            $('#DivDescripcion').show();            
+            $('#DivFileUpload').show();
+        }
+        else if (idTipoTask == 2) {
+            $('#ModalCrearTaskTit').html('Actividad Virtual');
+            $('#LabelFechaInicio').text('Fecha de Inicio:');
+            $('#_idTipoTask').val(1);
+            $('.label_materia').show();
+            $('#_1').show();
+            //GetCalificacion();
+            $('.lblTE').show();
+            $('#ddlTareaTarde').val(1);
+            $('#btnTaskOp1').hide();
+            $('#LabelHoraEntrega').show();
+            $('#LabelHoraInicio').show();
+            $('#DivFileUpload').hide();
+            $('#LabelTareaTarde').show();
+            $('#DivTareaTarde').show();
+            $('#fechaIni').show();
+            $('#_1').hide();
+            $('#_2').show();
+            $('#DivHoraTarde').show();
+            $('#DivHoraInicio').show();             
+            $('#EsConFechaEntrega').val(1);
+            $('#LabelHoraEntrega').text('Hora final:');
+            $('#LabelFechaEntrega').text('Fecha final:');
+            $('#LabelTareaTarde').text('Permitir Tardias?:');
+            $('#LabelTareaTarde').hide();
+            $('#DivTareaTarde').hide();
+
+            $('#EsConFechaEntrega').val(1); 
+            $('#DivTema').hide();
+            $('#DivDescripcion').hide();    
+        }
+        else if (idTipoTask == 3) {
+            $('#ModalCrearTaskTit').html('Material');
+            $('#LabelFechaInicio').text('Fecha en la Agenda:');
+            $('#_idTipoTask').val(3);
+            $('.label_materia').hide();
+            $('#_1').hide();
+            $('.ddlTipoNota').hide();
+            $('.lblTE').hide();
+            $('#LabelTareaTarde').hide();
+            $('#LabelHoraEntrega').hide();
+            $('#DivHoraTarde').hide();
+            $('#DivTareaTarde').hide();
+            $('#DivTema').show();
+            $('#DivDescripcion').show(); 
+            $('#DivFileUpload').show();
+        }
+    }
+</script>

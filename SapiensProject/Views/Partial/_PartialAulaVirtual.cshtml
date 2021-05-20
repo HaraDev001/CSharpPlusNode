@@ -1,0 +1,142 @@
+﻿<style>
+    .actions-trigger:hover {
+        background: #d8e2ef;
+        -webkit-box-shadow: 0 0 .5rem 0 rgba(0,0,0,.1);
+        box-shadow: 0 0 .5rem 0 rgba(0,0,0,.1);
+        z-index: 1;
+    }
+
+    .error {
+        background: #ffe3e5;
+        border: 1px solid #ff808a;
+    }
+
+
+    [_nghost-c94] {
+        align-items: center;
+        background-color: currentColor;
+        display: flex;
+        line-height: 0;
+        padding-bottom: 4px;
+        padding-top: 4px;
+        position: absolute;
+        white-space: nowrap
+    }
+    .datepicker {
+        z-index: 1151 !important;
+    }
+
+    #ListAlumnos {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+        #ListAlumnos ul li a {
+            display: block;
+            color: #000;
+            padding: 8px 16px;
+            text-decoration: none;
+        }
+
+</style>
+<input type="hidden" id="idSubnivel" />
+<input type="hidden" id="tp" />
+<input type="hidden" id="idPeriodo" />
+<input type="hidden" id="idAsignatura" />
+<input type="hidden" id="DesactivarUsuarioPorPeriodo" />
+<input type="hidden" id="idTask" />
+<input type="hidden" id="idMetodoPromedio" />
+<a id="dlink" style="display:none;"></a>
+@*<div class="row">
+    <div class="col-md-12">*@
+@RenderPage("../Partial/BuscadorGrupo.cshtml")
+
+<div class="pleaseWaitDiv" style="display: none;">
+    <div>
+        <span data-i18n="header.t18">Por favor espere...&nbsp;</span><div></div>
+    </div>
+</div>
+<div id="div_registros" style="display:none;">
+    <div class="">
+        <div class="list-group" style="padding: 0" id="table1">
+        </div>
+    </div>
+</div>
+<script src="~/dist/js/ViewTask.js?0018"></script>
+@RenderPage("../Partial/_PartialComentariosAulaVirtual.cshtml")
+@RenderPage("../Partial/_PartialAulaVirtualView.cshtml")
+@RenderPage("../Partial/_PartialAyudaModal.cshtml")
+<script>
+    function guardadosArchivos() {
+    }
+    function ViewTask(idTask) {
+        $('#titleNameTask').text('');
+        $('#TaskContenido').html('');
+        $('#BtnCrearTask').hide();
+        $('#ModalViewAula').modal('show')
+        var parameters = { "idTask": idTask, "Fecha": GetDate(), "idUsuario": $('#idUsuario').val(), "idRolA": idRolA };
+        jQueryAjaxCallback("../Shared/Utility.aspx/ObtenerTaskId", JSON.stringify(parameters), "POST", "json", PostViewTask);
+    }
+    function PostViewTask(data) {
+        var htmlArchivo = '';
+        var m = $.parseJSON(data.d);
+        $('#titleNameTask').text(m[0].Tema);
+        $('#TaskContenido').html(m[0].Descripcion);
+        ///////////////inicio archivo
+        if (m[0].arrayArchivo != undefined) {
+            var a = m[0].arrayArchivo;
+            var leng_a = a.length;
+            var cont_a = 0;
+            while (cont_a < leng_a) {
+                htmlArchivo += ConstruirAttachCss(a[cont_a].archivo, 1);
+                cont_a++;
+            }
+        }
+        ///////fin comentario
+        $('#parchivo').html(htmlArchivo);
+    }
+    function Callcomentarios(idTask) {
+        $('#MdlComentarios').modal('show');
+    }
+    function CallOpconesAEjecutar() {
+        BlogAdmin();
+    }
+    function BlogAdmin() {
+        var idSubnivel = $('#idSubnivel').val();
+        if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == true)
+            var idAsignatura = $('#BuscSubnivel option:selected').attr('idAsignatura');
+        else
+            var idAsignatura = $('#idAsignatura').val();
+        var idAsignatura = $('#idAsignatura').val();
+        $('#idSubnivel').val(idSubnivel);
+        $('#idAsignatura').val(idAsignatura);
+        CargarTask(idAsignatura);
+    }
+    function CargarTask(idAsignatura) {
+        $('#table1').empty();
+        var parameters = {
+            "idSubnivel": $('#idSubnivel').val(), "idAsignatura": idAsignatura, "idPeriodo": $('#idPeriodo').val(),
+            "Estatus": 1, "idTask": -1, "idOpcion": 1, "idUsuario": $('#idUsuario').val(), "idRol": idRolA
+        };
+        console.log(parameters)
+        jQueryAjaxCallback("../Shared/Utility.aspx/iCargarTask", JSON.stringify(parameters), "POST", "json", CargarBlog);
+    }
+    function Redirect(idTask) {
+
+    }
+    function PrintTask(idTask) {
+        var parameters = { "idSubnivel": -1, "idAsignatura": -1, "idPeriodo": $('#idPeriodo').val(), "Estatus": 1, "idTask": idTask, "idOpcion": 2 };
+        jQueryAjaxCallback("../Shared/Utility.aspx/RepTask", JSON.stringify(parameters), "POST", "json", PostPrintTask);
+    }
+    function PostPrintTask(data) {
+        if (data.d == "-1") {
+            Message(1, 'No se encontro registros por imprimir', 'Mensaje Exitoso');
+        }
+        else {
+            document.getElementById("dlink").href = data.d;
+            document.getElementById("dlink").click();
+        }
+    }
+
+</script>

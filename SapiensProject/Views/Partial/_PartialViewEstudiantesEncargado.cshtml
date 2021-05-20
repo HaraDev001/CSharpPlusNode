@@ -1,0 +1,40 @@
+﻿<div id="MsjPadreA" style="border: 1px solid;display: none; background-color: #ccf6e4; color: #00864e; border: 1px solid;" class="alert">
+    <i class="fa fa-user-o fa-2x"></i>  Estás viendo el perfil de
+    @*<a href="https://getbootstrap.com/docs/4.3/components/card/" target="_blank">
+            here
+        </a>*@
+    <select id="SpanNombreAl" onchange="ChangeValidarUser();"></select>
+</div>
+
+<script>
+    function ValidarUser(idRol) {
+        if (idRol == 19) {
+            $('#MsjPadreA').show();
+            var parameters = {};
+            jQueryAjaxCallback("../Shared/Utility.aspx/ValidaEncargado", JSON.stringify(parameters), "POST", "json", PostValidarUser, false);
+        }
+        else if (idRol == 5) {
+            $('#idUsuario').val(-1);
+            $('#MsjPadreA').hide();
+            InicioPerfilEstudiante(-1);   
+        }
+    }
+    function ChangeValidarUser() {
+        InicioPerfilEstudiante($('#SpanNombreAl').val());
+    }
+    function PostValidarUser(data) {
+        $('#MsjPadreA').show();
+        var counter = 0;
+        var m = $.parseJSON(data.d);
+        var arrayLength = m.length;
+        var select = document.getElementById('SpanNombreAl');
+        while (counter < arrayLength) {
+            var opt = document.createElement('option');
+            opt.value = m[counter].idUsuario;
+            opt.innerHTML = m[counter].NombreCompleto;
+            select.appendChild(opt);
+            counter++
+        }
+         InicioPerfilEstudiante($('#SpanNombreAl').val());       
+    }
+</script>

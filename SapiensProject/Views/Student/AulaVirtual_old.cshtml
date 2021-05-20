@@ -1,0 +1,63 @@
+﻿@using SapiensProject.Controllers
+@using SapiensProject.Models.Entities
+@{
+    Layout = "~/Views/Student/SiteStudent2021.cshtml";
+    AccountController account = new AccountController();
+    Usuario usr = account.getCurrentUser();
+    int idRol = usr.idRol;
+    int idEscuela = usr.idEscuela;
+}
+<input id="idUsuario" type="hidden" />
+<script>
+    var TipoModulo = 'AULA';
+    ActiveMenu('AulaVirtualS');
+    var idRolA = 5;
+</script>
+
+<div class="content-wrapper">
+    <div class="content-header row">
+        <div class="content-header-left col-md-9 col-12 mb-2">
+            <div class="row breadcrumbs-top">
+                <div class="col-12">
+                    <h2 class="content-header-title float-left mb-0">
+                        <img class="cursor-pointer" src="../images/aulavirtual.png" alt="" style="width: 30px;height: 30px;">
+                        <span data-i18n="header.t9"> Aula Virtual</span>
+                    </h2>
+                    <div class="breadcrumb-wrapper col-12">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="Welcome"><span data-i18n="inicio">Inicio</span></a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content-body">
+        @RenderPage("../Partial/_PartialViewEstudiantesEncargado.cshtml")
+        <div class="router-content">
+            <div class="card">
+                <div class="row">
+                    <div class="col-sm-12">
+                        @RenderPage("../Partial/_PartialAulaVirtual.cshtml")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script>
+    $(function () {
+        $('#Toolbar_Aula').empty();
+        ValidarUser(@Html.Raw(idRol));
+    });
+    function InicioPerfilEstudiante(idUsuario) {
+        $('#idUsuario').val(idUsuario);
+        $('#idUsuarioBuscador').val(idUsuario);
+          Inicio(idUsuario);
+    }
+    function guardadosArchivos(data) {
+		BlogAdmin()
+	}
+    </script>

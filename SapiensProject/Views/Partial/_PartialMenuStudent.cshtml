@@ -1,0 +1,133 @@
+﻿@using SapiensProject.Controllers
+@using SapiensProject.Models.Entities
+@{
+    AccountController account = new AccountController();
+    Usuario usr = account.getCurrentUser();
+    int idEscuela = account.getCurrentUser().idEscuela;
+    var style2 = "";
+    if (idEscuela == 53)
+    {
+        account.redirectToNotAccessPage();
+    }
+    if (usr.idEscuela == 56)
+    {
+        //Matricula?x1=3
+        style2 = "<li id='ma'><a href='Matricula?x1=3'><i class='fa fa-address-card-o'></i> <span>CONTRATO 2021</span></a></li>";
+    }
+}
+<div class="main-menu-content">
+    <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+        <li class="nav-item" id="Iho">
+            <a href="Welcome" class="nav-link">
+                <img class="cursor-pointer" src="../images/ACADEMICA_ICONS_HOME-BLANCO.png" alt="." width="25">
+                <span class="_x1" data-i18n="inicio">Inicio</span>
+            </a>
+        </li>
+        <li class="nav-item" id="m6">
+            <a class="nav-link b1" href="Agenda">
+                <img class="cursor-pointer" src="../images/ACADEMICA_ICONS_AGENDA.png" alt="." width="25">
+                <span class="_x1" data-i18n="header.t5">Agenda</span>
+            </a>
+        </li>
+        @Html.Raw(style2)
+        <li class="nav-item" id="menuPrematricula" style="display:none;">
+            <a href="PreMatriculaP?x1=3" class="nav-link b1">
+                <img class="cursor-pointer" src="../images/ACADEMICA_ICONS-12.png" alt="." width="25">
+                <span class="_x1">Pre-Matricula 2021</span>
+            </a>
+        </li>
+        <li id="m1" class="nav-item">
+            <a class="nav-link b1" href="Anuncios">
+                <img class="cursor-pointer" src="../images/ACADEMICA_ICONS_ANUNCIOS.png" alt="." width="25">
+                <span class="_x1" data-i18n="header.t58">Anuncios</span>
+            </a>
+        </li>
+        <li id="Boletin_Menu" class="nav-item" style="display: none">
+            <a class="nav-link b1" href="ReportCard">
+                <i class="fa fa-address-card-o"></i>
+                <span class="_x1" data-i18n="header.t6">&nbsp;Boletín</span>
+            </a>
+        </li>
+
+        <li id="Promedio_Preescolar" class="nav-item" style="display: none">
+            <a href="EvaluacionPreescolar" class="nav-link b1">
+                <img class="cursor-pointer" src="../images/ACADEMICA_ICONS_NOTAS.png" alt="." width="25">
+                <span class="_x1" data-i18n="header.t8">&nbsp;Evaluación</span>
+            </a>
+        </li>
+        <li id="Promedio_Diurno" class="nav-item" style="display: none">
+            <a href="Promedios" class="nav-link b1">
+                <img class="cursor-pointer" src="../images/ACADEMICA_ICONS_NOTAS.png" alt="." width="25">
+                <span class="_x1" data-i18n="header.t8">&nbsp;Mis Notas</span>
+            </a>
+        </li>
+        <li id="Promedio_Laboral" class="nav-item" style="display: none">
+            <a href="PromediosL" class="nav-link b1">
+                <img class="cursor-pointer" src="../images/ACADEMICA_ICONS_NOTAS.png" alt="." width="25">
+                <span class="_x1" data-i18n="header.t8">&nbsp;Mis Notas</span>
+            </a>
+        </li>
+        <li id="AulaVirtualS" class="nav-item">
+            <a href="AulaVirtual?tp=1" class="AulaHref nav-link b1">
+                <img class="cursor-pointer" width="25" src="../images/ACADEMICA_ICONS.png" alt=".">
+                <span class="_x1" data-i18n="header.t9">&nbsp;Classroom</span>
+                <span class="badge new badge pill badge-warning accent-2 float-right mr-2 span_noti_cantidad">0</span>
+            </a>
+        </li>
+        @if ((@idEscuela == 35) || (@idEscuela == 39)||(@idEscuela == 41) || (@idEscuela == 105) || (@idEscuela == 114) || (@idEscuela == 23))
+        {
+            <li id='sa1' class="nav-item">
+                <a href='SalonesMeet' class="nav-link b1">
+                    <img class="cursor-pointer" width="25" src="../images/ACADEMICA_ICONS_SALON-VIRTUAL.png" alt=".">
+                    <span class="_x1" data-i18n="header.t10">&nbsp;Salón Virtual</span>
+                </a>
+            </li>
+        }
+        else
+        {
+            <li id='sa1' class="nav-item">
+                <a href='SalonVirtual' class="nav-link b1">
+                    <img class="cursor-pointer" width="25" src="../images/ACADEMICA_ICONS_SALON-VIRTUAL.png" alt=".">
+                    <span class="_x1" data-i18n="header.t10">&nbsp;Salón Virtual</span>
+                </a>
+            </li>
+        }
+        <li id="liMatricula" class="nav-item">
+            <a href="Mensaje" class="nav-link">
+                <img class="cursor-pointer" src="../images/ACADEMICA_ICONS_MENSAJES.png" alt="." width="25">
+                <span class="_x1" data-i18n="header.t11">&nbsp;Mensajes</span>
+                <span class="badge new badge pill badge-warning accent-2 float-right mr-2 span_resumen_cantidad">0</span>
+            </a>
+        </li>
+        <li id="m2" class="nav-item">
+            <a href="Horario" class="nav-link b1">
+                <img class="cursor-pointer" src="../images/ACADEMICA_ICONS_HORARIO.png" alt="." width="25">
+                <span class="_x1" data-i18n="header.t12">&nbsp;Horario</span>
+            </a>
+        </li>
+        <li id="m3" class="nav-item">
+            <a href="HistorialPagos" class="nav-link b1">
+                <img class="cursor-pointer" src="../images/ACADEMICA_ICONS_PAGOS.png" alt="." width="25">
+                <span class="_x1" data-i18n="header.t13">&nbsp;Pagos</span>
+            </a>
+        </li>
+        <li id="IpA" class="nav-item">
+            <a href="Enlaces" class="nav-link">
+                <img class="cursor-pointer" src="../images/ACADEMICA_ICONS_ENLACES.png" alt="." width="25">
+                <span class="_x1" data-i18n="header.t14">&nbsp;Enlaces</span>
+            </a>
+        </li>
+        <li class="nav-item" id="m5">
+            <a href="MyProfile?x1=3">
+                <img class="cursor-pointer" src="../images/ACADEMICA_ICONS2.png" alt="." width="25">
+                <span class="_x1" class="menu-title" data-i18n="header.t27">&nbsp;Mi Perfil</span>
+            </a>
+        </li>
+        <li id="m9" class="nav-item">
+            <a href="Ayuda" class="nav-link">
+                <img class="cursor-pointer" src="../images/ACADEMICA_ICONS3.png" alt="." width="25">
+                <span class="_x1" data-i18n="header.t15">&nbsp;Ayuda</span>
+            </a>
+        </li>
+    </ul>
+</div>

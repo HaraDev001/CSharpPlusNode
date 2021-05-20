@@ -1,0 +1,71 @@
+﻿@{
+    Layout = "~/Views/Shared/SiteStudent2021.cshtml";
+}
+<input id="idUsuario" type="hidden" />
+<script>
+    $('#idUsuario').val(-1);
+    ActiveMenu('IaAv');
+    var idRolA = 1;
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+<div class="content-header row">
+    <div class="content-header-left col-md-9 col-12 mb-2">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h2 class="content-header-title float-left mb-0">
+                    <img class="cursor-pointer" src="../images/ACADEMICA_ICONS.png" alt="" width="30"> <span data-i18n="header.t9"> Classroom</span>
+                </h2>
+                <div class="breadcrumb-wrapper col-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="AulaVirtual?tp=1"><span data-i18n="header.t9">Classroom</span></a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="Welcome"><span data-i18n="inicio">Inicio</span></a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="content-body">
+    <div class="router-content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card" style="margin-bottom: 0;padding-right: 16px; padding-bottom: 20px; padding-left: 16px; padding-top: 20px;">
+                    <div class="row">
+                        <div class="col-md-4" style="display:flex;">
+                            <div class="todo-icon" style="background-color: rgb(62, 66, 83); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <svg width="24px" height="24px" viewBox="0 0 24 24" name="quiz-icon"><path fill="#fff" fill-rule="evenodd" stroke="none" stroke-width="1" id="Icon/small/quiz" d="M6 4h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2zm1.5 13h7a.5.5 0 100-1h-7a.5.5 0 100 1zm0-2h9a.5.5 0 100-1h-9a.5.5 0 100 1zm2.92-5.717a.8.8 0 10-1.131 1.131l2.262 2.263 3.96-3.96a.8.8 0 10-1.131-1.131l-2.829 2.828-1.13-1.131z"></path></svg>
+                            </div>
+                            <div style="margin: 0 16px;overflow: hidden;">
+                                <div style="font-size: 1.5rem;font-weight: 500;line-height: 40px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">
+                                    <span style="font-size: 1.2rem;font-weight: 500;line-height: 40px;white-space: nowrap;" id="AdDetalleSpan"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="float-right">
+                                <a href="AulaVirtual?tp=1" class="btn btn-primary hidden-lg-down">Ir a Classroom</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @RenderPage("../Partial/_PartialAulaCalificar.cshtml")
+
+    </div>
+</div>
+<script>
+    $(function () {
+
+        $('#idTask').val(QueryStringCustom.y_);
+        ViewTaskDetalle();
+        CallCalificar($('#idTask').val());
+    });
+
+</script>

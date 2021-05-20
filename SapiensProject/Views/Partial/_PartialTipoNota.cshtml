@@ -1,0 +1,118 @@
+﻿        <select class="ddlTipoNota" style="width: 210px;">
+            <option value="Nota Diaria Ejercicio">Nota Diaria Ejercicio</option>
+            <option value="Nota Diaria para entregar">Nota Diaria en Casa</option>
+            <option value="Apreciacion">Apreciacion</option>
+            <option value="Examen">Examen</option>
+            <option value="Formativa">Formativa</option>
+        </select>    
+<input type="text" id="InputTipoNota" style="display:none;width:210px" />
+<script>
+    function GetCalificacion() {       
+        $('#InputTipoNota').val('');
+        var i = $('#ddlSubnivel option:selected').attr('idMetodoPromedio');
+        $('#idMetodoPromedio').val(i);
+        console.log('pos 1 ' + $('#idMetodoPromedio').val())
+        var idMetodoPromedio = $('#idMetodoPromedio').val();
+        $('#InputTipoNota').hide();
+        console.log('ddlSubnivel ' + $('#ddlSubnivel').val())
+        console.log('idMetodoPromedio ' + idMetodoPromedio)
+        if (idMetodoPromedio == 1) {
+            $('#DivTipoNota').show();
+            $('.ddlTipoNota').show();
+            $('.ddlTipoNota').html('<option value="Nota Diaria Ejercicio">Sumativa</option><option value="Formativa">Formativa</option>'); 
+        }
+        else if (idMetodoPromedio == 2) {
+            $('#DivTipoNota').show();
+            $('.ddlTipoNota').show();
+            $('.ddlTipoNota').html('<option value="Nota Diaria Ejercicio">Sumativa Ejercicio</option><option value="Nota Diaria para entregar">Sumativa para entregar</option><option value="Formativa">Formativa</option>');  
+        }
+        else if (idMetodoPromedio == 3) {
+            $('#DivTipoNota').show();
+            $('.ddlTipoNota').show();
+            $('.ddlTipoNota').html('<option value="Nota Diaria Ejercicio">Nota Diaria Ejercicio</option><option value="Nota Diaria para entregar">Nota Diaria para entregar</option><option value="Apreciacion">Apreciaci&oacute;n</option><option value="Examen">Examen</option><option value="Formativa">Formativa</option>');      
+        }
+        else if (idMetodoPromedio == 6) {
+            $('#DivTipoNota').show();
+            $('.ddlTipoNota').hide();
+            $('#InputTipoNota').show();
+            //$('.ddlTipoNota').html('<option value="Tarea">Tarea</option>');
+        }
+    }
+    function SetCalificacion(TipoNota, SubTipoNota) {
+        var idMetodoPromedio = $('#idMetodoPromedio').val();
+        var NewTipoNota = '';
+        if (idMetodoPromedio == 1) {
+            $('#InputTipoNota').hide();
+            $('.ddlTipoNota').show();
+            if (TipoNota == 'Nota Diaria') {
+                if (SubTipoNota == 1)
+                    NewTipoNota = 'Nota Diaria Ejercicio';
+                else if (SubTipoNota == 2)
+                    NewTipoNota = 'Nota Diaria para entregar';
+            }
+            else
+                NewTipoNota = TipoNota;
+             $('.ddlTipoNota').val(NewTipoNota);
+        }
+        else if (idMetodoPromedio == 2) {
+            $('#InputTipoNota').hide();
+            $('.ddlTipoNota').show();
+            if (TipoNota == 'Nota Diaria') {
+                if (SubTipoNota == 1)
+                    NewTipoNota = 'Nota Diaria Ejercicio';
+                else if (SubTipoNota == 2)
+                    NewTipoNota = 'Nota Diaria para entregar';
+            }
+            else
+                NewTipoNota = TipoNota;
+             $('.ddlTipoNota').val(NewTipoNota);
+        }
+        else if (idMetodoPromedio == 3) {
+            $('#InputTipoNota').hide();
+            $('.ddlTipoNota').show();
+            if (TipoNota == 'Nota Diaria') {
+                if (SubTipoNota == 1)
+                    NewTipoNota = 'Nota Diaria Ejercicio';
+                else if (SubTipoNota == 2)
+                    NewTipoNota = 'Nota Diaria para entregar';
+            }
+            else
+                NewTipoNota = TipoNota;
+             $('.ddlTipoNota').val(NewTipoNota);
+        }
+        else if (idMetodoPromedio == 6) {
+            $('.ddlTipoNota').hide();
+            $('#InputTipoNota').show();
+            $('#InputTipoNota').val(TipoNota);
+            //$('.ddlTipoNota').html('<option value="'+TipoNota+'">'+TipoNota+'</option>');
+        }       
+    }
+    function GetTipoNota() {
+        var idMetodoPromedio = $('#idMetodoPromedio').val();
+        console.log('GetTipoNota() '+idMetodoPromedio)
+        var TipoNota = $('.ddlTipoNota').val();
+        if (idMetodoPromedio == 6) {
+            TipoNota = $('#InputTipoNota').val();
+            if (TipoNota.length == 0)
+                TipoNota = 'ClasRoom';
+        }
+        else if (TipoNota == 'Nota Diaria Ejercicio')
+            TipoNota = 'Nota Diaria';
+        else if (TipoNota == 'Nota Diaria para entregar')
+            TipoNota = 'Nota Diaria';
+        else 
+            TipoNota = TipoNota;
+        return TipoNota;
+    }
+    function GetSubTipoNota() {
+        var idMetodoPromedio = $('#idMetodoPromedio').val();
+        var TipoNota = $('.ddlTipoNota').val();   
+        if (idMetodoPromedio == 6)
+            SubTipoNota = 1;
+        else if (TipoNota == 'Nota Diaria para entregar')
+            SubTipoNota = 2;
+        else 
+           SubTipoNota = 1;
+        return SubTipoNota;
+    }
+</script>

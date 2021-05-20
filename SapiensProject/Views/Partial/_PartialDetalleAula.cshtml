@@ -1,0 +1,488 @@
+﻿<div class="row">
+    <div class="col-sm-1" id="Col1AlumnoTask" style="display:none;"></div>
+    <div class="col-sm-8" id="Col2AlumnoTask">
+        <br />
+        <div class="card">
+            <div class="card-header border-bottom mx-2 px-0">
+                <div class="d-flex justify-content-start align-items-center mb-1">
+                    <div class="avatar mr-1">
+                        <img id="ImageProfile2" class="round" src="../../dist/img/male.png" width="40" height="40" alt="User Image">
+                    </div>
+                    <div class="user-page-info">
+                        <h6 class="mb-0" id="titleNameTask"></h6>
+                        <span class="font-small-2" id="_FE_"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="mailbox-read-message" style="margin: 0 0 18px 0;" id="TaskDetalleAula">
+                    <span data-placement="right" data-original-title="Tipo de evalación que el docent evaluara esta actividad.." data-toggle="tooltip" class="info-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" name="info-circle-icon"><path fill="#2e313e" fill-rule="evenodd" stroke="none" stroke-width="1" id="Icon/small/infocirle" d="M12 21a9 9 0 110-18 9 9 0 010 18zm-1.227-9.411v4.095a1.226 1.226 0 002.454 0v-4.095a1.226 1.226 0 00-2.454 0zM12 8.727a1.227 1.227 0 100-2.454 1.227 1.227 0 000 2.454z"></path></svg>
+                    </span>
+                    <b>Tipo de Evaluación: </b><label id="lbl35"></label>
+                    <br>
+                    <b>
+                        <span data-placement="right" data-original-title="Fecha en la cual aparecera esta actividad en la Agenda Semanal." data-toggle="tooltip" class="info-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" name="info-circle-icon">
+                                <path fill="#2e313e" fill-rule="evenodd" stroke="none" stroke-width="1" id="Icon/small/infocirle" d="M12 21a9 9 0 110-18 9 9 0 010 18zm-1.227-9.411v4.095a1.226 1.226 0 002.454 0v-4.095a1.226 1.226 0 00-2.454 0zM12 8.727a1.227 1.227 0 100-2.454 1.227 1.227 0 000 2.454z"></path>
+                            </svg>
+                        </span>Fecha de Agenda:
+                    </b> <label id="lbl34"></label>
+                </div>
+                <div class="mailbox-read-message" id="TaskContenido"></div>
+                <p id="parchivo"></p>
+                <div class="pleaseWaitDiv" style="display: none;">
+                    <div>
+                        <span tkey="MENU_PORFAVORESPERE"></span><div></div>
+                    </div>
+                </div>
+            </div>
+            <span style="letter-spacing: .01785714em;font-size: .875rem;font-weight: bold;line-height: 1.25rem;color: #3c4043;padding: 1rem !important;"><span id="ContComCl"></span> Comentarios de la Clase</span>
+            <div id="listaComentarios" style="display: none;background-color: rgba(34, 41, 47, 0.03);border-top: 1px solid #DAE1E7;padding-top: 10px;padding-left: 5px;padding-right: 15px;">
+            </div>
+            <div style="border-top: 1px solid #DAE1E7;padding-top: 10px;padding-left: 5px;padding-right: 15px;">
+                <div class="d-flex justify-content-start align-items-center mb-2">
+                    <div class="avatar mr-50">
+                        <img src="../../dist/img/male.png" class="ImgMyUser" alt="Avatar" width="40" height="40">
+                    </div>
+                    <div class="user-page-info" style="width: 100%;">
+                        <input id="nuevoComentario" maxlength="500" type="text" dsaasd="" onkeypress="function a(){console.log('dfsdf')}" class="form-control input-sm" placeholder="Añadir un comentario de clase…" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4" id="Col4AlumnoTask" style="display:none">
+        <br />
+        <div id="BoxOpcionTarea1" style="display:none;">
+            <div class="card card-widget">
+                <div class="card-header with-border">
+                    <h5 class="caed-title">Tu Trabajo</h5>
+                    <div class="pull-right" id="StausLabel"></div>
+                </div>
+                <div class="card-body">
+                    <div class="col-sm-12">
+                        <label><b>Calificación: </b></label>
+                        <div class="pull-right">
+                            <span style="font-weight:bold" id="NotaAlumno"></span> <span id="NotaMaxima"></span>
+                        </div>
+                    </div>
+                    @RenderPage("../Partial/_PartialFileUpload.cshtml")
+                    <div class="pleaseWaitDiv" style="display: none;">
+                        <div>
+                            <span tkey="MENU_PORFAVORESPERE"></span><div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div id="DivTarde" style="display:none;">
+                        <div class="alert" style="color: #781d2d;background-color: #fad7dd;border-color:#f8c7d0;" role="alert">
+                            <i class="fa fa-clock-o"></i> La Fecha Límite de entrega de este trabajo finalizo.
+                        </div>
+                    </div>
+                    <div id="DivAntes" style="display:none;">
+                        <div class="alert" style="color: #781d2d;background-color: #fad7dd;border-color:#f8c7d0;" role="alert">
+                            <i class="fa fa-clock-o"></i> La Fecha de Inicio de entrega de este trabajo aún no inicia.
+                        </div>
+                    </div>
+                    <button id="btnSubirTrabajo" type="button" class="btn btn-primary btn-block place-order waves-effect waves-light" style="font-size:14px;border-radius:5px;" onclick="SubirTrabajoAulaEs();">Entregar Tarea</button>
+                </div>
+            </div>
+        </div>
+        <div id="BoxOpcionTarea2" style="display:none;">
+            <div class="card card-widget">
+                <div class="card-body">
+                    <input type="hidden" id="idUsuarioPrivado" value="-1" />
+                    <span style="letter-spacing: .01785714em;font-size: .875rem;font-weight: bold;line-height: 1.25rem;color: #3c4043;"><span id="ContComPr"></span>  Comentarios privados</span>
+                </div>
+                <div id="listaComentariosP" class="card-footer card-comments" style="display:none;padding-bottom:0px;">
+                </div>
+                <div style="border-top: 1px solid #DAE1E7;padding-top: 10px;padding-left: 5px;padding-right: 15px;">
+                    <div class="d-flex justify-content-start align-items-center mb-2">
+                        <div class="avatar mr-50">
+                            <img src="../../dist/img/male.png" class="ImgMyUser" alt="Avatar" width="40" height="40">
+                        </div>
+                        <div class="user-page-info" style="width: 100%;">
+                            <input id="nuevoComentarioP" maxlength="500" type="text" dsaasd="" onkeypress="function a(){console.log('dfsdf')}" class="form-control input-sm" placeholder="Añade un comentario privado…" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="DelComen">
+    <div class="modal-dialog">
+        <div class="modal-content" style="border-radius: 6px;">
+            <div class="modal-header">
+                <h4 class="modal-title">Eliminar el Comentario</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-remove (alias) fa-2x"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="pleaseWaitDiv" style="display: none;">
+                    <div>
+                        <span data-i18n="header.t18">Por favor espere...&nbsp;</span><div></div>
+                    </div>
+                </div>
+                <div class="form-horizontal">
+                    <input id="deleteidagenda" type="hidden" />
+                    <div class="form-group">
+                        <p>¿Está seguro de eliminar el Comentario?</p><p>La eliminación de este comentario seran irreversible. Una vez completada la acción no podrá recuperar el comentario. Para cancelar la acción click en el botón"Cancelar."</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" id="ElmCom">
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="idTask" />
+<input type="hidden" id="idMetodoPromedio" />
+<script>
+    var task;
+    var NotaAlumno = 0;
+    var ValidaFechaInicial = false;
+    var ValidaFechaFinal = true;
+    setInterval(deshabilitarSubidaTareas, 1000)
+
+    function subirCambios() {
+        SubirTrabajoAulaEs()
+    }
+    function canUpload() {
+        if (pasoFechaEntrega()) {
+            Message(2, 'se paso fecha de entrega', 'Error');
+            return false
+        }
+
+        if (antesFechaEntrega()) {
+            Message(2, 'antes fecha de entrega', 'Error');
+            return false
+        }
+
+        return true
+    }
+
+    //Valida que la fecha inicial de la tarea
+    function antesFechaEntrega() {
+        if (task != undefined) {
+            var fechaInicio = moment(task.Fecha_Inicio, 'YYYY-MM-DD hh:mm:ss')
+            var horaActual = moment()
+            var fi = new Date(fechaInicio)
+            var ff = new Date(horaActual)
+            if (fi.getTime() >= ff.getTime()) {
+                return true
+            }
+        }
+        return false
+    }
+
+    function pasoFechaEntrega() {
+        if (task != undefined && task.EsConFechaEntrega == 1) {
+            if (task.PermitirTareaTarde == 0) {
+                var fechaEntrega = moment(task.Fecha_Entrega, 'YYYY-MM-DD hh:mm:ss')
+                var horaActual = moment()
+                var fi = new Date(fechaEntrega)
+                var ff = new Date(horaActual)
+                if (fi.getTime() < ff.getTime()) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+    var notiTareEntregada = 0;
+
+    function deshabilitarSubidaTareas() {
+        if (ValidaFechaFinal == true) {
+            if (pasoFechaEntrega()) {
+                $('#DivTarde').show();
+                $('#btnSubirTrabajo').hide()
+                $('#BoxOpcionTarea1 .progress').hide()
+                $('#botonfileupload').hide()
+                $('#_FE_').css('background-color', '#fad7dd');
+                if (notiTareEntregada == 0) {
+                    $('#ModalEntrega').modal('show');
+                    notiTareEntregada = 1;
+                }
+                return;
+            }
+        }
+            
+        if (ValidaFechaInicial == true) {
+            if (antesFechaEntrega()) {
+                //alert('entro');
+                $('#DivAntes').show();
+                $('#btnSubirTrabajo').hide()
+                $('#BoxOpcionTarea1 .progress').hide()
+                $('#botonfileupload').hide()
+                $('#_FE_').css('background-color', '#fad7dd');
+                if (notiTareEntregada == 0) {
+                    $('#ModalEntregaAntes').modal('show');
+                    notiTareEntregada = 1;
+                }
+            }
+            else {
+                $('#DivAntes').hide();
+                $('#btnSubirTrabajo').show()
+                $('#BoxOpcionTarea1 .progress').show()
+                $('#botonfileupload').show()
+                $('#ModalEntregaAntes').modal('hide');
+                notiTareEntregada = 0;
+            }
+        }
+    }
+
+    function ShowEstatus(nroArchivos, nota) {
+        var notatxt = nota.toString()
+        if ((Number.isInteger(nota) && nota > 0) || (!Number.isInteger(nota) && notatxt.length > 0)) {
+            $('#StausLabel').html('<span style="color:#137333;font-weight: bold;font-size: 11.5px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 15" width="16" height="15"><path fill="currentColor" d="M15.01 3.316l-.478-.372a.365.365 0 0 0-.51.063L8.666 9.879a.32.32 0 0 1-.484.033l-.358-.325a.319.319 0 0 0-.484.032l-.378.483a.418.418 0 0 0 .036.541l1.32 1.266c.143.14.361.125.484-.033l6.272-8.048a.366.366 0 0 0-.064-.512zm-4.1 0l-.478-.372a.365.365 0 0 0-.51.063L4.566 9.879a.32.32 0 0 1-.484.033L1.891 7.769a.366.366 0 0 0-.515.006l-.423.433a.364.364 0 0 0 .006.514l3.258 3.185c.143.14.361.125.484-.033l6.272-8.048a.365.365 0 0 0-.063-.51z"></path></svg> Tarea calificada</span>');
+            return
+        }
+        if (nroArchivos > 0) {
+            $('#StausLabel').html('<span style="color:#137333;font-weight: bold;font-size: 11.5px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 15" width="16" height="15"><path fill="currentColor" d="M15.01 3.316l-.478-.372a.365.365 0 0 0-.51.063L8.666 9.879a.32.32 0 0 1-.484.033l-.358-.325a.319.319 0 0 0-.484.032l-.378.483a.418.418 0 0 0 .036.541l1.32 1.266c.143.14.361.125.484-.033l6.272-8.048a.366.366 0 0 0-.064-.512zm-4.1 0l-.478-.372a.365.365 0 0 0-.51.063L4.566 9.879a.32.32 0 0 1-.484.033L1.891 7.769a.366.366 0 0 0-.515.006l-.423.433a.364.364 0 0 0 .006.514l3.258 3.185c.143.14.361.125.484-.033l6.272-8.048a.365.365 0 0 0-.063-.51z"></path></svg> Tarea entregada</span>');
+        }
+        else {
+            $('#StausLabel').html('<span style="color:red;font-weight: bold;font-size: 11.5px;">Sin entregar</span>');
+        }
+    }
+    function SubirTrabajoAulaEs() {
+        $('#StausLabel').html('');
+        var idTask = $('#idTask').val();
+        var archivos = JSON.stringify(attachments)
+        var parameters = { "archivos": archivos, "idTask": idTask, "Fecha": GetDate(), "idUsuario": $('#idUsuario').val() };
+        jQueryAjaxCallback("../Shared/Utility.aspx/GuardarArchivosAulaAlumno", JSON.stringify(parameters), "POST", "json", guardadosArchivos);
+    }
+    function guardadosArchivos(data) {       
+        var m = $.parseJSON(data.d);
+        console.log(m[0].archivo + ' data')
+        var arrayLength = m.length;
+        var c = 0;
+        ShowEstatus(arrayLength, NotaAlumno);
+        Message(1, 'Se ha subido el Trabajo exitosamente', 'Mensaje Exitoso');
+        //attachments.forEach(function (item) {
+        attachments = [];
+        while (c < arrayLength) {
+            var item = {};
+            item.id = c;
+            item.url = m[c].archivo;
+            item.flag = 0;
+            item.idArchivo = m[c].idArchivo;
+            item.tamano = m[c].tamano;
+            attachments.push(item);
+            c++;
+        }
+        mostrarAttachments();
+    }
+    $('#nuevoComentario').on('keypress', SaveComentario)
+    function SaveComentario(e) {
+        if (e.key != "Enter") return
+        var comentario = $.trim($('#nuevoComentario').val());
+        $('#nuevoComentario').val('');
+        if (comentario != '') {
+            var parameters = { "idTask": $('#idTask').val(), "Comentario": comentario, "Fecha": GetDate() };
+            jQueryAjaxCallback("../Shared/Utility.aspx/SaveComentario", JSON.stringify(parameters), "POST", "json", PostSaveComentario);
+        }
+    }
+    function PostSaveComentario() {
+        ReadComentarios()
+    }
+    function ReadComentarios() {
+        var parameters = { "idTask": $('#idTask').val() };
+        jQueryAjaxCallback("../Shared/Utility.aspx/ReadComentarios", JSON.stringify(parameters), "POST", "json", PostReadComentarios);
+    }
+    function PostReadComentarios(data) {
+        var comentarios = data.d
+        var c = 0;
+        comentarios = JSON.parse(comentarios)
+        $('#listaComentarios').empty()
+        $('#listaComentarios').show()
+        $('#ContComCl').text(comentarios.length);
+        comentarios.forEach(function (comentario) {
+            if (c > 0)
+                $('#listaComentarios').append('<hr>')
+            var foto = $('<div class="avatar mr-50"><img id="ImgMyUserss" width="40" height="40" src="' + comentario.ProfilePhoto + '" alt="Alt"></div>')
+            var box = $('<div></div>')
+            box.addClass('d-flex justify-content-start align-items-center mb-2')
+            var comentariodiv = $('<div></div>')
+            comentariodiv.addClass('user-page-info')
+            var username = $('<h6></h6>')
+            username.addClass('mb-0')
+            username.append(comentario.Nombrecompleto)             
+            comentariodiv.append(username)
+            var fecha = $('<div style="font-size: 0.7rem;"></div>')
+            fecha.addClass('ml-auto cursor-pointer')
+
+            var fecharegistro = moment(comentario.FechaRegistro).format("D MMM h:mm a");
+            fecha.text(fecharegistro)            
+            if ((idRolA == 4) || (idRolA == 1))
+                var com = comentario.Comentario + ' <i onclick="EliminarCome(' + comentario.idComentario + ');" class="fa fa-trash text-red" style="cursor:pointer;"></i>';
+            else
+                var com = comentario.Comentario;
+            comentariodiv.append('<span class="font-small-2">' + com + '</span>')   
+            
+            box.append(foto)
+            box.append(comentariodiv)
+            box.append(fecha)
+            $('#listaComentarios').append(box)
+            c++;
+        })
+    }
+    function EliminarCome(id) {
+        $('#ElmCom').html('<button onclick="EliminarComentario(' + id + ');" class="btn btn-danger float-right" type="button">Eliminar</button>');
+        $('#DelComen').modal('show');
+    }
+    function EliminarComentario(id) {
+        $('#listaComentarios').empty();
+        var parameters = { "id": id };
+        jQueryAjaxCallback("../Shared/Utility.aspx/EliminarComentario", JSON.stringify(parameters), "POST", "json", PostEliminarComentario);
+    }
+    function PostEliminarComentario(data) {
+        $('#DelComen').modal('hide');
+        Message(1, 'Se elimino el comentario exitosamente.', 'Exito');
+        ReadComentarios();
+    }
+    function ViewTaskDetalle() {
+        ReadComentarios()
+        $('#titleNameTask').text('');
+        $('#TaskContenido').html('');
+        $('#lbl34').text('');
+        $('#lbl35').text('');
+        var parameters = { "idTask": $('#idTask').val(), "Fecha": GetDate(), "idUsuario": $('#idUsuario').val(), "idRolA": idRolA };
+        jQueryAjaxCallback("../Shared/Utility.aspx/ObtenerTaskId", JSON.stringify(parameters), "POST", "json", PostViewTaskDetalle);
+    }
+    function PostViewTaskDetalle(data) {
+        console.log(data)
+        var htmlArchivo = '';
+        var m = $.parseJSON(data.d);
+        task = m[0];
+        
+        $('#idAgenda').val(m[0].idAgenda);
+        $('#lbl34').text(moment(m[0].Fecha_Agenda1).format('MMM D'));
+        $('#lbl35').text(m[0].TipoNota);
+        if (m[0].idTipoTask == 1) {
+            $('#Col1AlumnoTask').hide();
+            $('#Col4AlumnoTask').show();
+            $('#TabCal').show();
+            $('#UlTaskTab').show();
+            if (m[0].EsConFechaEntrega == 1) {
+                $('#_FE_').html('<b>Fecha límite:</b> ' + moment(m[0].Fecha_Entrega1).format('D MMM'));
+            }
+            else if (m[0].EsConFechaEntrega == 0) {
+                $('#_FE_').text('Sin fecha límite');
+            }
+        }
+        else if (m[0].idTipoTask == 3) {
+            $('#Col1AlumnoTask').show();
+            $('#Col4AlumnoTask').hide();
+            $('#TabCal').hide();
+            $('#UlTaskTab').hide();
+            $('#_FE_').text('Material de Clases');
+        }
+        $('#AdDetalleSpan').text(m[0].Grupo);
+        $('#ImageProfile2').prop('src', m[0].ProfilePhoto)
+        $('#titleNameTask').text(m[0].Tema);
+        $('#TaskContenido').html(m[0].Descripcion);
+        ///////////////documento de  la tarea
+        if (m[0].arrayArchivo != undefined) {
+            var a = m[0].arrayArchivo;
+            var leng_a = a.length;
+            var cont_a = 0;
+            while (cont_a < leng_a) {
+                console.log('italia: ' + a[cont_a]);
+                htmlArchivo += ConstruirAttachCss(a[cont_a].archivo, 1, cont_a, a[cont_a].idArchivo);
+                cont_a++;
+            }
+        }
+        ///////fin comentario
+        $('#parchivo').html(htmlArchivo);
+        $('.ImgMyUser').attr('src', m[0].ProfilePhoto)
+    }
+    function SubirTarea() {
+        $('#BoxOpcionTarea1').show();
+        var parameters = { "idTask": $('#idTask').val(), "idUsuario": $('#idUsuario').val() };
+        jQueryAjaxCallback("../Shared/Utility.aspx/GetArchivoAlumno", JSON.stringify(parameters), "POST", "json", PostSubirTarea);
+    }
+    function PostSubirTarea(data) {        
+        var m = $.parseJSON(data.d);
+        ///////////////
+        var h = '';
+        NotaAlumno = m[0].Nota;
+        if (m[0].arrayArchivo != undefined) {
+            var a = m[0].arrayArchivo;           
+            ShowEstatus(a.length, NotaAlumno);
+            h = ProcesoData(a);
+        }
+        else {
+            ShowEstatus(0, 0);
+        }
+        ///////
+        if (NotaAlumno == -1) {
+            $('#NotaAlumno').html('<span style="border-bottom: .0625rem solid rgba(0,0,0,0.87);display:inline-block;line-height: 1;width: 1.25rem;">--</span>');
+        }
+        else if (NotaAlumno >= 0) {
+            ShowEstatus(0, NotaAlumno);
+            if (Number(NotaAlumno))
+                $('#NotaAlumno').html(parseFloat(NotaAlumno).toFixed(1));
+            else
+                $('#NotaAlumno').html(NotaAlumno);
+        }
+        else {
+            ShowEstatus(0, NotaAlumno);
+            $('#NotaAlumno').html(NotaAlumno);
+        }
+        if (m[0].NotaMaxima == -1)
+            $('#NotaMaxima').html('');
+        else
+            $('#NotaMaxima').html(' / ' + parseFloat(m[0].NotaMaxima).toFixed(1));
+        $('#attachments').html(h);
+    }
+    function ComentariosPrivados() {
+        $('#BoxOpcionTarea2').show();
+        var parameters = { "idTask": $('#idTask').val(), "idUsuarioPrivado": $('#idUsuario').val(), "FechaAccion": GetDate() };
+        jQueryAjaxCallback("../Shared/Utility.aspx/GetcomentariosPrivados", JSON.stringify(parameters), "POST", "json", PostComentariosPrivados);
+    }
+    $('#nuevoComentarioP').on('keypress', SaveComentario2)
+    function SaveComentario2(e) {
+        if (e.key != "Enter") return
+        var comentario = $.trim($('#nuevoComentarioP').val());
+        $('#nuevoComentarioP').val('');
+
+        if (comentario != '') {
+            var parameters = { "idTask": $('#idTask').val(), "idUsuarioPrivado": $('#idUsuario').val(), "Comentario": comentario, "FechaRegistro": GetDate() };
+            jQueryAjaxCallback("../Shared/Utility.aspx/_InsertComentPrivadosAlumnos", JSON.stringify(parameters), "POST", "json", PostIComentariosPrivados);
+        }
+    }
+    function PostIComentariosPrivados(data) {
+        ComentariosPrivados()
+    }
+    function PostComentariosPrivados(data) {
+        var comentarios = data.d
+        comentarios = JSON.parse(comentarios)
+        $('#listaComentariosP').show()
+        $('#listaComentariosP').empty()
+        $('#ContComPr').text(comentarios.length);
+        comentarios.forEach(function (comentario) {
+            var foto = $('<div class="avatar mr-50"><img id="ImgMyUserss" width="40" height="40" src="' + comentario.ProfilePhoto + '" alt="Alt Text"></div>')
+            var box = $('<div></div>')
+            box.addClass('d-flex justify-content-start align-items-center mb-2')
+            var comentariodiv = $('<div></div>')
+            comentariodiv.addClass('user-page-info')
+            var username = $('<h6></h6>')
+            username.addClass('mb-0')
+            username.append(comentario.Nombrecompleto)
+
+            var fecha = $('<div style="font-size: 0.7rem;"></div>')
+            fecha.addClass('ml-auto cursor-pointer')
+            var fecharegistro = moment(comentario.FechaRegistro).format("D MMM h:mm a");
+            fecha.text(fecharegistro)
+           
+            username.append(fecha)
+            comentariodiv.append(username)
+            comentariodiv.append('<span style="font-size: 0.8rem;">'+comentario.Comentario+'</span>')
+            box.append(foto)
+            box.append(comentariodiv)
+            box.append(fecha)
+            $('#listaComentariosP').append(box)
+        })
+    }
+</script>

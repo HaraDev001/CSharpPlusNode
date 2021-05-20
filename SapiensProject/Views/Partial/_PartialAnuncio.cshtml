@@ -1,0 +1,94 @@
+﻿<style>
+    .fr-view .fr-class-highlighted {
+        background-color: #ffff00;
+    }
+</style>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
+<div class="modal fade" id="modUpload" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content" style="border-radius: 6px;">
+            <div class="modal-header with-border" style="padding-bottom: 0px;">
+                <h4 class="modal-title">Crear Anuncio                 
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-remove (alias) fa-2x"></i></button>
+            </div>
+            <div class="modal-body" style="overflow: auto;max-height: calc(100vh - 190px);">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label><b>Título del Anuncio:</b></label>
+                                <input type="text" maxlength="50" id="AnuncioTitulo" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label><b>Anuncio:</b></label>
+                                <div id="editor1" name="editor1" class="editor1"></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <input type="checkbox" id="CheckOpc1" class="filled-in" checked="" disabled="">
+                        <label for="CheckOpc1">Enviar a toda la Escuela</label>
+                    </div>
+                    @RenderPage("../Partial/_PartialFileUpload.cshtml")
+                    <div class="pleaseWaitDiv" style="display: none;">
+                        <div>
+                            <span data-i18n="header.t18">Por favor espere...&nbsp;</span><div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" id="idAnuncio" value="-1" />
+                <button id="BtnSanun21" class="btn btn-primary pull-right" onclick="saveAnuncio()">Crear anuncio</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    ReiniciarPlugins();
+    function ReiniciarPlugins() {
+        $('.editor1').summernote({
+            height: 200,
+            dialogsInBody: true          
+         });
+    $(".note-editable").css("font-size", "12px");
+    $(".note-editable").css("font-family", "Arial");
+    }
+    var anuncio = {}
+    function ViewUpload() {
+        $('#idAnuncio').val('-1')        
+        $('.editor1').summernote('code', ' ');
+        $('#AnuncioTitulo').val('');
+        LimpiarArchivos();
+        $('#modUpload').modal('show');
+    }
+    function PostSaveAnuncio(data) {
+        $('#modUpload').modal('hide');
+        ReadAnuncio()
+        ListarAnuncios()
+    }
+    function leerForm() {
+        anuncio.descripcion = $('.editor1').summernote('code');
+    }
+    function saveAnuncio() {
+        var titulo = $('#AnuncioTitulo').val();
+        if (titulo.length == 0) {
+            return;
+        }
+        leerForm()
+        var parameters = { "idAnuncio": $('#idAnuncio').val(), "Fecha": GetDate(), "json": JSON.stringify(anuncio), "titulo": titulo };
+        console.log(parameters)
+        jQueryAjaxCallback("../Shared/Utility.aspx/SaveAnuncio", JSON.stringify(parameters), "POST", "json", anuncioGuardado);
+    }
+    function anuncioGuardado(data) {
+        if (attachments.length == 0) {
+            PostSaveAnuncio(undefined)
+            return
+        }
+        var d = JSON.parse(data.d)
+        var id = d[0].id
+        var archivos = JSON.stringify(attachments)
+        var parameters = { "archivos": archivos, "idRelacionado": id, "funcionalidad": "ANUNCIO", "idUsuario": -1, "Fecha": GetDate() };
+        jQueryAjaxCallback("../Shared/Utility.aspx/GuardarArchivos", JSON.stringify(parameters), "POST", "json", PostSaveAnuncio);
+    }
+</script>

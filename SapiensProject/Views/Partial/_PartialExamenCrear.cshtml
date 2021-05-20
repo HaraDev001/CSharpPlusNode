@@ -1,0 +1,307 @@
+﻿<div class="row">
+    <div class="col-lg-10">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="home-tab" data-toggle="pill" href="#home" aria-expanded="true">Detalles</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab" data-toggle="pill" href="#profile" aria-expanded="false">Preguntas</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="home" aria-labelledby="home-tab" aria-expanded="true">
+                               
+                                    <div id="accordionExample" data-toggle-hover="true" class="accordion">
+                                        <div class="collapse-margin" style="border: 1px solid transparent;border-color: #ebebeb;margin-top: 2px;">
+                                            <div class="card-header collapsed" id="headingOne" data-toggle="collapse" role="button" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                                <span class="lead collapse-title collapsed">
+                                                    Paso 1: Configurar examen
+                                                </span>
+                                            </div>
+                                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample" style="">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="form-group" style="display:none;" id="MsjCreateEditExamen">
+                                                                <div class="callout callout-danger">
+                                                                    <h4><i class="icon fa fa-ban"></i> Campos Obligatorios</h4>
+                                <p id="MsjTaskExamen"></p>
+                            </div>
+                        </div>
+                        <div class="pleaseWaitDiv" style="display: none;">
+                            <div>
+                                <span data-i18n="header.t18">Por favor espere...&nbsp;</span><div></div>
+                            </div>
+                        </div>
+                        @RenderPage("../Partial/_PartialAgendaContenedor.cshtml")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+                                </div>
+<div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab" aria-expanded="false">
+    @RenderPage("../Partial/_PartialExamen.cshtml")
+</div>
+                            </div>
+                        </div>
+<div class="card-body">
+
+
+</div>
+
+                    </div>
+                </div>
+            </div>
+
+
+    </div>
+<div class="col-lg-2">
+</div>
+</div>
+<div class="modal fade" id="ModalConfirmarPublicar">
+    <div class="modal-dialog">
+        <div class="modal-content" style="border-radius: 6px;">
+            <div class="modal-header">
+                <h4 class="modal-title">Publicar Prueba</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-remove (alias) fa-2x"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="pleaseWaitDiv" style="display: none;">
+                    <div>
+                        <span data-i18n="header.t18">Por favor espere...&nbsp;</span><div></div>
+                    </div>
+                </div>
+                <div class="form-horizontal">
+                    <input id="deleteidagenda" type="hidden">
+                    <div class="form-group">
+                        <p>¿Está seguro que quiere publicar su Prueba?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button onclick="$('#ModalConfirmarPublicar').modal('hide');" class="btn btn-default float-right" type="button">Cancelar</button>
+                <button onclick="SaveExamen();" id="BtnSaveExamen" class="btn btn-primary float-right" type="button">Publicar Prueba</button>
+            </div>
+        </div>
+    </div>
+</div>
+<a href="#" onclick="SaveExamenConfirmar();"  class="float">
+    <i class="fa fa-pencil my-float"></i> Publicar
+</a>
+<style>
+    .label-container {
+        z-index: 1151 !important;
+        position: fixed;
+        bottom: 48px;
+        right: 105px;
+        display: table;
+        visibility: hidden;
+    }
+
+    .label-text {
+        color: #FFF;
+        background: rgba(51,51,51,0.5);
+        display: table-cell;
+        vertical-align: middle;
+        padding: 10px;
+        border-radius: 3px;
+    }
+
+    .label-arrow {
+        display: table-cell;
+        vertical-align: middle;
+        color: #333;
+        opacity: 0.5;
+    }
+
+    .float {
+        z-index: 1151 !important;
+        position: fixed;
+        width: 120px;
+        height: 60px;
+        bottom: 40px;
+        right: 40px;
+        background-color: #06C;
+        color: #FFF;
+        border-radius: 50px;
+        text-align: center;
+        box-shadow: 2px 2px 3px #999;
+    }
+
+    .my-float {
+        font-size: 24px;
+        margin-top: 18px;
+    }
+
+    a.float + div.label-container {
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s, opacity 0.5s ease;
+    }
+
+    a.float:hover + div.label-container {
+        visibility: visible;
+        opacity: 1;
+    }
+</style>
+<script>
+    //console.log(QueryStringCustom.id)
+    var examen = new Object(Examen)
+    examen.obtenerRespuestaModelo()
+    examen.obtenerPreguntaModelo()
+    examen.editable = true
+    examen.generarExamen(examenModeloJSON)
+    //examen.setIdExamen(QueryStringCustom.id)
+
+    function setLinkExamen(idExamen) {
+        //console.log('idExamen: ' + idExamen)
+        //$('#vistaPrevia').attr('href', 'Quiz?id=' + idExamen)
+
+    }
+
+
+</script>
+<input id="_idTask" type="hidden" />
+<input type="hidden" id="idMetodoPromedio" />
+<script>
+    $('#fechaAgendaCrearExamen').datepicker({ format: 'dd/mm/yyyy', autoclose: true, language: "es", daysOfWeekHighlighted: "0,6", todayHighlight: true }).attr('readonly', 'readonly');
+    $('#fechaEntregaCrearExamen').datepicker({ format: 'dd/mm/yyyy', autoclose: true, language: "es", daysOfWeekHighlighted: "0,6", todayHighlight: true }).attr('readonly', 'readonly');
+    function SaveExamenConfirmar() {
+        $('#ModalConfirmarPublicar').modal('show');
+    }
+    function AbrirCrearExamen(tipo) {
+        ClearAulaVirtual();
+        $('#BtnSaveExamen').attr('onclick', 'SaveExamen()');
+        if (tipo == 1) {
+            $('#DivTipoNota').hide();
+            $('#TxtFechaLabel').text('Fecha que desea visualizar en la Agenda:');
+            $('#_idTask').val(-1);
+            if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == true)
+                $('#labelGrupo').html($('#BtnGrupo').text());
+            else if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == false)
+                $('#labelGrupo').html($('#BtnGrupo').text() + ' ' + $('#BtnMateria').text());
+        }
+        else if (tipo == 2) {
+            $('#TxtFechaLabel').text('Fecha de entrega del examen:');
+            $('#_idTask').val(-1);
+            if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == true)
+                $('#labelGrupo').html($('#BtnGrupo').text());
+            else if (ConverterBool($('#DesactivarUsuarioPorPeriodo').val()) == false)
+                $('#labelGrupo').html($('#BtnGrupo').text() + ' ' + $('#BtnMateria').text());
+        }
+        setTimeout(cargarWizard, 100)
+    }
+    function CheckDataAgenda() {
+        var DesactivarUsuarioPorPeriodo = $('#DesactivarUsuarioPorPeriodo').val();
+        $('#MsjCreateEditExamen').hide();
+        var examenjson = examen.obtenerExamen()
+        var descripcion = examenjson.instrucciones
+        var tema = examenjson.titulo
+        fechaAgenda = ValidarFecha($('#fechaAgendaCrearExamen').val(), 1);
+        fechaEntrega = ValidarFecha($('#fechaEntregaCrearExamen').val(), 1);
+        if (fechaAgenda == undefined) {
+            $('#MsjCreateEditExamen').show();
+            $('#MsjTaskExamen').html('Favor de completar el campo de Fecha Agenda para poder continuar creando el examen. ');
+            return false;
+        }
+        if (fechaEntrega == undefined) {
+            $('#MsjCreateEditExamen').show();
+            $('#MsjTaskExamen').html('Favor de completar los campos vacios de Fecha Examen para poder continuar creando el examen. ');
+            return false;
+        }
+        var horaParte = $('#horaEntregaExamen').val()
+        var fechaEntregaTexto = fechaEntrega + ' ' + horaParte
+        //debug
+        var fechaEntregaT = moment(fechaEntregaTexto, 'DD-MM-YYYY hh:mm A');
+        fechaEntrega = fechaEntregaT.format('DD/MM/YYYY HH:mm:ss')
+        return true
+    }
+    function SaveExamen() {
+
+
+        var horaEntrega
+        var horaInicio
+
+        horaEntrega = ValidarHora($('#horaEntregaExamen').val());
+        if (horaEntrega == undefined) {
+            Message(2, 'El valor: "' + $('#horaEntregaExamen').val() + '" no es una hora válida. Por favor ingrese una hora de esta forma: "15:30"', 'Corrija');
+            return
+        }
+        horaInicio = ValidarHora($('#horaInicioExamen').val());
+        if (horaInicio == undefined) {
+            Message(2, 'El valor: "' + $('#horaInicioExamen').val() + '" no es una hora válida. Por favor ingrese una hora de esta forma: "15:30"', 'Corrija');
+            return
+        }
+
+        var examenValido = examen.validarExamen()
+        if (!examenValido) return
+        fechaEntrega = ValidarFechaEntrega();
+        if (fechaEntrega == undefined) {
+            Message(2, 'Favor de completar los campos vacios de Fecha Final para poder continuar creando el examen.', 'Corrija');
+            return;
+        }
+        fechaAgenda = ValidarFecha($('#fechaAgenda').val(), 1);
+        if (fechaAgenda == undefined) {
+            Message(2, 'Favor de completar el campo de Fecha Inicio para poder continuar creando el examen.', 'Corrija');
+            return false;
+            return;
+        }
+
+        var fechaEntregaTexto = fechaEntrega + ' ' + horaEntrega
+        var fechaAgendaTexto = fechaAgenda + ' ' + horaInicio
+
+
+        var idSubnivel = $('#ddlSubnivel').val();
+        var idAsignatura = $('#ddlAsignatura').val();
+        idPeriodo = -1;
+        var TipoNota = GetTipoNota();
+        var SubTipoNota = GetSubTipoNota();
+        var examenjson = examen.obtenerExamen()
+        var descripcion = examenjson.instrucciones
+        var tema = examenjson.titulo;
+        if (tema == '') {
+            Message(2, 'Favor de completar los campos vacios obligatorios de Título para poder continuar creando el examen.', 'Corrija');
+            return false;
+        }
+        var PuntosExamen = examen.puntosExamenTotales();
+
+        //var horaEntrega = $('#horaEntregaExamen').val()
+        //var horaInicio = $('#horaInicioExamen').val()
+        //var fechaEntregaTexto = fechaEntrega + ' ' + horaEntrega
+        //var fechaAgendaTexto = fechaAgenda + ' ' + horaInicio
+
+        var parameters = {
+            "Puntos": PuntosExamen,
+            "FechaRegistro": GetDate(),
+            "tema": tema,
+            "descripcion": descripcion,
+            "DesactivarUsuarioPorPeriodo": $('#DesactivarUsuarioPorPeriodo').val(),//DesactivarUsuarioPorPeriodo,
+            "idSubnivel": idSubnivel,
+            "idAsignatura": idAsignatura,
+            "EsConFechaEntrega": $('#EsConFechaEntrega').val(),
+            "FechaAgenda": fechaAgendaTexto,
+            "FechaEntrega": fechaEntregaTexto,
+            "idOpcion": 1,
+            "id": examen.idTask,
+            "idPeriodo": idPeriodo,
+            "idTipoTask": 2,
+            "TipoNota": TipoNota,
+            "SubTipoNota": SubTipoNota,
+            "PermitirTareaTarde": $('#ddlTareaTarde').val()
+        };
+        jQueryAjaxCallback("../Shared/Utility.aspx/SaveTask", JSON.stringify(parameters), "POST", "json", PostGuardarExamen);
+    }
+    function PostGuardarExamen(data) {
+        var resultados = JSON.parse(data.d)
+        var idTask = resultados[0].idTask
+        examen.idTask = idTask
+        examen.saveExamen(-1);
+        Message(1, 'Se ha guardado exitosamente', 'Exito');
+    }
+</script>

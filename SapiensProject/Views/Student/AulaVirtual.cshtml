@@ -1,0 +1,24 @@
+﻿@using SapiensProject.Controllers
+@using SapiensProject.Models.Entities
+@{
+    Layout = "~/Views/Shared/SiteStudent2021.cshtml";
+    AccountController account = new AccountController();
+    Usuario usr = account.getCurrentUser();
+    int idRol = usr.idRol;
+}
+<script>
+    var TipoModulo = 'AULA';
+    ActiveMenu('AulaVirtualS');
+    var idRolA = 5;
+</script>
+@RenderPage("../Partial/_PartialClassroom.cshtml")
+<script>
+      $(function () {
+        ValidarUser(@Html.Raw(idRol));
+    });
+    function InicioPerfilEstudiante(idUsuario) {
+        $('#idUsuario').val(idUsuario);
+        $('#idUsuarioBuscador').val(idUsuario);
+          Inicio(idUsuario);
+    }   
+</script>

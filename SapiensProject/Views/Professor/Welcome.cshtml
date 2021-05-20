@@ -1,0 +1,207 @@
+﻿@using SapiensProject.Controllers
+@using SapiensProject.Models.Entities
+@{
+    Layout = "~/Views/Shared/SiteStudent2021.cshtml";
+    AccountController account = new AccountController();
+    Usuario usr = account.getCurrentUser();
+    int idRol = usr.idRol;
+
+    dynamic pageFeeds1 = " ";
+    SapiensProject.Models.Utility util = new SapiensProject.Models.Utility();
+    string NombreCompleto = account.getCurrentUser().NombreCompleto;
+    int idEscuela = account.getCurrentUser().idEscuela;
+    if (account.getCurrentUser().EscuelaUsaRedSocial)
+    {
+        pageFeeds1 = util.cargarFaceBook(account.getCurrentUser().FacebookPageId);
+    }
+}
+<style>
+    .xls1:hover {
+        background: #d8e2ef;
+        border-radius: 10px;
+        color: white;
+        transform: scale(1.1);
+    }
+
+    .xl2:hover {
+        background: #d8d8d8;
+        border-radius: 10px;
+        /*#1877f2 azul  #d8d8d8 gris*/
+    }
+</style>
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v5.0&appId=155459701531452&autoLogAppEvents=1"></script>
+<div class="content-body">
+</div>
+<div class="modal fade" id="Week" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content" style="border-radius: 6px;">
+            <div class="modal-header">
+                <h4 class="modal-title"><span><i style="color: #00ac64;" class="fa fa-sort-numeric-asc"></i> Student weekly Progress</span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-remove (alias) fa-2x"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="pleaseWaitDiv" style="display: none;">
+                    <div>
+                        <span tkey="MENU_PORFAVORESPERE"></span><div></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Student Qualities</label>
+                    <textarea class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Attendance</label>
+                    <textarea class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Congrulations in</label>
+                    <textarea class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Keep practicing</label>
+                    <textarea class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="MdlCGrupos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content" style="border-radius: 6px;">
+            <div class="modal-header">
+                <h4 class="modal-title"><span><i style="color: #00ac64;" class="fa fa-sort-numeric-asc"></i> Lista de Grupos</span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-remove (alias) fa-2x"></i></button>
+            </div>
+            <div class="modal-body" style="overflow: auto;max-height: calc(100vh - 150px);">
+                <div class="pleaseWaitDiv" style="display: none;">
+                    <div>
+                        <span tkey="MENU_PORFAVORESPERE"></span><div></div>
+                    </div>
+                </div>
+                <div class="mailbox-controls" id="labControl" style="padding-top: 0px;display:none;">
+                    <div class="btn-group">
+                        <div id="div_periodo">
+                            <select id="PeriodoAsignatura" onchange="CargarListaAsignaturas();" class="custom-select custom-select-sm"></select>
+                        </div>
+                    </div>
+                </div>
+                <div id="DivGrupos" class="row"></div>
+                <hr />
+                <div class="row">
+                    <a href="Rpt1" target="_blank" class="col-6 no-padding">
+                        <div style="cursor:pointer;text-align:center; height:72px; background-color:#ffb22b ; border-radius:5px;border-radius:8px;border-style: solid;border-color:white">
+                            <br>
+                            <img class="cursor-pointer" src="../images/reporte1.png" alt="" width="25"><br>
+                            <label style="font-size:12px;color:white">Reporte de Grupo</label>
+                        </div>
+                    </a>
+                    <a href="GraficosA" target="_blank" class="col-6 no-padding">
+                        <div style="cursor:pointer;text-align:center; height:72px; background-color:#ffb22b ; border-radius:5px;border-radius:8px;border-style: solid;border-color:white">
+                            <br>
+                            <img class="cursor-pointer" src="../images/reporte1.png" alt="" width="25"><br>
+                            <label style="font-size:12px;color:white">Reporte de Actividads</label>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+<label style="display:none;" id="DesactivarUsuarioPeriodo">@account.getCurrentUser().DesactivarUsuarioPorPeriodo</label>
+<script src="../../dist/js/sociales.js"></script>
+<script>
+    ActiveMenu('Iho', 1);
+    //Global variable for starting page
+    var currentPageId = "page-home";
+var currentSelectorId = "home";
+    $(function () {           
+        //cargarDatosContacto();
+             //cargarAnuncios();
+    });
+    function CallWeekly() {
+        $('#Week').modal('show');
+    }
+      function cargarDatosContactoEstudiante(data) {
+          var m = $.parseJSON(data.d);
+          $('#email').html(m[0].Email_estudiante);
+        }
+         function cargarDatosContacto() {
+    var parameters = {"idUsuario": -1};
+     jQueryAjaxCallback("../Shared/Utility.aspx/cargarDatosContactoEstudiante", JSON.stringify(parameters), "POST", "json", cargarDatosContactoEstudiante);
+        }
+    var url = '';
+    function GenerarGrupos(tipo) {
+        var DesactivarUsuarioPeriodo = ConverterBool($('#DesactivarUsuarioPeriodo').text());
+        $('#MdlCGrupos').modal('show');
+        $('#DivGrupos').empty();
+        if (tipo == 'A') {//39 35
+            url = 'Asistencia';
+            if (@idEscuela == 75)
+                url = 'AsistenciaA';
+            if (ConverterBool(DesactivarUsuarioPeriodo) == true)
+                url = 'AsistenciaA';
+        }
+        else if (tipo == 'L')
+            url = 'Academica';               
+        if (ConverterBool(DesactivarUsuarioPeriodo) == false) {
+            $('#labControl').hide();
+            var parameters = { "idUsuario": -1, "idRol": 4, "idPeriodo": -1, "idSubnivel": -1, "DesactivarPrescolar": 0 };
+        jQueryAjaxCallback("../Shared/Utility.aspx/CargarSubNivelTask", JSON.stringify(parameters), "POST", "json", PostGenerarGrupos);
+        }
+        else if (ConverterBool(DesactivarUsuarioPeriodo) == true) {
+            $('#labControl').show();
+            var parameters = { "idSubnivel": -1, "idUsuario": -1, "idRol": 4 };
+        jQueryAjaxCallback("../Shared/Utility.aspx/ObtenerPeriodoLibretas", JSON.stringify(parameters), "POST", "json", SetPeriodo);
+        }
+    }
+    function PostGenerarGrupos(data) {
+        var counter = 0;
+        $('#DivGrupos').empty();
+        var m = $.parseJSON(data.d);
+        var arrayLength = m.length;
+        var idPeriodo = -1;
+        var DesactivarUsuarioPeriodo = ConverterBool($('#DesactivarUsuarioPeriodo').text());
+        if (ConverterBool(DesactivarUsuarioPeriodo) == false)
+             idPeriodo = -1;
+        else if (ConverterBool(DesactivarUsuarioPeriodo) == true)
+             idPeriodo = $('#PeriodoAsignatura').val();
+        while (counter < arrayLength) {
+                $('#DivGrupos').append('<a href="'+url+'?tp=2&prd='+idPeriodo+'&idS=' + m[counter].idSubnivel+'" class="col-6 no-padding"><div style="cursor:pointer;text-align:center; height:72px; background-color:#046083; border-radius:5px;border-radius:8px;border-style: solid;border-color:white">'+
+                                        '<br><i style="color: #fff" class="fa fa-sort-numeric-asc"></i>'+
+                    '<br><label style="font-size:10px;color:white">' + m[counter].NombreCorto+'</label></div></a>');
+                counter++;
+            }
+    }
+    function SetPeriodo(m) {
+    var counter = 0;
+    var data = $.parseJSON(m.d);
+    var arrayLength = data.length;
+    if (arrayLength > 0) {
+        $('#PeriodoAsignatura').empty();
+        while (counter < arrayLength) {
+            var select1 = document.getElementById('PeriodoAsignatura');
+            var opt1 = document.createElement('option');
+            opt1.value = data[counter].id;
+            opt1.innerHTML = data[counter].Nombre;
+            opt1.setAttribute("fechaini", data[counter].FechaInicio);
+            opt1.setAttribute("fechafin", data[counter].FechaFin);
+            select1.appendChild(opt1);
+            ++counter;
+        }
+
+        }
+        CargarListaAsignaturas();
+    }
+    function CargarListaAsignaturas() {
+         $('#DivGrupos').empty();
+        var parameters = { "idUsuario": -1, "idRol": 4, "idPeriodo": $('#PeriodoAsignatura').val(), "idSubnivel": -1, "DesactivarPrescolar": 1 };
+        jQueryAjaxCallback("../Shared/Utility.aspx/CargarSubNivelTask", JSON.stringify(parameters), "POST", "json", PostGenerarGrupos);
+    }
+
+</script>

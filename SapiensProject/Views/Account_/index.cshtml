@@ -1,0 +1,502 @@
+﻿@using SapiensProject.Controllers
+@using System.Web.Script.Serialization;
+@{
+    string div = string.Empty;
+    if (IsPost)
+    {
+        string txtUserName = Request.Form["txtUserName"];
+        string txtPassword = Request.Form["txtPassword"];
+         string player_id = Request.Form["player_id"];
+        if ((txtUserName.Trim() != "") && (txtPassword.Trim() != ""))
+        {
+            div = "";
+            AccountController account = new AccountController();
+                        if (account.esUsuarioValido(txtUserName.Trim(), txtPassword.Trim(), player_id.Trim()))
+            {
+                JavaScriptSerializer jss = new JavaScriptSerializer();
+                string userData = jss.Serialize(account.currentUser);
+                DateTime expiration = DateTime.Now.AddMinutes(480);
+                FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, account.currentUser.NombreUsuario, DateTime.Now, expiration, true, userData, FormsAuthentication.FormsCookiePath);
+                string encTicket = FormsAuthentication.Encrypt(ticket);
+                HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
+                cookie.Expires = expiration;
+                Response.Cookies.Add(cookie);
+                string rutaModulo = account.currentUser.RutaModulo;
+                Response.Redirect(rutaModulo);
+            }
+            else
+            {
+                div = "<aside class='alert alert-warning' id='dvMensaje'><strong> Atencion — </strong><span> El Usuario o Contraseña es incorrecto, favor de revisar.</span></ aside>";
+                SapiensProject.Models.Utility.WriteErrorLog("Intento de Usuario Invalido:  Usuario: " + txtUserName.Trim() + ", Contrasena: " + txtPassword.Trim());
+
+            }
+        }
+    }
+}
+<!doctype html>
+<html lang="es">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Plataforma Académica que apoya la gestión educativa y administrativa de los centros educativos, ofreciendo soluciones que facilita el registro de notas, gestión de cobros, aula virtual y mucho más. Solicita tu demostración gratis.">
+    <meta name="author" content="academicanet.com, Software académico,Sistema académico,Plataforma académica,Solución académica,Registro de notas,Software académico en la nube">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://www.academicanet.com/">
+    <meta property="og:title" content="Académica Soluciones | Inicio">
+    <meta property="og:description" content="Plataforma Académica que apoya la gestión educativa y administrativa de los centros educativos, ofreciendo soluciones que facilita el registro de notas, gestión de cobros, aula virtual y mucho más. Solicita tu demostración gratis.">
+    <meta property="og:image" content="http://www.academicanet.com/logo_academica.jpeg">
+    <meta property="og:image:alt" content="Software Académico, administrativo y de educación virtual" />
+    <!-- CSS -->
+    <link href="assetss/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assetss/css/pace.min.css" rel="stylesheet">
+    <link href="assetss/fontawesome/css/all.css" rel="stylesheet">
+    <link href="assetss/themify-icons/themify-icons.min.css" rel="stylesheet">
+    <link href="assetss/css/metisMenu.min.css" rel="stylesheet">
+    <link href="assetss/css/github.min.css" rel="stylesheet">
+    <link href="assetss/css/magnific-popup.min.css" rel="stylesheet">
+    <link href="assetss/OwlCarousel2/owl.carousel.min.css" rel="stylesheet">
+    <link href="assetss/OwlCarousel2/owl.theme.default.min.css" rel="stylesheet">
+    <link href="assetss/css/style.css" rel="stylesheet">
+    <title>PLATAFORMA ACADÉMICA | SISTEMA DE NOTAS</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png" />
+</head>
+<body>
+    <div class="loader">
+        <div class="top-search">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="ti-search"></i></span>
+                <input type="text" class="form-control" placeholder="Search for snippets ......">
+                <span class="input-group-addon close-search"><i class="ti-close"></i></span>
+            </div>
+        </div>
+        <!-- /.End of Top Search -->
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top no-background">
+            <div class="container">
+                <a class="navbar-brand" href="index">
+                    <img src="assetss/img/logo_academica.png" alt="logo1" class="logo-dark">
+                    <img src="assetss/img/_logo_academica.png" alt="logo2" class="logo-white">
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="index">INICIO</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">CONTACTO</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav navbar-right">
+                        <li class="nav-item search">
+                            <a href="#" class="nav-link">
+                                <img src="assetss/img/panama.png" alt="pais" style="width: 18px;margin-right: 7px;">  Tel. (+507):344-5089
+                                <img src="assetss/img/whatsapp.svg" alt="telefono" style="width: 18px;margin-right: 7px;"> 6803-0884
+                            </a>
+                        </li>
+                        <li class="nav-item"><a href="index" class="nav-link btn-login"><i class="flaticon-sign-in"></i> ENTRAR</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- /.End of Navbar -->
+        <div class="minimal-header header-bg" style="padding: 40px 0 200px;">
+            <div class="container">
+                <div class="header-content">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-12 order-lg-first">
+                            <div style="padding: 30px 40px 30px 40px;border-radius: 10px;background:#fff;box-shadow: 0 16px 37px -22px rgba(2,2,2,0.32);box-shadow: 0 3px 14px -1px rgba(0,0,0,0.2);width: 100%;margin: 0 auto;margin-top: 40px;">
+                                <h2 style="color:#273c56;"> Inicia sesión. </h2>
+                                <form method="post" class="contact__form">
+                                    <div class="form-group input-icon">
+                                        <span class="ti-user form-control-feedback"></span>
+                                        <input style="background-color: #fff;" name="txtUserName" maxlength="15" autofocus="autofocus" id="txtUserName" type="text" class="form-control" placeholder="Usuario">
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <input style="height: 46px;" maxlength="20" class="form-control" type="password" name="txtPassword" id="txtPassword" placeholder="Contraseña">
+                                        <input type="hidden" id="player_id" name="player_id" value="-1" />
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">
+                                                <a class="link" id="linkTxtPwdNueva" href="#" onclick="mostrarPwd('txtPassword', 'linkTxtPwdNueva');"> Mostrar</a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    @*<div class="form-group input-icon">
+                                            <span class="ti-unlock form-control-feedback"></span>
+                                            <input type="password" maxlength="20" name="txtPassword" id="txtPassword" placeholder="Contraseña" class="form-control">
+                                        </div>*@
+                                    <div id="dvMensaje">@Html.Raw(div)</div>
+                                    <button type="submit" class="btn btn-primary btn-outline-primary btn-block">Ingresar</button>
+                                    <p></p>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-lg-7 offset-lg-1 col-md-12">
+                            <div class="header-text">
+                                <h1>Bienvenido a  <strong>ACADÉMICA</strong> </h1>
+                                <p>Conectamos <span> estudiantes, docentes, padres de familia y administradores</span>.</p>
+                                <div class="header-btn">
+                                    <a href="#" class="btn btn-white btn-round">SOLICITA UNA CITA</a>
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+            <!--<svg xmlns="http://www.w3.org/2000/svg" class="curve-container__curve curve-three" viewBox="0 0 1440 68" enable-background="new 0 0 1440 68"><path d="m1622.3 1937.7c0 0-410.7 169.1-913.4 75.5-502.7-93.6-977.7 56.3-977.7 56.3v440h1891.1v-571.8" fill="#fff" transform="translate(0-1977)"></path></svg>-->
+        </div>
+        <div class="service-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+                        <div class="section-title">
+                            <h2>
+                                <span style="color: #0054D1;font-weight: 700;"> En la Plataforma ACADÉMICA,</span> con nuestros módulos escolares solucionamos las necesidades dentro y fuera de los colegios privados.
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-lg-4">
+                        <div class="img">
+                            <img src="assetss/img/_01.jpg" alt="1" style="height: auto;width: 100%;">
+                        </div>
+                        <div class="service-box">
+                            <h3 class="title">Administradores</h3>
+                            <p>Administre la información académica de sus estudiantes de principio a fin para mejorar procesos como: matrículas, créditos, horarios, estadística, registro de notas, seguimiento docente...  </p>
+                            <a href="#" class="read-link">Módulos <i class="ti-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-4">
+                        <div class="img">
+                            <img src="assetss/img/new.png" alt="2" style="height: auto;width: 100%;">
+                        </div>
+                        <div class="service-box">
+                            <h3 class="title">Docentes</h3>
+                            <p>Plataforma para Docentes, mejores herramientas <span style="color: #0054D1;font-weight: 700;">mejor COLEGIO</span>, agendas, grupos, libreta de notas, consejería, planeamiento, estadísticas, aula virtual, mensajeria ...</p>
+                            <a href="#" class="read-link">Módulos <i class="ti-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-4">
+                        <div class="img">
+                            <img src="assetss/img/_03.jpg" alt="3" style="height: auto;width: 100%;">
+                        </div>
+                        <div class="service-box">
+                            <h3 class="title">Alumnos</h3>
+                            <p>Eleva el desempeño y comunicación  escolar, visualización de agendas, anuncios, notas por actividades, promedios, reportes, estado de cuenta, horario, mensajería ...</p>
+                            <a href="#" class="read-link">Módulos <i class="ti-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="subSection dark-theme" style="color: #fff;background-size: 1300px 700px;background-repeat: repeat;background-color: #ff6600;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>
+                                Consulte, genere, imprima, exporte sus reportes fácil y rápido desde cualquier dispositivo o lugar.
+                            </h4>
+                            <a class="btn btn-white btn-round" href="mailto:academica@academicanet.com">Solicita una cita</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container mt-5">
+                <div class="row align-items-center">
+                    <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+                        <div class="section-title">
+                            <h2 class="heading-sm" style="font-size: 25px;text-transform: unset;"><span style="color: #0054D1;font-weight: 700;"> En ACADÉMICA,</span> Conectamos estudiantes, docentes, padres de familia y administradores.</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="service-img">
+                            <img src="assetss/img/home_illo.png" style="width:540px;height:540px;" alt="4" class="img-fluid">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="component-block d-flex">
+                            <div class="component-icon">
+                                <i class="flaticon-student"><span></span></i>
+                            </div>
+                            <div class="component-text">
+
+
+                                <h3>Administración</h3>
+                                <p>Organice/Edite y mantenga sincronizada en un solo lugar toda la información de alumnos y profesores a través de la sección de datos personales.</p>
+
+                            </div>
+                        </div>
+                        <div class="component-block d-flex">
+                            <div class="component-icon">
+                                <i class="flaticon-ninja"><span></span></i>
+                            </div>
+                            <div class="component-text">
+                                <h3>Comunicación</h3>
+                                <p>
+                                    Se ha demostrado que enviar información personalizada a su comunidad escolar aumenta hasta un 23% las reinscripciones y la matrícula escolar.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="component-block d-flex">
+                            <div class="component-icon">
+                                <i class="flaticon-see"><span></span></i>
+                            </div>
+                            <div class="component-text">
+                                <h3>Aula Virtual</h3>
+                                <p>
+                                    Siga el progreso de las clases y virtuales de sus alumnos, grupos, tome asistencia, asigne trabajos, registre comentarios/observaciones del alumno.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.End of service content -->
+        <div class="subSection dark-theme" style="color: #fff;background-size: 1300px 700px;background-repeat: repeat;background-color: #59a800;">
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>
+                            Simplifique los procesos escolares de profesores, dirección y padres de familia dentro de su Institución Educativa.
+                        </h4>
+                        <p style="color: #fff;"><i class="fa fa-check"></i>  Preescolar   <i class="fa fa-check"></i>   Colegios   <i class="fa fa-check"></i>   Laboral   <i class="fa fa-check"></i>   Universidad   <i class="fa fa-check"></i>   Academias de Idiomas   <i class="fa fa-check"></i>   Institutos Superiores <i class="fa fa-check"></i> Educación Continua </p>
+
+                        <a class="btn btn-white btn-round" href="mailto:academica@academicanet.com">Solicita una cita</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="service-content">
+            <div class="container mt-5">
+                <div class="row align-items-center">
+                    <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+                        <div class="section-title">
+                            <h2 class="heading-sm" style="font-size: 25px;text-transform: unset;"><span style="color: #0054D1;font-weight: 700;"> En ACADÉMICA,</span> la implementación es muy sencilla</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="service-img">
+                            <img src="assetss/img/about.png" class="img-fluid" alt="5">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="component-block d-flex">
+                            <div class="">
+                                <img alt="6" src="assetss/img/1.png" style="width: 90px;">
+                            </div>
+                            <div class="component-text">
+                                <h3> 1. Elige un plan anual</h3>
+                                <p>
+                                    <span style="color: #0054D1;font-weight: 700;">ACADÉMICA</span> Gestiona o Dirige de acuerdo a las necesidades de tu colegio.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="component-block d-flex">
+                            <div class="">
+                                <img alt="7" src="assetss/img/2.png" style="width: 90px;">
+                            </div>
+                            <div class="component-text">
+                                <h3>2. Lo integramos</h3>
+                                <p>
+                                    <span style="color: #0054D1;font-weight: 700;">En ACADÉMICA </span>
+                                    integramos toda la información de tu comunidad educativa rápidamente.
+
+                                    Capacitamos a docentes y administrativos del colegio.
+
+                                    Creamos y enviamos automáticamente links de entrada y contraseñas para todos los usuarios.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="component-block d-flex">
+                            <div class="">
+                                <img alt="8" src="assetss/img/3.png" style="width: 90px;">
+                            </div>
+                            <div class="component-text">
+                                <h3>3. ¡Te hacemos crecer!</h3>
+                                <p>
+                                    <span style="color: #0054D1;font-weight: 700;">ACADÉMICA</span> listo para ayudarte a crecer tu colegio.
+
+                                    Nuestro equipo de soporte técnico te guiará en los primeros pasos y te acompañará durante todo el ciclo escolar.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.End of user content -->
+        <div class="subSection dark-theme" style="background-image: url(assetss/img/banner1.jpg);color: #fff;background-size: 1300px 700px;background-repeat: repeat;background-color: #ff6600;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 offset-md-2">
+                        <h4>Contáctenos, la implementación en tu colegio es sumamente rápida</h4>
+                        <p>Los requisitos son muy sencillos</p>
+                        <a class="btn btn-white btn-round" href="mailto:academica@academicanet.com">Solicita una cita</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.End of subSection -->
+        <div class="service-content">
+            <div class="container mt-5">
+                <div class="row align-items-center">
+                    <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-4">
+                        <div class="section-title">
+                            <h2 class="heading-sm" style="font-size: 25px;text-transform: unset;"><span style="color: #0054D1;font-weight: 700;"> En ACADÉMICA,</span><span style="color: #333333;font-weight: 700;"> todo incluido.</span></h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="service-img">
+                            <img src="assetss/img/service1.png" class="img-fluid" alt="9">
+                        </div>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-5">
+                        <div class="text-block">
+                            <div class="component-block d-flex" style="margin-bottom: 0px;">
+                                <i class="fa fa-check"></i>
+                                <div class="component-text">
+                                    <h3> Actualizaciones constantes incluídas</h3>
+                                </div>
+                            </div>
+                            <div class="component-block d-flex" style="margin-bottom: 0px;">
+                                <i class="fa fa-check"></i>
+                                <div class="component-text">
+                                    <h3> Capacitación incluída</h3>
+                                </div>
+                            </div>
+                            <div class="component-block d-flex" style="margin-bottom: 0px;">
+                                <i class="fa fa-check"></i>
+                                <div class="component-text">
+                                    <h3> Soporte técnico todo el año</h3>
+                                </div>
+                            </div>
+                            <div class="component-block d-flex" style="margin-bottom: 0px;">
+                                <i class="fa fa-check"></i>
+                                <div class="component-text">
+                                    <h3> Precio único sin costos escondidos</h3>
+                                </div>
+                            </div>
+                            <div class="component-block d-flex" style="margin-bottom: 0px;">
+                                <i class="fa fa-check"></i>
+                                <div class="component-text">
+                                    <h3> Sin preocupaciones</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="bg-gray">
+            <div class="main-footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-md-4 col-lg-3">
+                            <div class="footer-about">
+                                <div class="footer-logo">
+                                    <img src="assetss/img/logo_academica.png" style="margin-bottom: 20px;height: auto" alt="10" class="img-fluid">
+                                </div>
+                                <p>Panamá, Ciudad de Panamá, Punta Pacífica, PH Oceania Business Plaza, Torre 1000, Piso 49</p>
+                                E-mail :<a class="email-link" href="academica@academicanet.com">academica@academicanet.com</a>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3 col-lg-4">
+                            <div class="newslatter">
+                                <h4 class="link-title">Nuestras Soluciones </h4>
+                                <p>ACADÉMICA Preescolar</p>
+                                <p>ACADÉMICA Colegios</p>
+                                <p>ACADÉMICA Instituto</p>
+                                <p>ACADÉMICA Universidad</p>
+                                <p>ACADÉMICA Educación Continua</p>
+                                <p>ACADÉMICA Moodle</p>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-5 col-lg-5">
+                            <div class="newslatter">
+                                <h4 class="link-title">Contáctenos </h4>
+                                <p><img alt="11" src="assetss/img/panama.png" style="width: 18px;margin-right: 7px;"> Teléfonos: 344-5089 / 6803-0884</p>
+                                <p><img alt="12" src="assetss/img/whatsapp.svg" style="width: 18px;margin-right: 7px;"> WhatsAPP (+507) 6803-0884</p>
+                                <p>Siguenos en nuestras redes sociales</p>
+                                <ul class="social-icon">
+                                    <li><a href="https://instagram.com/Academicanet"><i class="fab fa-instagram fa-2x"></i></a></li>
+                                    <li><a href="https://twitter.com/Academicanet"><i class="fab fa-twitter fa-2x"></i></a></li>
+                                    <li><a href="https://www.facebook.com/academicanet"><i class="fab fa-facebook-f fa-2x"></i></a></li>
+                                    <li><a href="https://www.linkedin.com/company/acad%C3%A9mica-plataforma-de-administraci%C3%B3n-educativa?trk=company_logo"><i class="fab fa-linkedin-in fa-2x"></i></a></li>
+                                    <li><a href="https://wa.me/50768030884?text=Hola ACADÉMICA, me gustaría recibir más información acerca de la Plataforma Academica"><i class="fab fa-whatsapp fa-2x"></i></a></li>
+                                </ul><!-- /.End of footer social icon -->
+                            </div><!-- /.End of newslatter -->
+                        </div>
+                    </div>
+                    <div class="sub-footer">
+                        <div class="row align-items-center ">
+                            <div class="col-md-7 order-md-first order-last">
+                                <div class="Copyright-text">
+                                    <p class="m-0">Copyright © 2019 <a href="#">ACADÉMICA </a>. All rights reserved. </p>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+
+                            </div>
+                        </div>
+                    </div><!-- /.End of sub footer -->
+                </div>
+            </div>
+        </footer><!-- /.End of footer -->
+        <div style="display: block;position: fixed;bottom: 20px;right: 20px;z-index: 999;">
+            <a class="whatsLink" target="_blank" href="https://wa.me/50768030884?text=Hola ACADÉMICA, me gustaría recibir más información acerca de la Plataforma Academica">
+                <img style="width: 60px;height: 60px;" src="assetss/img/Logo-WhatsApp.png" alt="Logo-WhatsApp">
+            </a>
+        </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <script src="assetss/js/jquery-3.3.1.min.js"></script>
+    <script src="assetss/js/popper.min.js"></script>
+    <script src="assetss/js/bootstrap.min.js"></script>
+    <script src="assetss/js/pace.min.js"></script>
+    <script src="assetss/js/jquery.easing.min.js"></script>
+    <script src="assetss/js/jquery.dd.min.js"></script>
+    <script src="assetss/js/metisMenu.min.js"></script>
+    <script src="assetss/js/ResizeSensor.min.js"></script>
+    <script src="assetss/js/theia-sticky-sidebar.min.js"></script>
+    <script src="assetss/js/highlight.pack.js"></script>
+    <script src="assetss/js/clipboard.min.js"></script>
+    <script src="assetss/js/jquery.magnific-popup.min.js"></script>
+    <script src="assetss/OwlCarousel2/owl.carousel.min.js"></script>
+    <script src="assetss/js/script.js"></script>
+    <script>
+        function mostrarMensajeError() { document.getElementById("dvMensaje").style.display = "block"; }
+        function mostrarPwd(txt, link) {
+            var txtNombre = '#' + txt;
+            $('#linkTxtPwdNueva').html('No Mostrar');
+            $('#linkTxtPwdNuevaRepet').html('No Mostrar');
+            $(txtNombre).prop("type", "text");
+            $('#' + link).attr('onclick', 'noMostrarPwd(\'' + txt + '\',\'' + link + '\');');
+            $('#' + link + ' i').attr('class', 'fa fa-eye-slash');
+            return false;
+        }
+        function noMostrarPwd(txt, link) {
+            var txtNombre = '#' + txt;
+            $('#linkTxtPwdNueva').html('Mostrar');
+            $('#linkTxtPwdNuevaRepet').html('Mostrar');
+            $(txtNombre).prop("type", "password");
+            $('#' + link).attr('onclick', 'mostrarPwd(\'' + txt + '\',\'' + link + '\');');
+            $('#' + link + ' i').attr('class', 'fa fa-eye');
+            return false;
+        }
+    </script>
+</body>
+</html>

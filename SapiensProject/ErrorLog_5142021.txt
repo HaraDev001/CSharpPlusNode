@@ -1,0 +1,36 @@
+5/14/2021 1:12:49 AM: Clase Connection: Login failed for user 'appuser'.
+SP: PRC_VALIDAR_CREDENCIALES_USUARIO2
+Parametros: @NombreUsuario @Contrasena @player_id @FechaAccion
+Valores: 
+5/14/2021 1:13:01 AM: Clase Connection: Login failed for user 'appuser'.
+SP: PRC_VALIDAR_CREDENCIALES_USUARIO2
+Parametros: @NombreUsuario @Contrasena @player_id @FechaAccion
+Valores: 
+5/14/2021 1:13:56 AM: Clase Connection: Login failed for user 'appuser'.
+SP: PRC_VALIDAR_CREDENCIALES_USUARIO2
+Parametros: @NombreUsuario @Contrasena @player_id @FechaAccion
+Valores: 
+5/14/2021 1:14:29 AM: Clase Connection: Login failed for user 'appuser'.
+SP: PRC_VALIDAR_CREDENCIALES_USUARIO2
+Parametros: @NombreUsuario @Contrasena @player_id @FechaAccion
+Valores: 
+5/14/2021 1:15:34 AM: Clase Connection: Login failed for user 'appuser'.
+SP: PRC_VALIDAR_CREDENCIALES_USUARIO2
+Parametros: @NombreUsuario @Contrasena @player_id @FechaAccion
+Valores: 
+5/14/2021 1:16:19 AM: Clase Connection: Login failed for user 'appuser'.
+SP: PRC_VALIDAR_CREDENCIALES_USUARIO2
+Parametros: @NombreUsuario @Contrasena @player_id @FechaAccion
+Valores: 
+5/14/2021 1:26:05 AM: Clase Connection: Login failed for user 'appuser'.
+SP: PRC_VALIDAR_CREDENCIALES_USUARIO2
+Parametros: @NombreUsuario @Contrasena @player_id @FechaAccion
+Valores: 
+5/14/2021 1:26:21 AM: Clase Connection: Login failed for user 'appuser'.
+SP: PRC_VALIDAR_CREDENCIALES_USUARIO2
+Parametros: @NombreUsuario @Contrasena @player_id @FechaAccion
+Valores: 
+5/14/2021 1:26:34 AM: Clase Connection: Login failed for user 'appuser'.
+SP: PRC_VALIDAR_CREDENCIALES_USUARIO2
+Parametros: @NombreUsuario @Contrasena @player_id @FechaAccion
+Valores: 

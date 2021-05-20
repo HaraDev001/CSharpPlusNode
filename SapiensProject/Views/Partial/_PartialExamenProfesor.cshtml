@@ -1,0 +1,76 @@
+﻿
+
+<style>
+    div.yaser:hover div.tol1 {
+        display: inline;
+    }
+</style>
+@*<section class="content">*@
+    <div class="row">
+        <div class="col-12">
+            <div class="card box-solid">
+                <div class="row">                   
+                    <div class="col-md-12">
+                        <div class="float-right">
+                            <a href="#" onclick="VistaPrevia()" id="vistaPrevia" class="btn btn-primary ">Vista Previa</a>
+                            <a href="#" onclick="Editar()" id="editar" class="btn btn-primary ">Editar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="RowGuardado">
+        <div class="col-sm-12">
+            <div style="text-align: right;font-size: .75rem;margin: 0;margin-top: 0px;padding: 0;line-height: 20px;" class="box-tools pull-right">
+                <span class="status-label changes-saved" style="text-decoration: underline;color: #3e4253;border-radius: 8px;padding: 2px 0;display: inline-block;transition: background-color .5s;"></span>
+                <span class="label bg-blue changes-saving" style="display: none">Processing</span>
+            </div>
+        </div>
+    </div>
+
+    @RenderPage("../Partial/_PartialExamen.cshtml")
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-2"></div>
+    </div>
+@*</section>*@
+<script>
+    var idTask = QueryStringCustom.y_
+    examen = new Object(Examen)
+    examen.obtenerRespuestaModelo()
+    examen.obtenerPreguntaModelo()
+    examen.idTask = idTask
+    examen.editable = false
+    examen.generarExamen(examenModeloJSON)
+    examen.readExamen()
+    VistaPrevia()
+
+
+    //**************************************************************//
+    function ActivarDiv(idOpcion) {
+        if (idOpcion == 1) {
+            $('#DivPregunta').show();
+            $('#DivRespuesta').hide();
+        }
+        else if (idOpcion == 2) {
+            $('#DivPregunta').hide();
+            $('#DivRespuesta').show();
+        }
+    }
+    function VistaPrevia() {
+        examen.editable = false
+        examen.vistaPreliminar()
+        examen.mostrarEditable(false)
+        $('#vistaPrevia').hide()
+        $('#editar').show()
+    }
+    function Editar() {
+        examen.idTask = idTask;
+        examen.editable = true
+        $('#vistaPrevia').show()
+        $('#editar').hide()
+        examen.mostrarEditable(true)
+    }    
+</script>

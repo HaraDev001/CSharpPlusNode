@@ -1,0 +1,80 @@
+5/6/2021 5:23:17 AM: Clase Connection: Cannot open server 'serverdesarrolloacademica' requested by the login. Client with IP address '188.43.136.32' is not allowed to access the server.  To enable access, use the Windows Azure Management Portal or run sp_set_firewall_rule on the master database to create a firewall rule for this IP address or address range.  It may take up to five minutes for this change to take effect.
+SP: PRC_VALIDAR_CREDENCIALES_USUARIO2
+Parametros: @NombreUsuario @Contrasena @player_id @FechaAccion
+Valores: 
+5/6/2021 5:23:19 AM: Clase Connection: Cannot open server 'serverdesarrolloacademica' requested by the login. Client with IP address '188.43.136.32' is not allowed to access the server.  To enable access, use the Windows Azure Management Portal or run sp_set_firewall_rule on the master database to create a firewall rule for this IP address or address range.  It may take up to five minutes for this change to take effect.
+SP: PRC_VALIDAR_CREDENCIALES_USUARIO2
+Parametros: @NombreUsuario @Contrasena @player_id @FechaAccion
+Valores: 
+5/6/2021 5:31:32 AM: Clase Connection: Cannot open server 'serverdesarrolloacademica' requested by the login. Client with IP address '188.43.136.32' is not allowed to access the server.  To enable access, use the Windows Azure Management Portal or run sp_set_firewall_rule on the master database to create a firewall rule for this IP address or address range.  It may take up to five minutes for this change to take effect.
+SP: PRC_VALIDAR_CREDENCIALES_USUARIO2
+Parametros: @NombreUsuario @Contrasena @player_id @FechaAccion
+Valores: 
+5/6/2021 5:31:46 AM: Clase Connection: Cannot open server 'serverdesarrolloacademica' requested by the login. Client with IP address '188.43.136.32' is not allowed to access the server.  To enable access, use the Windows Azure Management Portal or run sp_set_firewall_rule on the master database to create a firewall rule for this IP address or address range.  It may take up to five minutes for this change to take effect.
+SP: PRC_VALIDAR_CREDENCIALES_USUARIO2
+Parametros: @NombreUsuario @Contrasena @player_id @FechaAccion
+Valores: 
+5/6/2021 5:32:10 AM: Clase Connection: Cannot open server 'serverdesarrolloacademica' requested by the login. Client with IP address '188.43.136.32' is not allowed to access the server.  To enable access, use the Windows Azure Management Portal or run sp_set_firewall_rule on the master database to create a firewall rule for this IP address or address range.  It may take up to five minutes for this change to take effect.
+SP: PRC_VALIDAR_CREDENCIALES_USUARIO2
+Parametros: @NombreUsuario @Contrasena @player_id @FechaAccion
+Valores: 
+5/6/2021 5:39:13 AM: Clase Connection: Cannot open server 'serverdesarrolloacademica' requested by the login. Client with IP address '188.43.136.32' is not allowed to access the server.  To enable access, use the Windows Azure Management Portal or run sp_set_firewall_rule on the master database to create a firewall rule for this IP address or address range.  It may take up to five minutes for this change to take effect.
+SP: PRC_VALIDAR_CREDENCIALES_USUARIO2
+Parametros: @NombreUsuario @Contrasena @player_id @FechaAccion
+Valores: 
+5/6/2021 5:40:53 AM: Clase Connection: Cannot open server 'serverdesarrolloacademica' requested by the login. Client with IP address '188.43.136.32' is not allowed to access the server.  To enable access, use the Windows Azure Management Portal or run sp_set_firewall_rule on the master database to create a firewall rule for this IP address or address range.  It may take up to five minutes for this change to take effect.
+SP: PRC_VALIDAR_CREDENCIALES_USUARIO2
+Parametros: @NombreUsuario @Contrasena @player_id @FechaAccion
+Valores: 
+5/6/2021 5:41:50 AM: Clase Connection: Cannot open server 'serverdesarrolloacademica' requested by the login. Client with IP address '188.43.136.32' is not allowed to access the server.  To enable access, use the Windows Azure Management Portal or run sp_set_firewall_rule on the master database to create a firewall rule for this IP address or address range.  It may take up to five minutes for this change to take effect.
+SP: PRC_VALIDAR_CREDENCIALES_USUARIO2
+Parametros: @NombreUsuario @Contrasena @player_id @FechaAccion
+Valores: 
+5/6/2021 5:41:57 AM: Clase Connection: Cannot open server 'serverdesarrolloacademica' requested by the login. Client with IP address '188.43.136.32' is not allowed to access the server.  To enable access, use the Windows Azure Management Portal or run sp_set_firewall_rule on the master database to create a firewall rule for this IP address or address range.  It may take up to five minutes for this change to take effect.
+SP: PRC_VALIDAR_CREDENCIALES_USUARIO2
+Parametros: @NombreUsuario @Contrasena @player_id @FechaAccion
+Valores: 
+5/6/2021 5:42:51 AM: Clase Connection: Cannot open server 'serverdesarrolloacademica' requested by the login. Client with IP address '188.43.136.32' is not allowed to access the server.  To enable access, use the Windows Azure Management Portal or run sp_set_firewall_rule on the master database to create a firewall rule for this IP address or address range.  It may take up to five minutes for this change to take effect.
+SP: PRC_VALIDAR_CREDENCIALES_USUARIO2
+Parametros: @NombreUsuario @Contrasena @player_id @FechaAccion
+Valores: 
+5/6/2021 5:47:38 AM: Clase Connection: Cannot open server 'serverdesarrolloacademica' requested by the login. Client with IP address '188.43.136.32' is not allowed to access the server.  To enable access, use the Windows Azure Management Portal or run sp_set_firewall_rule on the master database to create a firewall rule for this IP address or address range.  It may take up to five minutes for this change to take effect.
+SP: PRC_VALIDAR_CREDENCIALES_USUARIO2
+Parametros: @NombreUsuario @Contrasena @player_id @FechaAccion
+Valores: 
+5/6/2021 5:47:50 AM: Clase Connection: Cannot open server 'serverdesarrolloacademica' requested by the login. Client with IP address '188.43.136.32' is not allowed to access the server.  To enable access, use the Windows Azure Management Portal or run sp_set_firewall_rule on the master database to create a firewall rule for this IP address or address range.  It may take up to five minutes for this change to take effect.
+SP: PRC_VALIDAR_CREDENCIALES_USUARIO2
+Parametros: @NombreUsuario @Contrasena @player_id @FechaAccion
+Valores: 
+5/6/2021 8:27:59 PM: Clase Connection: A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: TCP Provider, error: 0 - No such host is known.)
+SP: PRC_VALIDAR_ESTUDIANTE_PREESCOLAR
+Parametros: @idUsuario @idEscuela
+Valores: 
+5/6/2021 8:28:31 PM: Clase Connection: A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: TCP Provider, error: 0 - No such host is known.)
+SP: PRC_VALIDAR_ESTUDIANTE_PREESCOLAR
+Parametros: @idUsuario @idEscuela
+Valores: 
+5/6/2021 8:42:50 PM: Clase Connection: A transport-level error has occurred when receiving results from the server. (provider: TCP Provider, error: 0 - The semaphore timeout period has expired.)
+SP: PRC_VALIDAR_ESTUDIANTE_PREESCOLAR
+Parametros: @idUsuario @idEscuela
+Valores: 42504;75;
+5/6/2021 8:44:54 PM: Clase Connection: A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: TCP Provider, error: 0 - No such host is known.)
+SP: PRC_SELECT_MENSAJE_SIN_LEER
+Parametros: @idUsuario
+Valores: 42504;
+5/6/2021 8:45:24 PM: Clase Connection: A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: TCP Provider, error: 0 - No such host is known.)
+SP: PRC_SELECT_NOTIFICACION_SIN_LEER
+Parametros: @idUsuario
+Valores: 42504;
+5/6/2021 8:45:58 PM: Clase Connection: A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: TCP Provider, error: 0 - No such host is known.)
+SP: PRC_VALIDAR_ESTUDIANTE_PREESCOLAR
+Parametros: @idUsuario @idEscuela
+Valores: 
+5/6/2021 8:46:35 PM: Clase Connection: A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: TCP Provider, error: 0 - No such host is known.)
+SP: PRC_VALIDAR_ESTUDIANTE_PREESCOLAR
+Parametros: @idUsuario @idEscuela
+Valores: 
+5/6/2021 8:47:13 PM: Clase Connection: A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: TCP Provider, error: 0 - No such host is known.)
+SP: PRC_SELECT_USUARIOS_LANGUAJE
+Parametros: @idUsuario
+Valores: 42504;
